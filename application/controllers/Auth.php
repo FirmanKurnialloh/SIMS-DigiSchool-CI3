@@ -38,7 +38,7 @@ class Auth extends CI_Controller
     $username = $this->input->post('username');
     $password = $this->input->post('password');
 
-    $user = $this->db->get_where('ppdb_user', ['username' => $username])->row_array();
+    $user = $this->db->get_where('user', ['username' => $username])->row_array();
 
     if ($user) {
       if ($user['is_active'] == 1) {
@@ -83,7 +83,7 @@ class Auth extends CI_Controller
 
   public function registration()
   {
-    $this->form_validation->set_rules('username', 'Username', 'required|trim|is_unique[ppdb_user.username]', [
+    $this->form_validation->set_rules('username', 'Username', 'required|trim|is_unique[user.username]', [
       'required' => 'Username Tidak Boleh Kosong!',
       'trim' => 'Username Tidak Boleh Mengandung Spasi!',
       'is_unique' => 'Username Sudah Digunakan !'
@@ -108,7 +108,7 @@ class Auth extends CI_Controller
         'is_active'     =>  1,
         'date_created'  => time()
       ];
-      $this->db->insert('ppdb_user', $data);
+      $this->db->insert('user', $data);
       $this->session->set_flashdata('notif', '
       <div class="alert alert-primary" role="alert">
           <h4 class="alert-heading">Selamat !</h4>
