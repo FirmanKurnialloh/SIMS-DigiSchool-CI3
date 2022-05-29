@@ -32,7 +32,7 @@
                 </g>
               </g>
             </svg>
-            <h2 class="brand-text text-primary ms-1">SIMS DigiSchool</h2>
+            <h2 class="brand-text text-primary ms-1"><?= $serverSetting['namaAplikasi'] ?></h2>
           </a>
           <!-- /Brand logo-->
           <!-- Left Text-->

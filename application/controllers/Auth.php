@@ -7,6 +7,7 @@ class Auth extends CI_Controller
   {
     parent::__construct();
     $this->load->library('form_validation');
+    $this->load->model('App_model');
   }
 
   public function index()
@@ -25,6 +26,7 @@ class Auth extends CI_Controller
 
     if ($this->form_validation->run() == false) {
       $data['title'] = 'SIMS DigiSchool';
+      $data['serverSetting'] = $this->App_model->getServerSetting();
       $this->load->view('templates/auth_header', $data);
       $this->load->view('auth/login');
       $this->load->view('templates/auth_footer');
@@ -118,5 +120,19 @@ class Auth extends CI_Controller
       </div>');
       redirect('auth');
     }
+  }
+
+  public function logout()
+  {
+    $this->session->unset_userdata('username');
+    $this->session->unset_userdata('role_id');
+    $this->session->set_flashdata('notif', '
+    <div class="alert alert-primary" role="alert">
+        <h4 class="alert-heading">Berhasil !</h4>
+        <div class="alert-body">
+          Anda Berhasil Logout!
+        </div>
+    </div>');
+    redirect('auth');
   }
 }
