@@ -32,7 +32,7 @@
                 </g>
               </g>
             </svg>
-            <h2 class="brand-text text-primary ms-1"><?= $serverSetting['namaAplikasi'] ?></h2>
+            <h2 class="brand-text text-primary ms-1"><?= $serverSetting['namaAplikasi'];; ?></h2>
           </a>
           <!-- /Brand logo-->
           <!-- Left Text-->
@@ -70,8 +70,6 @@
                 </div>
                 <button class="btn btn-primary w-100" tabindex="4">Sign in</button>
               </form>
-              <p class="text-center mt-2 fw-bolder"><span>PPDB Telah Dibuka ! Yuk, Daftar Sekarang ! </span></p>
-              <a href="auth/registration" class="btn btn-success w-100" tabindex="4">Daftar</a>
               <div class="divider my-2">
                 <div class="divider-text">or</div>
               </div>

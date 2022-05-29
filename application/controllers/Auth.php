@@ -25,11 +25,11 @@ class Auth extends CI_Controller
     ]);
 
     if ($this->form_validation->run() == false) {
-      $data['title'] = 'SIMS DigiSchool';
       $data['serverSetting'] = $this->App_model->getServerSetting();
-      $this->load->view('templates/auth_header', $data);
+      $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+      $this->load->view('templates/header', $data);
       $this->load->view('auth/login');
-      $this->load->view('templates/auth_footer');
+      $this->load->view('templates/footer');
     } else {
       $this->_login();
     }
@@ -50,7 +50,7 @@ class Auth extends CI_Controller
             'role_id' => $user['role_id']
           ];
           $this->session->set_userdata($data);
-          redirect('user');
+          redirect(base_url('user'));
         } else {
           $this->session->set_flashdata('notif', '
           <div class="alert alert-danger" role="alert">
@@ -59,17 +59,17 @@ class Auth extends CI_Controller
                 Password Salah !
               </div>
           </div>');
-          redirect('auth');
+          redirect(base_url('auth'));
         }
       } else {
         $this->session->set_flashdata('notif', '
-      <div class="alert alert-danger" role="alert">
-          <h4 class="alert-heading">Gagal !</h4>
-          <div class="alert-body">
-            Akun Tidak Aktif !
-          </div>
-      </div>');
-        redirect('auth');
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Gagal !</h4>
+            <div class="alert-body">
+              Akun Tidak Aktif !
+            </div>
+        </div>');
+        redirect(base_url('auth'));
       }
     } else {
       $this->session->set_flashdata('notif', '
@@ -79,8 +79,13 @@ class Auth extends CI_Controller
             Akun Tidak terdaftar !
           </div>
       </div>');
-      redirect('auth');
+      redirect(base_url('auth'));
     }
+  }
+
+  public function ppdb()
+  {
+    echo "k";
   }
 
   public function registration()
@@ -98,10 +103,11 @@ class Auth extends CI_Controller
     ]);
 
     if ($this->form_validation->run() == false) {
-      $data['title'] = 'Buat Akun PPDB';
-      $this->load->view('templates/auth_header', $data);
+      $data['serverSetting'] = $this->App_model->getServerSetting();
+      $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+      $this->load->view('templates/header', $data);
       $this->load->view('auth/registration');
-      $this->load->view('templates/auth_footer');
+      $this->load->view('templates/footer');
     } else {
       $data = [
         'username'      => htmlspecialchars($this->input->post('username', true)),
@@ -118,7 +124,7 @@ class Auth extends CI_Controller
             Akun anda telah terdaftar! silahkan login untuk melanjutkan pendaftaran.
           </div>
       </div>');
-      redirect('auth');
+      redirect(base_url('auth'));
     }
   }
 
@@ -133,6 +139,6 @@ class Auth extends CI_Controller
           Anda Berhasil Logout!
         </div>
     </div>');
-    redirect('auth');
+    redirect(base_url('/'));
   }
 }

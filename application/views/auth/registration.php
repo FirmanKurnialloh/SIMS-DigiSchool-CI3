@@ -1,3 +1,4 @@
+<!-- BEGIN: Content-->
 <div class="app-content content ">
   <div class="content-overlay"></div>
   <div class="header-navbar-shadow"></div>
@@ -31,7 +32,7 @@
                 </g>
               </g>
             </svg>
-            <h2 class="brand-text text-primary ms-1">Vuexy</h2>
+            <h2 class="brand-text text-primary ms-1"><?= $serverSetting['namaAplikasi']; ?></h2>
           </a>
           <!-- /Brand logo-->
           <!-- Left Text-->
@@ -60,7 +61,7 @@
                 </div>
                 <button class="btn btn-primary w-100" tabindex="5">Buat Akun</button>
               </form>
-              <p class="text-center mt-2"><span>Sudah memiliki akun?</span><a href="<?= base_url('/'); ?>"><span>&nbsp;Login</span></a></p>
+              <p class="text-center mt-2"><span>Sudah memiliki akun?</span><a href="<?= base_url('auth/ppdb'); ?>"><span>&nbsp;Login</span></a></p>
             </div>
           </div>
           <!-- /Register-->
@@ -69,3 +70,4 @@
     </div>
   </div>
 </div>
+<!-- END: Content-->
