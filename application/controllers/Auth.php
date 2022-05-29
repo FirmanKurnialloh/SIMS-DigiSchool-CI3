@@ -37,8 +37,9 @@ class Auth extends CI_Controller
       $data['serverSetting'] = $this->App_model->getServerSetting();
       $data['profilSekolah'] = $this->App_model->getProfilSekolah();
       $this->load->view('templates/header', $data);
-      $this->load->view('auth/login-gtk');
-      $this->load->view('templates/footer');
+      $this->load->view('auth/login-gtk', $data);
+      $this->load->view('templates/modal', $data);
+      $this->load->view('templates/footer', $data);
     } else {
       $this->_login_gtk();
     }
@@ -61,33 +62,158 @@ class Auth extends CI_Controller
           $this->session->set_userdata($data);
           redirect(base_url('user'));
         } else {
+          $this->session->set_flashdata('toastr', "
+          <script>
+          $(window).on('load', function() {
+            setTimeout(function() {
+              toastr['error'](
+                'Password Salah !',
+                'Gagal !', {
+                  closeButton: true,
+                  tapToDismiss: true
+                }
+              );
+            }, 0);
+          })
+          </script>");
           $this->session->set_flashdata('notif', '
           <div class="alert alert-danger" role="alert">
-              <h4 class="alert-heading">Gagal !</h4>
+              <h4 class="alert-heading">Password Salah !</h4>
               <div class="alert-body">
-                Password Salah !
+                Silahkan ulangi password atau hubungi tim IT/Operator !
               </div>
           </div>');
           redirect(base_url('auth/gtk'));
         }
       } else {
+        $this->session->set_flashdata('toastr', "
+        <script>
+        $(window).on('load', function() {
+          setTimeout(function() {
+            toastr['error'](
+              'Akun Tidak Aktif !',
+              'Gagal !', {
+                closeButton: true,
+                tapToDismiss: true
+              }
+            );
+          }, 0);
+        })
+        </script>");
         $this->session->set_flashdata('notif', '
         <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading">Gagal !</h4>
+            <h4 class="alert-heading">Akun tidak aktif !</h4>
             <div class="alert-body">
-              Akun Tidak Aktif !
+              Silahkan hubungi tim IT/Operator!
             </div>
         </div>');
         redirect(base_url('auth/gtk'));
       }
     } else {
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['error'](
+            'Akun tidak terdaftar !',
+            'Gagal !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
       $this->session->set_flashdata('notif', '
       <div class="alert alert-danger" role="alert">
-          <h4 class="alert-heading">Gagal !</h4>
+          <h4 class="alert-heading">Akun tidak terdaftar !</h4>
           <div class="alert-body">
-            Akun Tidak terdaftar !
+            Silahkan ulangi username atau hubungi tim IT/Operator!
           </div>
       </div>');
+      redirect(base_url('auth/gtk'));
+    }
+  }
+
+  public function forgotPass()
+  {
+
+    $serverSetting  = $this->App_model->getServerSetting();
+    $profilSekolah  = $this->App_model->getProfilSekolah();
+    $nama           = $this->input->post('modalForgotNama');
+    $username       = $this->input->post('modalForgotUsername');
+    $admin          = $this->input->post('modalForgotSelectAdmin');
+    $hpAdmin        = $this->db->get_where('profil_gtk', ['id' => $admin])->row_array();
+    $namaPanggil    = $hpAdmin['namaPanggil'];
+    $jkKontakAdmin  = $hpAdmin['jk'];
+    $hpKontakAdmin  = $hpAdmin['hp'];
+
+    if ($jkKontakAdmin == "L") {
+      $jkPanggilAdmin = "Pak";
+    } else if ($jkKontakAdmin == "P") {
+      $jkPanggilAdmin = "Bu";
+    } else {
+      $jkPanggilAdmin = "";
+    }
+
+    if ($hpKontakAdmin != null) {
+      $teks = ("Hallo " . $jkPanggilAdmin . " " . $namaPanggil . " !\n\n" .
+        "Saya *" . $nama . "*\n" .
+        "Request Reset Akun *" . $username . "* untuk mengakses aplikasi " . $serverSetting['namaAplikasi'] . " " . $profilSekolah['namaSekolah'] . " terima kasih !");
+      echo " 
+            <textarea id='teks' disabled readonly>$teks</textarea>
+            <script>
+              var kontak = '$hpKontakAdmin';
+              var teks = document.getElementById('teks').value;
+              var url = 'https://wa.me/' + kontak + '?text=' + teks;
+              var res = encodeURI(url);
+              window.open(res);
+              // window.location.replace(auth-gtk);
+            </script>
+            ";
+      $this->session->set_flashdata('toastr', "
+          <script>
+          $(window).on('load', function() {
+            setTimeout(function() {
+              toastr['success'](
+                'Pesan Terkirim !',
+                'Berhasil !', {
+                  closeButton: true,
+                  tapToDismiss: true
+                }
+              );
+            }, 0);
+          })
+          </script>");
+      $this->session->set_flashdata('notif', '
+          <div class="alert alert-warning" role="alert">
+              <h4 class="alert-heading">Pesan Terkirim !</h4>
+              <div class="alert-body">
+                Jika pesan tidak terkirim, silahkan izinkan Pop Up dan Redirect pada browser anda kemudian ulangi permintaan reset password! 
+              </div>
+          </div>');
+    } else {
+      $this->session->set_flashdata('toastr', "
+          <script>
+          $(window).on('load', function() {
+            setTimeout(function() {
+              toastr['error'](
+                'Pesan Tidak Terkirim !',
+                'Gagal !', {
+                  closeButton: true,
+                  tapToDismiss: true
+                }
+              );
+            }, 0);
+          })
+          </script>");
+      $this->session->set_flashdata('notif', '
+          <div class="alert alert-warning" role="alert">
+              <h4 class="alert-heading">Pesan Tidak Terkirim !</h4>
+              <div class="alert-body">
+                Kontak tidak tersedia !
+              </div>
+          </div>');
       redirect(base_url('auth/gtk'));
     }
   }
@@ -164,6 +290,7 @@ class Auth extends CI_Controller
       redirect(base_url('auth/gtk'));
     }
   }
+
   public function registration()
   {
     $this->form_validation->set_rules('username', 'Username', 'required|trim|is_unique[user.username]', [
@@ -195,7 +322,7 @@ class Auth extends CI_Controller
       $this->db->insert('user', $data);
       $this->session->set_flashdata('notif', '
       <div class="alert alert-primary" role="alert">
-          <h4 class="alert-heading">Selamat !</h4>
+          <h4 class="alert-heading">Berhasil !</h4>
           <div class="alert-body">
             Akun anda telah terdaftar! silahkan login untuk melanjutkan pendaftaran.
           </div>
@@ -208,13 +335,20 @@ class Auth extends CI_Controller
   {
     $this->session->unset_userdata('username');
     $this->session->unset_userdata('role_id');
-    $this->session->set_flashdata('notif', '
-    <div class="alert alert-primary" role="alert">
-        <h4 class="alert-heading">Berhasil !</h4>
-        <div class="alert-body">
-          Anda Berhasil Logout!
-        </div>
-    </div>');
+    $this->session->set_flashdata('toastr', "
+    <script>
+    $(window).on('load', function() {
+      setTimeout(function() {
+        toastr['success'](
+          'Anda telah keluar dari sistem !',
+          'Berhasil !', {
+            closeButton: true,
+            tapToDismiss: true
+          }
+        );
+      }, 0);
+    })
+    </script>");
     redirect(base_url('/'));
   }
 }

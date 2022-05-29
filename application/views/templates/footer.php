@@ -8,17 +8,23 @@
 <script src="<?= base_url('assets/'); ?>app-assets/vendors/js/forms/select/select2.full.min.js"></script>
 <script src="<?= base_url('assets/'); ?>app-assets/vendors/js/forms/cleave/cleave.min.js"></script>
 <script src="<?= base_url('assets/'); ?>app-assets/vendors/js/forms/cleave/addons/cleave-phone.us.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/extensions/toastr.min.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
 <!-- END: Page Vendor JS-->
 
 <!-- BEGIN: Theme JS-->
 <script src="<?= base_url('assets/'); ?>app-assets/js/core/app-menu.js"></script>
 <script src="<?= base_url('assets/'); ?>app-assets/js/core/app.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/js/scripts/forms/form-select2.js"></script>
 <!-- END: Theme JS-->
 
 <!-- BEGIN: Page JS-->
+<script src="<?= base_url('assets/'); ?>assets/js/scripts.js"></script>
 <script src="<?= base_url('assets/'); ?>app-assets/js/scripts/pages/auth-login.js"></script>
 <script src="<?= base_url('assets/'); ?>app-assets/js/scripts/pages/auth-register.js"></script>
 <!-- END: Page JS-->
+
+<?= $this->session->flashdata('toastr'); ?>
 
 <script>
   $(window).on('load', function() {

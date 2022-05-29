@@ -8,31 +8,10 @@
     <div class="content-body">
       <div class="auth-wrapper auth-cover">
         <div class="auth-inner row m-0">
-          <!-- Brand logo--><a class="brand-logo" href="<?= base_url('/'); ?>">
-            <svg viewBox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="28">
-              <defs>
-                <lineargradient id="linearGradient-1" x1="100%" y1="10.5120544%" x2="50%" y2="89.4879456%">
-                  <stop stop-color="#000000" offset="0%"></stop>
-                  <stop stop-color="#FFFFFF" offset="100%"></stop>
-                </lineargradient>
-                <lineargradient id="linearGradient-2" x1="64.0437835%" y1="46.3276743%" x2="37.373316%" y2="100%">
-                  <stop stop-color="#EEEEEE" stop-opacity="0" offset="0%"></stop>
-                  <stop stop-color="#FFFFFF" offset="100%"></stop>
-                </lineargradient>
-              </defs>
-              <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                <g id="Artboard" transform="translate(-400.000000, -178.000000)">
-                  <g id="Group" transform="translate(400.000000, 178.000000)">
-                    <path class="text-primary" id="Path" d="M-5.68434189e-14,2.84217094e-14 L39.1816085,2.84217094e-14 L69.3453773,32.2519224 L101.428699,2.84217094e-14 L138.784583,2.84217094e-14 L138.784199,29.8015838 C137.958931,37.3510206 135.784352,42.5567762 132.260463,45.4188507 C128.736573,48.2809251 112.33867,64.5239941 83.0667527,94.1480575 L56.2750821,94.1480575 L6.71554594,44.4188507 C2.46876683,39.9813776 0.345377275,35.1089553 0.345377275,29.8015838 C0.345377275,24.4942122 0.230251516,14.560351 -5.68434189e-14,2.84217094e-14 Z" style="fill: currentColor"></path>
-                    <path id="Path1" d="M69.3453773,32.2519224 L101.428699,1.42108547e-14 L138.784583,1.42108547e-14 L138.784199,29.8015838 C137.958931,37.3510206 135.784352,42.5567762 132.260463,45.4188507 C128.736573,48.2809251 112.33867,64.5239941 83.0667527,94.1480575 L56.2750821,94.1480575 L32.8435758,70.5039241 L69.3453773,32.2519224 Z" fill="url(#linearGradient-1)" opacity="0.2"></path>
-                    <polygon id="Path-2" fill="#000000" opacity="0.049999997" points="69.3922914 32.4202615 32.8435758 70.5039241 54.0490008 16.1851325"></polygon>
-                    <polygon id="Path-21" fill="#000000" opacity="0.099999994" points="69.3922914 32.4202615 32.8435758 70.5039241 58.3683556 20.7402338"></polygon>
-                    <polygon id="Path-3" fill="url(#linearGradient-2)" opacity="0.099999994" points="101.428699 0 83.0667527 94.1480575 130.378721 47.0740288"></polygon>
-                  </g>
-                </g>
-              </g>
-            </svg>
-            <h2 class="brand-text text-primary ms-1"><?= $serverSetting['namaAplikasi'];; ?></h2>
+          <!-- Brand logo-->
+          <a class="brand-logo" href="<?= base_url('/'); ?>">
+            <img src="<?= base_url('assets/'); ?>files/images/logo/<?= $profilSekolah['logoSekolah']; ?>" width="100" alt="Logo Sekolah">
+            <h2 class="brand-text text-primary ms-1 mt-2"><?= $serverSetting['namaAplikasi']; ?><br><?= $profilSekolah['namaSekolah']; ?></h2>
           </a>
           <!-- /Brand logo-->
           <!-- Left Text-->
@@ -45,40 +24,80 @@
           <!-- Login-->
           <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
             <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
-              <h2 class="card-title fw-bolder mb-1 mt-2">Hai, Selamat Datang 👋</h2>
-              <p class="card-text mb-2">Silahkan masuk ke akun Anda dan mulailah beraktifitas !</p>
-              <?= $this->session->flashdata('notif'); ?>
-              <form class="auth-login-form mt-2" action="<?= base_url('auth'); ?>" method="POST">
-                <div class="mb-1">
-                  <label class="form-label" for="username">Username</label>
-                  <input class="form-control" id="username" type="text" name="username" placeholder="Username" aria-describedby="username" autofocus="" tabindex="1" />
-                  <?= form_error('username', '<small class="text-danger">', '</small>'); ?>
-                </div>
-                <div class="mb-1">
-                  <label class="form-label" for="password">Password</label>
-                  <div class="input-group input-group-merge form-password-toggle">
-                    <input class="form-control form-control-merge" id="password" type="password" name="password" placeholder="Password" aria-describedby="password" tabindex="2" />
-                    <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+              <?php if ($serverSetting['loginGuru'] == 1) { ?>
+                <h2 class="card-title fw-bolder mb-1 mt-2">Hai, Selamat Datang 👋</h2>
+                <p class="card-text mb-2">Silahkan masuk ke akun Anda dan mulailah beraktifitas !</p>
+                <?= $this->session->flashdata('notif'); ?>
+                <form class="auth-login-form mt-2" action="<?= base_url('auth/gtk'); ?>" method="POST">
+                  <div class="mb-1">
+                    <label class="form-label" for="username">Username</label>
+                    <input class="form-control" id="username" type="text" name="username" placeholder="Username" aria-describedby="username" autofocus="" tabindex="1" />
+                    <?= form_error('username', '<small class="text-danger">', '</small>'); ?>
                   </div>
-                  <?= form_error('password', '<small class="text-danger">', '</small>'); ?>
-                </div>
-                <div class="mb-1">
-                  <div class="form-check">
-                    <input class="form-check-input" id="remember-me" type="checkbox" tabindex="3" />
-                    <label class="form-check-label" for="remember-me"> Remember Me</label>
+                  <div class="mb-1">
+                    <div class="d-flex justify-content-between">
+                      <label class="form-label" for="password">Password</label>
+                      <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#modalForgot">
+                        <small>Lupa Password?</small>
+                      </a>
+                    </div>
+                    <div class="input-group input-group-merge form-password-toggle">
+                      <input class="form-control form-control-merge" id="password" type="password" name="password" placeholder="Password" aria-describedby="password" tabindex="2" />
+                      <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                    </div>
+                    <?= form_error('password', '<small class="text-danger">', '</small>'); ?>
                   </div>
+                  <div class="mb-1" hidden>
+                    <div class="form-check">
+                      <input class="form-check-input" id="remember-me" type="checkbox" tabindex="3" />
+                      <label class="form-check-label" for="remember-me"> Remember Me</label>
+                    </div>
+                  </div>
+                  <button class="btn btn-primary w-100" tabindex="4">Masuk</button>
+                </form>
+              <?php } else { ?>
+                <div class="text-center mb-2 mt-2">
+                  <h1 class="display-6 text-danger">SERVER DITUTUP</h1>
+                  <h1 class="display-1 text-danger myicon"><i data-feather='x-circle'></i></h1>
+                  <p class="card-text text-center">
+                    Mohon maaf atas ketidaknyamanannya <br>
+                    Saat ini kami sedang melakukan beberapa perbaikan <br>
+                    Website akan segera kembali online <br>
+                    Silahkan kembali dalam beberapa waktu kedepan! <br>
+                    <small>- Tim IT</small>
+                  </p>
                 </div>
-                <button class="btn btn-primary w-100" tabindex="4">Sign in</button>
-              </form>
-              <div class="divider my-2">
-                <div class="divider-text">or</div>
-              </div>
-              <div class="auth-footer-btn d-flex justify-content-center">
-                <a class="btn btn-facebook" href="#"><i data-feather="facebook"></i></a>
-                <a class="btn btn-twitter white" href="#"><i data-feather="twitter"></i></a>
-                <a class="btn btn-google" href="#"><i data-feather="mail"></i></a>
-                <a class="btn btn-github" href="#"><i data-feather="github"></i></a>
-              </div>
+              <?php } ?>
+
+              <a class="btn btn-outline-danger mb-2 mt-2 w-100" href="<?= base_url('/'); ?>">Kembali</a>
+
+              <?php if ($profilSekolah['twitter'] != null || $profilSekolah['whatsapp'] != null || $profilSekolah['facebook'] != null || $profilSekolah['instagram'] != null || $profilSekolah['youtube'] != null) { ?>
+                <div class="divider my-2 pt-2">
+                  <div class="divider-text">Ikuti Informasi Terupdate <br> di Sosial Media Resmi <br> <?= $profilSekolah['namaSekolah'] ?></div>
+                </div>
+
+                <div class="auth-footer-btn d-flex justify-content-center">
+                  <?php if ($profilSekolah['twitter'] != null) { ?>
+                    <a class="btn btn-twitter" href="<?= $profilSekolah['twitter'] ?>"><i data-feather="twitter"></i></a>
+                  <?php } ?>
+                  <?php if ($profilSekolah['whatsapp'] != null) { ?>
+                    <a class="btn btn-success" href="<?= $profilSekolah['whatsapp'] ?>"><i data-feather="message-circle"></i></a>
+                  <?php } ?>
+                  <?php if ($profilSekolah['facebook'] != null) { ?>
+                    <a class="btn btn-facebook" href="<?= $profilSekolah['facebook'] ?>"><i data-feather="facebook"></i></a>
+                  <?php } ?>
+                  <?php if ($profilSekolah['instagram'] != null) { ?>
+                    <a class="btn btn-instagram" href="<?= $profilSekolah['instagram'] ?>"><i data-feather="instagram"></i></a>
+                  <?php } ?>
+                  <?php if ($profilSekolah['youtube'] != null) { ?>
+                    <a class="btn btn-danger" href="<?= $profilSekolah['youtube'] ?>"><i data-feather="youtube"></i></a>
+                  <?php } ?>
+                </div>
+              <?php } ?>
+
+              <p class="text-center mt-2">
+                <span>Copyright &copy; <span id="copyright-year"></span> <?= $profilSekolah['namaSekolah'] ?>. <br> Hak Cipta Dilindungi. </span>
+              </p>
             </div>
           </div>
           <!-- /Login-->

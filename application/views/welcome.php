@@ -12,7 +12,7 @@
                 <div class="card-body">
                   <h2 class="brand-text text-primary text-center fw-bolder mt-2"><?= $serverSetting['namaAplikasi']; ?><br><small class="fst-italic"><?= $serverSetting['sloganAplikasi']; ?></small></h2>
 
-                  <a href="javascript:void(0);" class="brand-logo">
+                  <a href="<?= base_url('/'); ?>" class="brand-logo">
                     <img src="<?= base_url('assets/'); ?>files/images/logo/<?= $profilSekolah['logoSekolah']; ?>" class="img-fluid" width="100" alt="Logo Sekolah">
                   </a>
 
@@ -34,24 +34,24 @@
 
                   <?php if ($profilSekolah['twitter'] != null || $profilSekolah['whatsapp'] != null || $profilSekolah['facebook'] != null || $profilSekolah['instagram'] != null || $profilSekolah['youtube'] != null) { ?>
                     <div class="divider my-2 pt-2">
-                      <div class="divider-text">Sosial Media Resmi</div>
+                      <div class="divider-text">Ikuti Informasi Terupdate <br> di Sosial Media Resmi <br> <?= $profilSekolah['namaSekolah'] ?></div>
                     </div>
 
                     <div class="auth-footer-btn d-flex justify-content-center">
-                      <?php if ($twitterSekolah != null) { ?>
-                        <a class="btn btn-twitter" href="<?= $twitterSekolah ?>"><i data-feather="twitter"></i></a>
+                      <?php if ($profilSekolah['twitter'] != null) { ?>
+                        <a class="btn btn-twitter" href="<?= $profilSekolah['twitter'] ?>"><i data-feather="twitter"></i></a>
                       <?php } ?>
-                      <?php if ($whatsappSekolah != null) { ?>
-                        <a class="btn btn-success" href="<?= $whatsappSekolah ?>"><i data-feather="message-circle"></i></a>
+                      <?php if ($profilSekolah['whatsapp'] != null) { ?>
+                        <a class="btn btn-success" href="<?= $profilSekolah['whatsapp'] ?>"><i data-feather="message-circle"></i></a>
                       <?php } ?>
-                      <?php if ($facebookSekolah != null) { ?>
-                        <a class="btn btn-facebook" href="<?= $facebookSekolah ?>"><i data-feather="facebook"></i></a>
+                      <?php if ($profilSekolah['facebook'] != null) { ?>
+                        <a class="btn btn-facebook" href="<?= $profilSekolah['facebook'] ?>"><i data-feather="facebook"></i></a>
                       <?php } ?>
-                      <?php if ($instagramSekolah != null) { ?>
-                        <a class="btn btn-instagram" href="<?= $instagramSekolah ?>"><i data-feather="instagram"></i></a>
+                      <?php if ($profilSekolah['instagram'] != null) { ?>
+                        <a class="btn btn-instagram" href="<?= $profilSekolah['instagram'] ?>"><i data-feather="instagram"></i></a>
                       <?php } ?>
-                      <?php if ($youtubeSekolah != null) { ?>
-                        <a class="btn btn-danger" href="<?= $youtubeSekolah ?>"><i data-feather="youtube"></i></a>
+                      <?php if ($profilSekolah['youtube'] != null) { ?>
+                        <a class="btn btn-danger" href="<?= $profilSekolah['youtube'] ?>"><i data-feather="youtube"></i></a>
                       <?php } ?>
                     </div>
                   <?php } ?>
