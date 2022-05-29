@@ -12,6 +12,15 @@ class Auth extends CI_Controller
 
   public function index()
   {
+    $data['serverSetting'] = $this->App_model->getServerSetting();
+    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $this->load->view('templates/header', $data);
+    $this->load->view('welcome.php');
+    $this->load->view('templates/footer');
+  }
+
+  public function gtk()
+  {
     $this->form_validation->set_rules('username', 'Username', 'required|trim', [
       'required' => 'Username Tidak Boleh Kosong!',
       'trim' => 'Username Tidak Boleh Mengandung Spasi!',
@@ -28,14 +37,14 @@ class Auth extends CI_Controller
       $data['serverSetting'] = $this->App_model->getServerSetting();
       $data['profilSekolah'] = $this->App_model->getProfilSekolah();
       $this->load->view('templates/header', $data);
-      $this->load->view('auth/login');
+      $this->load->view('auth/login-gtk');
       $this->load->view('templates/footer');
     } else {
-      $this->_login();
+      $this->_login_gtk();
     }
   }
 
-  private function _login()
+  private function _login_gtk()
   {
     $username = $this->input->post('username');
     $password = $this->input->post('password');
@@ -59,7 +68,7 @@ class Auth extends CI_Controller
                 Password Salah !
               </div>
           </div>');
-          redirect(base_url('auth'));
+          redirect(base_url('auth/gtk'));
         }
       } else {
         $this->session->set_flashdata('notif', '
@@ -69,7 +78,7 @@ class Auth extends CI_Controller
               Akun Tidak Aktif !
             </div>
         </div>');
-        redirect(base_url('auth'));
+        redirect(base_url('auth/gtk'));
       }
     } else {
       $this->session->set_flashdata('notif', '
@@ -79,15 +88,82 @@ class Auth extends CI_Controller
             Akun Tidak terdaftar !
           </div>
       </div>');
-      redirect(base_url('auth'));
+      redirect(base_url('auth/gtk'));
     }
   }
 
   public function ppdb()
   {
-    echo "k";
+    $this->form_validation->set_rules('username', 'Username', 'required|trim', [
+      'required' => 'Username Tidak Boleh Kosong!',
+      'trim' => 'Username Tidak Boleh Mengandung Spasi!',
+      'is_unique' => 'Username Sudah Digunakan!'
+    ]);
+
+    $this->form_validation->set_rules('password', 'Password', 'required|trim', [
+      'required' => 'Password Tidak Boleh Kosong!',
+      'min_length' => 'Password Minimal 8 Karakter Huruf dan Angka!',
+      'trim' => 'Password Tidak Boleh Mengandung Spasi!'
+    ]);
+
+    if ($this->form_validation->run() == false) {
+      $data['serverSetting'] = $this->App_model->getServerSetting();
+      $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+      $this->load->view('templates/header', $data);
+      $this->load->view('auth/login-ppdb');
+      $this->load->view('templates/footer');
+    } else {
+      $this->_login_ppdb();
+    }
   }
 
+  private function _login_ppdb()
+  {
+    $username = $this->input->post('username');
+    $password = $this->input->post('password');
+
+    $user = $this->db->get_where('user', ['username' => $username])->row_array();
+
+    if ($user) {
+      if ($user['is_active'] == 1) {
+        if (password_verify($password, $user['password'])) {
+          $data = [
+            'username' => $user['username'],
+            'role_id' => $user['role_id']
+          ];
+          $this->session->set_userdata($data);
+          redirect(base_url('user'));
+        } else {
+          $this->session->set_flashdata('notif', '
+          <div class="alert alert-danger" role="alert">
+              <h4 class="alert-heading">Gagal !</h4>
+              <div class="alert-body">
+                Password Salah !
+              </div>
+          </div>');
+          redirect(base_url('auth/gtk'));
+        }
+      } else {
+        $this->session->set_flashdata('notif', '
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Gagal !</h4>
+            <div class="alert-body">
+              Akun Tidak Aktif !
+            </div>
+        </div>');
+        redirect(base_url('auth/gtk'));
+      }
+    } else {
+      $this->session->set_flashdata('notif', '
+      <div class="alert alert-danger" role="alert">
+          <h4 class="alert-heading">Gagal !</h4>
+          <div class="alert-body">
+            Akun Tidak terdaftar !
+          </div>
+      </div>');
+      redirect(base_url('auth/gtk'));
+    }
+  }
   public function registration()
   {
     $this->form_validation->set_rules('username', 'Username', 'required|trim|is_unique[user.username]', [
@@ -124,7 +200,7 @@ class Auth extends CI_Controller
             Akun anda telah terdaftar! silahkan login untuk melanjutkan pendaftaran.
           </div>
       </div>');
-      redirect(base_url('auth'));
+      redirect(base_url('auth/ppdb'));
     }
   }
 

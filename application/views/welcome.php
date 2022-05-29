@@ -13,7 +13,7 @@
                   <h2 class="brand-text text-primary text-center fw-bolder mt-2"><?= $serverSetting['namaAplikasi']; ?><br><small class="fst-italic"><?= $serverSetting['sloganAplikasi']; ?></small></h2>
 
                   <a href="javascript:void(0);" class="brand-logo">
-                    <img src="./files/images/logo/<?= $profilSekolah['logoSekolah']; ?>" class="img-fluid" width="100" alt="Logo Sekolah">
+                    <img src="<?= base_url('assets/'); ?>files/images/logo/<?= $profilSekolah['logoSekolah']; ?>" class="img-fluid" width="100" alt="Logo Sekolah">
                   </a>
 
                   <h2 class="card-title fw-bolder mb-1 mt-2">Hai, Selamat Datang 👋</h2>
@@ -21,13 +21,13 @@
                     Silahkan pilih pengguna dan mulailah beraktifitas!
                   </p>
 
-                  <a href="<?= base_url('auth'); ?>" class="btn btn-primary w-100">Gunakan Aplikasi Sebagai GTK</a>
+                  <a href="<?= base_url('auth/gtk'); ?>" class="btn btn-primary w-100">Gunakan Aplikasi Sebagai GTK</a>
 
                   <div class="divider">
                     <div class="divider-text">atau</div>
                   </div>
 
-                  <a href="login-pd" class="btn btn-primary w-100">Gunakan Aplikasi Sebagai Siswa</a>
+                  <a href="<?= base_url('auth/pd'); ?>" class="btn btn-primary w-100">Gunakan Aplikasi Sebagai Siswa</a>
 
                   <p class="text-center mt-2 fw-bolder"><span>PPDB Telah Dibuka ! Yuk Daftar ! </span></p>
                   <a href="auth/registration" class="btn btn-success w-100" tabindex="4">Daftar Gratis Sekarang !</a>

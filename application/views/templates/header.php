@@ -10,9 +10,9 @@
   <meta name="keywords" content="<?= $serverSetting['namaAplikasi']; ?>, Aplikasi Sekolah Berbasis Web, Aplikasi Sekolah Berbasis Android, Digitalisasi Sekolah, Modernisasi Sekolah, Sistem Informasi Manajemen Sekolah">
   <meta name="author" content="KoechingKoding">
   <title><?= $serverSetting['namaAplikasi'] . ' ' . $profilSekolah['namaSekolah']; ?></title>
-  <link rel="apple-touch-icon" href="<?= base_url('assets/'); ?>app-assets/images/ico/apple-icon-120.png">
-  <link rel="shortcut icon" type="image/x-icon" href="<?= base_url('assets/'); ?>app-assets/images/ico/favicon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
+  <link rel="apple-touch-icon" href="<?= base_url('assets/'); ?>files/images/logo/<?= $profilSekolah['logoSekolah']; ?>">
+  <link rel="shortcut icon" type="image/x-icon" href="<?= base_url('assets/'); ?>files/images/logo/<?= $profilSekolah['logoSekolah']; ?>">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
 
   <!-- BEGIN: Vendor CSS-->
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/vendors/css/vendors.min.css">
