@@ -21,13 +21,22 @@
                     Silahkan pilih pengguna dan mulailah beraktifitas!
                   </p>
 
-                  <a href="<?= base_url('auth/gtk'); ?>" class="btn btn-primary w-100">Gunakan Aplikasi Sebagai GTK</a>
+                  <?php if ($serverSetting['loginGuru'] == 1) { ?>
+                    <a href="<?= base_url('auth/gtk'); ?>" class="btn btn-primary w-100">Gunakan Aplikasi Sebagai GTK</a>
+                  <?php } else { ?>
+                    <a href="<?= base_url('auth/pd'); ?>" class="btn btn-danger w-100">Aplikasi GTK Sedang Perbaikan</a>
+                  <?php } ?>
 
                   <div class="divider">
                     <div class="divider-text">atau</div>
                   </div>
 
-                  <a href="<?= base_url('auth/pd'); ?>" class="btn btn-primary w-100">Gunakan Aplikasi Sebagai Siswa</a>
+                  <?php if ($serverSetting['loginSiswa'] == 1) { ?>
+                    <a href="<?= base_url('auth/pd'); ?>" class="btn btn-primary w-100">Gunakan Aplikasi Sebagai Siswa</a>
+                  <?php } else { ?>
+                    <a href="<?= base_url('auth/pd'); ?>" class="btn btn-danger w-100">Aplikasi Siswa Sedang Perbaikan</a>
+                  <?php } ?>
+
 
                   <p class="text-center mt-2 fw-bolder"><span>PPDB Telah Dibuka ! Yuk Daftar ! </span></p>
                   <a href="auth/registration" class="btn btn-success w-100" tabindex="4">Daftar Gratis Sekarang !</a>

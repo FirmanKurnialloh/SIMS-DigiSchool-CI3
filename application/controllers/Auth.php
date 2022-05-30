@@ -168,7 +168,7 @@ class Auth extends CI_Controller
               var url = 'https://wa.me/' + kontak + '?text=' + teks;
               var res = encodeURI(url);
               window.open(res);
-              // window.location.replace(auth-gtk);
+              window.location.replace('gtk');
             </script>
             ";
       $this->session->set_flashdata('toastr', "
