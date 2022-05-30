@@ -10,7 +10,10 @@
             <div class="auth-inner my-2">
               <div class="card mb-0">
                 <div class="card-body">
-                  <h2 class="brand-text text-primary text-center fw-bolder mt-2"><?= $serverSetting['namaAplikasi']; ?><br><small class="fst-italic"><?= $serverSetting['sloganAplikasi']; ?></small></h2>
+                  <h2 class="brand-text text-primary text-center fw-bolder mt-2"><?= $serverSetting['namaAplikasi']; ?>
+                    <br>
+                    <small class="fst-italic"><?= $serverSetting['sloganAplikasi']; ?></small>
+                  </h2>
 
                   <a href="<?= base_url('/'); ?>" class="brand-logo">
                     <img src="<?= base_url('assets/'); ?>files/images/logo/<?= $profilSekolah['logoSekolah']; ?>" class="img-fluid" width="100" alt="Logo Sekolah">
@@ -24,7 +27,7 @@
                   <?php if ($serverSetting['loginGuru'] == 1) { ?>
                     <a href="<?= base_url('auth/gtk'); ?>" class="btn btn-primary w-100">Gunakan Aplikasi Sebagai GTK</a>
                   <?php } else { ?>
-                    <a href="<?= base_url('auth/pd'); ?>" class="btn btn-danger w-100">Aplikasi GTK Sedang Perbaikan</a>
+                    <a href="<?= base_url('auth/gtk'); ?>" class="btn btn-danger w-100">Aplikasi GTK Sedang Perbaikan</a>
                   <?php } ?>
 
                   <div class="divider">

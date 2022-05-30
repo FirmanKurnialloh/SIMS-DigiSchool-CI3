@@ -135,14 +135,14 @@ class Auth extends CI_Controller
     }
   }
 
-  public function forgotPass()
+  public function forgotPassGTK()
   {
 
     $serverSetting  = $this->App_model->getServerSetting();
     $profilSekolah  = $this->App_model->getProfilSekolah();
-    $nama           = $this->input->post('modalForgotNama');
-    $username       = $this->input->post('modalForgotUsername');
-    $admin          = $this->input->post('modalForgotSelectAdmin');
+    $nama           = $this->input->post('modalForgotGTKNama');
+    $username       = $this->input->post('modalForgotGTKUsername');
+    $admin          = $this->input->post('modalForgotGTKSelectAdmin');
     $hpAdmin        = $this->db->get_where('profil_gtk', ['id' => $admin])->row_array();
     $namaPanggil    = $hpAdmin['namaPanggil'];
     $jkKontakAdmin  = $hpAdmin['jk'];
@@ -215,6 +215,205 @@ class Auth extends CI_Controller
               </div>
           </div>');
       redirect(base_url('auth/gtk'));
+    }
+  }
+
+  public function pd()
+  {
+    $this->form_validation->set_rules('username', 'Username', 'required|trim', [
+      'required' => 'Username Tidak Boleh Kosong!',
+      'trim' => 'Username Tidak Boleh Mengandung Spasi!',
+      'is_unique' => 'Username Sudah Digunakan!'
+    ]);
+
+    $this->form_validation->set_rules('password', 'Password', 'required|trim', [
+      'required' => 'Password Tidak Boleh Kosong!',
+      'min_length' => 'Password Minimal 8 Karakter Huruf dan Angka!',
+      'trim' => 'Password Tidak Boleh Mengandung Spasi!'
+    ]);
+
+    if ($this->form_validation->run() == false) {
+      $data['serverSetting'] = $this->App_model->getServerSetting();
+      $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+      $this->load->view('templates/header', $data);
+      $this->load->view('auth/login-pd', $data);
+      $this->load->view('templates/modal', $data);
+      $this->load->view('templates/footer', $data);
+    } else {
+      $this->_login_pd();
+    }
+  }
+
+  private function _login_pd()
+  {
+    $username = $this->input->post('username');
+    $password = $this->input->post('password');
+
+    $user = $this->db->get_where('user', ['username' => $username])->row_array();
+
+    if ($user) {
+      if ($user['is_active'] == 1) {
+        if (password_verify($password, $user['password'])) {
+          $data = [
+            'username' => $user['username'],
+            'role_id' => $user['role_id']
+          ];
+          $this->session->set_userdata($data);
+          redirect(base_url('user'));
+        } else {
+          $this->session->set_flashdata('toastr', "
+          <script>
+          $(window).on('load', function() {
+            setTimeout(function() {
+              toastr['error'](
+                'Password Salah !',
+                'Gagal !', {
+                  closeButton: true,
+                  tapToDismiss: true
+                }
+              );
+            }, 0);
+          })
+          </script>");
+          $this->session->set_flashdata('notif', '
+          <div class="alert alert-danger" role="alert">
+              <h4 class="alert-heading">Password Salah !</h4>
+              <div class="alert-body">
+                Silahkan ulangi password atau hubungi tim IT/Operator !
+              </div>
+          </div>');
+          redirect(base_url('auth/pd'));
+        }
+      } else {
+        $this->session->set_flashdata('toastr', "
+        <script>
+        $(window).on('load', function() {
+          setTimeout(function() {
+            toastr['error'](
+              'Akun Tidak Aktif !',
+              'Gagal !', {
+                closeButton: true,
+                tapToDismiss: true
+              }
+            );
+          }, 0);
+        })
+        </script>");
+        $this->session->set_flashdata('notif', '
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading">Akun tidak aktif !</h4>
+            <div class="alert-body">
+              Silahkan hubungi tim IT/Operator!
+            </div>
+        </div>');
+        redirect(base_url('auth/pd'));
+      }
+    } else {
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['error'](
+            'Akun tidak terdaftar !',
+            'Gagal !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+      $this->session->set_flashdata('notif', '
+      <div class="alert alert-danger" role="alert">
+          <h4 class="alert-heading">Akun tidak terdaftar !</h4>
+          <div class="alert-body">
+            Silahkan ulangi username atau hubungi tim IT/Operator!
+          </div>
+      </div>');
+      redirect(base_url('auth/pd'));
+    }
+  }
+
+  public function forgotPassPD()
+  {
+
+    $serverSetting  = $this->App_model->getServerSetting();
+    $profilSekolah  = $this->App_model->getProfilSekolah();
+    $nama           = $this->input->post('modalForgotPDNama');
+    $username       = $this->input->post('modalForgotPDUsername');
+    $admin          = $this->input->post('modalForgotPDSelectAdmin');
+    $hpAdmin        = $this->db->get_where('profil_gtk', ['id' => $admin])->row_array();
+    $namaPanggil    = $hpAdmin['namaPanggil'];
+    $jkKontakAdmin  = $hpAdmin['jk'];
+    $hpKontakAdmin  = $hpAdmin['hp'];
+
+    if ($jkKontakAdmin == "L") {
+      $jkPanggilAdmin = "Pak";
+    } else if ($jkKontakAdmin == "P") {
+      $jkPanggilAdmin = "Bu";
+    } else {
+      $jkPanggilAdmin = "";
+    }
+
+    if ($hpKontakAdmin != null) {
+      $teks = ("Hallo " . $jkPanggilAdmin . " " . $namaPanggil . " !\n\n" .
+        "Saya *" . $nama . "*\n" .
+        "Request Reset Akun *" . $username . "* untuk mengakses aplikasi " . $serverSetting['namaAplikasi'] . " " . $profilSekolah['namaSekolah'] . " terima kasih !");
+      echo " 
+            <textarea id='teks' disabled readonly>$teks</textarea>
+            <script>
+              var kontak = '$hpKontakAdmin';
+              var teks = document.getElementById('teks').value;
+              var url = 'https://wa.me/' + kontak + '?text=' + teks;
+              var res = encodeURI(url);
+              window.open(res);
+              window.location.replace('pd');
+            </script>
+            ";
+      $this->session->set_flashdata('toastr', "
+          <script>
+          $(window).on('load', function() {
+            setTimeout(function() {
+              toastr['success'](
+                'Pesan Terkirim !',
+                'Berhasil !', {
+                  closeButton: true,
+                  tapToDismiss: true
+                }
+              );
+            }, 0);
+          })
+          </script>");
+      $this->session->set_flashdata('notif', '
+          <div class="alert alert-warning" role="alert">
+              <h4 class="alert-heading">Pesan Terkirim !</h4>
+              <div class="alert-body">
+                Jika pesan tidak terkirim, silahkan izinkan Pop Up dan Redirect pada browser anda kemudian ulangi permintaan reset password! 
+              </div>
+          </div>');
+    } else {
+      $this->session->set_flashdata('toastr', "
+          <script>
+          $(window).on('load', function() {
+            setTimeout(function() {
+              toastr['error'](
+                'Pesan Tidak Terkirim !',
+                'Gagal !', {
+                  closeButton: true,
+                  tapToDismiss: true
+                }
+              );
+            }, 0);
+          })
+          </script>");
+      $this->session->set_flashdata('notif', '
+          <div class="alert alert-warning" role="alert">
+              <h4 class="alert-heading">Pesan Tidak Terkirim !</h4>
+              <div class="alert-body">
+                Kontak tidak tersedia !
+              </div>
+          </div>');
+      redirect(base_url('auth/pd'));
     }
   }
 

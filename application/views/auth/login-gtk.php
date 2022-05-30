@@ -37,7 +37,7 @@
                   <div class="mb-1">
                     <div class="d-flex justify-content-between">
                       <label class="form-label" for="password">Password</label>
-                      <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#modalForgot">
+                      <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#modalForgotGTK">
                         <small>Lupa Password?</small>
                       </a>
                     </div>
