@@ -469,7 +469,7 @@ class Auth extends CI_Controller
           <h3 class='display-1 text-success text-center myicon'><i data-feather='check-circle'></i></h3>
           <h3 class='display-0 text-success text-center'>Tanggal Lahir Benar!</h3>
           <div class='d-flex justify-content-center pt-1'>
-            <a href='" . base_url('dashboard/pd') . "' class='btn btn-sm btn-success w-100'>Lanjutkan</a>
+            <a href='" . base_url('pd/dashboard') . "' class='btn btn-sm btn-success w-100'>Lanjutkan</a>
           </div>
           ";
       } else {
