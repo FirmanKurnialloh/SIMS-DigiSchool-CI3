@@ -74,7 +74,7 @@ class Auth extends CI_Controller
             }, 0);
           })
           </script>");
-          redirect(base_url('dashboard/gtk'));
+          redirect(base_url('gtk/dashboard'));
         } else {
           $this->session->set_flashdata('toastr', "
           <script>
