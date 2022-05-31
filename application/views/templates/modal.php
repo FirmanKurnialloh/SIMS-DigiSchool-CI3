@@ -83,8 +83,8 @@
             <input type="text" id="modalForgotPDNama" name="modalForgotPDNama" class="form-control" placeholder="Nama Lengkap" autocomplete="off" required />
           </div>
           <div class="col-12 col-md-6">
-            <label class="form-label" for="modalForgotPDUsername">Username</label>
-            <input type="text" id="modalForgotPDUsername" name="modalForgotPDUsername" class="form-control" placeholder="Username" autocomplete="off" required />
+            <label class="form-label" for="modalForgotPDNISN">NISN</label>
+            <input type="text" id="modalForgotPDNISN" name="modalForgotPDNISN" class="form-control" placeholder="TULISKAN NISN (10 DIGIT ANGKA)" autocomplete="off" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="10" required />
           </div>
           <div class="col-12 col-md-6">
             <label class="form-label" for="modalForgotPDSelectAdmin">Pilih admin yang akan dihubungi</label>

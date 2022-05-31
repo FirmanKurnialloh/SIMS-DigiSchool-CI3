@@ -10,6 +10,8 @@
 <script src="<?= base_url('assets/'); ?>app-assets/vendors/js/forms/cleave/addons/cleave-phone.us.js"></script>
 <script src="<?= base_url('assets/'); ?>app-assets/vendors/js/extensions/toastr.min.js"></script>
 <script src="<?= base_url('assets/'); ?>app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+<script src="https://npmcdn.com/flatpickr@4.6.9/dist/l10n/id.js"></script>
 <!-- END: Page Vendor JS-->
 
 <!-- BEGIN: Theme JS-->

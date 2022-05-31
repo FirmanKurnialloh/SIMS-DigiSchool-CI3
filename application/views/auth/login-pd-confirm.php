@@ -6,55 +6,53 @@
     <div class="content-header row">
     </div>
     <div class="content-body">
-      <div class="auth-wrapper auth-cover">
-        <div class="auth-inner row m-0">
-          <!-- Brand logo-->
-          <a class="brand-logo" href="<?= base_url('/'); ?>">
-            <img src="<?= base_url('assets/'); ?>files/images/logo/<?= $profilSekolah['logoSekolah']; ?>" width="100" alt="Logo Sekolah">
-            <h2 class="brand-text text-primary ms-1 mt-2"><?= $serverSetting['namaAplikasi']; ?><br><?= $profilSekolah['namaSekolah']; ?></h2>
-          </a>
-          <!-- /Brand logo-->
-          <!-- Left Text-->
-          <div class="d-none d-lg-flex col-lg-8 align-items-center p-5">
-            <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
-              <img class="img-fluid" src="<?= base_url('assets/'); ?>app-assets/images/pages/login-v2.svg" alt="Login V2" />
-            </div>
-          </div>
-          <!-- /Left Text-->
-          <!-- Login-->
-          <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
-            <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
-              <?php if ($serverSetting['loginGuru'] == 1) { ?>
-                <h2 class="card-title fw-bolder mb-1 mt-2">Hai, Selamat Datang 👋</h2>
-                <p class="card-text mb-2">Silahkan masuk ke akun Anda dan mulailah beraktifitas !</p>
+      <div class="auth-wrapper auth-basic px-2">
+        <div class="auth-inner my-2">
+          <!-- Login basic -->
+          <div class="card mb-0">
+            <div class="card-body">
+
+              <!-- Brand logo-->
+              <h2 class="brand-text text-primary text-center fw-bolder mt-2 mb-2">Verifikasi Tanggal Lahir</h2>
+              <!-- Brand logo-->
+
+              <?php if ($serverSetting['loginSiswa'] == 1) { ?>
+
                 <?= $this->session->flashdata('notif'); ?>
-                <form class="auth-login-form mt-2" action="<?= base_url('auth/gtk'); ?>" method="POST">
-                  <div class="mb-1">
-                    <label class="form-label" for="username">Username</label>
-                    <input class="form-control" id="username" type="text" name="username" placeholder="Username" aria-describedby="username" autofocus="" tabindex="1" />
-                    <?= form_error('username', '<small class="text-danger">', '</small>'); ?>
-                  </div>
-                  <div class="mb-1">
-                    <div class="d-flex justify-content-between">
-                      <label class="form-label" for="password">Password</label>
-                      <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#modalForgotGTK">
-                        <small>Lupa Password?</small>
-                      </a>
+
+                <div class="card card-profile shadow-none bg-transparent border-primary">
+                  <img src="<?= base_url('assets/') ?>files/images/logo/banner-login.png" class="img-fluid card-img-top" alt="Profile Cover Photo" />
+                  <div class="card-body">
+                    <div class="profile-image-wrapper">
+                      <div class="profile-image">
+                        <div class="avatar">
+                          <img src="<?= base_url('assets/') ?>files/images/logo/pd-square.png" alt="Profile Picture" />
+                        </div>
+                      </div>
                     </div>
-                    <div class="input-group input-group-merge form-password-toggle">
-                      <input class="form-control form-control-merge" id="password" type="password" name="password" placeholder="Password" aria-describedby="password" tabindex="2" />
-                      <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                    <h5><?= $profilPD['namaLengkap']; ?></h5>
+                    <h6><?php
+                        if ($profilPD['jk'] == "L") {
+                          $jkPanjang = "Laki - Laki";
+                          $jkPanggil = "Bapak";
+                        } else {
+                          $jkPanjang = "Perempuan";
+                          $jkPanggil = "Ibu";
+                        }
+                        echo  $jkPanjang ?></h6>
+                    <div class=" badge badge-light-primary profile-badge"><?= $profilPD['kelas']; ?>
                     </div>
-                    <?= form_error('password', '<small class="text-danger">', '</small>'); ?>
+                    <hr class="mb-0" />
+                    <form class="auth-login-form mt-1" action="<?= base_url('auth/pdLoginConfirm'); ?>" method="POST">
+                      <div class="form-group">
+                        <label for="tanggalLahirConfirmLogin">Tanggal Lahir</label>
+                        <input type="text" name="tanggalLahirConfirmLogin" class="form-control flatpickr-basic" id="tanggalLahirConfirmLogin" placeholder="Tanggal Lahir" autofocus required />
+                      </div>
+                    </form>
+                    <div class="text-center pt-1 mt-1" id="data-pd"></div>
                   </div>
-                  <div class="mb-1" hidden>
-                    <div class="form-check">
-                      <input class="form-check-input" id="remember-me" type="checkbox" tabindex="3" />
-                      <label class="form-check-label" for="remember-me"> Remember Me</label>
-                    </div>
-                  </div>
-                  <button class="btn btn-primary w-100" tabindex="4">Masuk</button>
-                </form>
+                </div>
+
               <?php } else { ?>
                 <div class="text-center mb-2 mt-2">
                   <h1 class="display-6 text-danger">SERVER DITUTUP</h1>
@@ -94,15 +92,15 @@
                   <?php } ?>
                 </div>
               <?php } ?>
-
               <p class="text-center mt-2">
                 <span>Copyright &copy; <span id="copyright-year"><?= date("Y") ?></span> <?= $profilSekolah['namaSekolah'] ?>. <br> Hak Cipta Dilindungi. </span>
               </p>
             </div>
           </div>
-          <!-- /Login-->
+          <!-- /Login basic -->
         </div>
       </div>
+
     </div>
   </div>
 </div>

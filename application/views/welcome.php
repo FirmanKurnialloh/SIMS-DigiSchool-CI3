@@ -45,7 +45,7 @@
                   <a href="auth/registration" class="btn btn-success w-100" tabindex="4">Daftar Gratis Sekarang !</a>
 
                   <?php if ($profilSekolah['twitter'] != null || $profilSekolah['whatsapp'] != null || $profilSekolah['facebook'] != null || $profilSekolah['instagram'] != null || $profilSekolah['youtube'] != null) { ?>
-                    <div class="divider my-2 pt-2">
+                    <div class="divider my-2 pt-0">
                       <div class="divider-text">Ikuti Informasi Terupdate <br> di Sosial Media Resmi <br> <?= $profilSekolah['namaSekolah'] ?></div>
                     </div>
 
@@ -69,7 +69,7 @@
                   <?php } ?>
 
                   <p class="text-center mt-2">
-                    <span>Copyright &copy; <span id="copyright-year"></span> <?= $profilSekolah['namaSekolah'] ?>. <br> Hak Cipta Dilindungi. </span>
+                    <span>Copyright &copy; <span id="copyright-year"><?= date("Y") ?></span> <?= $profilSekolah['namaSekolah'] ?>. <br> Hak Cipta Dilindungi. </span>
                   </p>
                 </div>
               </div>
