@@ -11,15 +11,15 @@ class GTK extends CI_Controller
     is_logged_in_as_gtk();
   }
 
-
   public function dashboard()
   {
-    $data['sesiRole']      = $this->session->userdata('role_id');
+    $data['sessionUser']   = $this->session->userdata('username');
+    $data['sessionRole']   = $this->session->userdata('role_id');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
-    var_dump($_SESSION);
+    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
     $this->load->view('templates/header', $data);
-    $this->load->view('gtk/dashboard.php');
-    $this->load->view('templates/footer');
+    $this->load->view('gtk/dashboard.php', $data);
+    $this->load->view('templates/footer', $data);
   }
 }

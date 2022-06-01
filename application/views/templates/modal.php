@@ -23,8 +23,8 @@
             <label class="form-label" for="modalForgotGTKSelectAdmin">Pilih admin yang akan dihubungi</label>
             <select id="modalForgotGTKSelectAdmin" name="modalForgotGTKSelectAdmin" class="select2 form-select" required>
               <?php
-              $queryUserAdmin = "SELECT `id` FROM `user` WHERE `role_id` = '1'";
-              $queryUserAdmin = $this->db->query($queryUserAdmin)->row_array();
+              $queryUserAdmin = "SELECT `username` FROM `user` WHERE `role_id` = '1'";
+              $queryUserAdmin = $this->db->query($queryUserAdmin)->result_array();
               if (!$queryUserAdmin) {
               ?>
                 <option value="" disabled>Data Tidak Ditemukan!</option>
@@ -33,15 +33,15 @@
               ?>
                 <option value="" selected disabled>Pilih Admin</option>
                 <?php
-                foreach ($queryUserAdmin as $kontakAdmin) :
-                  $idAdmin = $kontakAdmin['id'];
-                  $queryKontakAdmin = "SELECT `id`,`namaLengkap`,`gelarDepan`,`gelarBelakang`,`hp`
+                foreach ($queryUserAdmin as $adminUsernames) :
+                  $adminUsernames   = $adminUsernames['username'];
+                  $queryProfilAdmin = "SELECT `username`,`namaLengkap`,`gelarDepan`,`gelarBelakang`,`hp`
                                       FROM `profil_gtk`
-                                      WHERE `idUser` = '$idAdmin'
+                                      WHERE `username` = '$adminUsernames'
                                       ORDER BY LENGTH(`namaLengkap`),`namaLengkap` ASC";
-                  $queryKontakAdmin = $this->db->query($queryKontakAdmin)->row_array();
+                  $queryProfilAdmin = $this->db->query($queryProfilAdmin)->row_array();
                 ?>
-                  <option value="<?= $queryKontakAdmin['id'] ?>"><?= $queryKontakAdmin['gelarDepan'] . ' ' . $queryKontakAdmin['namaLengkap'] . ', ' . $queryKontakAdmin['gelarBelakang'] ?></option>
+                  <option value="<?= $queryProfilAdmin['username'] ?>"><?= $queryProfilAdmin['gelarDepan'] . ' ' . $queryProfilAdmin['namaLengkap'] . ', ' . $queryProfilAdmin['gelarBelakang'] ?></option>
               <?php
                 endforeach;
               }

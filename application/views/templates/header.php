@@ -39,6 +39,7 @@
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/css/plugins/extensions/ext-component-toastr.min.css">
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/css/plugins/extensions/ext-component-sweet-alerts.min.css">
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/css/pages/authentication.css">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/css/pages/page-knowledge-base.css">
   <!-- END: Page CSS-->
 
   <!-- BEGIN: Custom CSS-->

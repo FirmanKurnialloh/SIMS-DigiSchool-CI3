@@ -157,7 +157,7 @@ class Auth extends CI_Controller
     $nama           = $this->input->post('modalForgotGTKNama');
     $username       = $this->input->post('modalForgotGTKUsername');
     $admin          = $this->input->post('modalForgotGTKSelectAdmin');
-    $hpAdmin        = $this->db->get_where('profil_gtk', ['id' => $admin])->row_array();
+    $hpAdmin        = $this->db->get_where('profil_gtk', ['username' => $admin])->row_array();
     $namaPanggil    = $hpAdmin['namaPanggil'];
     $jkKontakAdmin  = $hpAdmin['jk'];
     $hpKontakAdmin  = $hpAdmin['hp'];
@@ -257,11 +257,11 @@ class Auth extends CI_Controller
         $dataProfil     = $this->db->get_where('profil_pd', ['nisn' => $dataUser['username']])->row_array();
         if ($dataProfil) {
           if ($dataProfil['jk'] == "L") {
-            $jkDataPendaftarPanjang = "Laki - Laki";
-            $jkDataPendaftarPanggil = "Bapak";
+            $jkPanjang = "Laki - Laki";
+            $jkPanggil = "Bapak";
           } else {
-            $jkDataPendaftarPanjang = "Perempuan";
-            $jkDataPendaftarPanggil = "Ibu";
+            $jkPanjang = "Laki - Laki";
+            $jkPanggil = "Bapak";
           }
           echo "
           <div class='card card-profile shadow-none bg-transparent border-primary'>
@@ -275,7 +275,7 @@ class Auth extends CI_Controller
                 </div>
               </div>
               <h5>" . $dataProfil['namaLengkap'] . "</h5>
-              <h6>" . $jkDataPendaftarPanjang . "</h6>
+              <h6>" . $jkPanjang . "</h6>
               <div class='badge badge-light-primary profile-badge'>" . $dataProfil['kelas'] . "</div>
               <hr class='mb-0' />
               <h5>Apakah Data Sudah Benar ?</h5>
