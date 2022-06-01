@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class gtk extends CI_Controller
+class Gtk extends CI_Controller
 {
   public function __construct()
   {
