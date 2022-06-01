@@ -16,8 +16,10 @@
 
   <!-- BEGIN: Vendor CSS-->
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/vendors/css/vendors.min.css">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/vendors/css/forms/select/select2.min.css">
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/vendors/css/extensions/toastr.min.css">
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/vendors/css/extensions/sweetalert2.min.css">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
   <!-- END: Vendor CSS-->
 
   <!-- BEGIN: Theme CSS-->
@@ -31,9 +33,10 @@
 
   <!-- BEGIN: Page CSS-->
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/css/core/menu/menu-types/vertical-menu.css">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/css/plugins/forms/form-validation.css">
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/css/plugins/extensions/ext-component-toastr.min.css">
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/css/plugins/extensions/ext-component-sweet-alerts.min.css">
-  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/css/pages/page-knowledge-base.css">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/css/pages/authentication.css">
   <!-- END: Page CSS-->
 
   <!-- BEGIN: Custom CSS-->
@@ -45,13 +48,4 @@
 
 <!-- BEGIN: Body-->
 
-<?php
-$page = $this->uri->segment(2);
-if ($page == "dashboard") {
-  $pageCollumn = "1-column";
-} else {
-  $pageCollumn = "blank-page";
-}
-?>
-
-<body class="vertical-layout vertical-menu-modern navbar-floating footer-static menu-collapsed " data-open="click" data-menu="vertical-menu-modern" data-col="<?= $pageCollumn ?>">
+<body class="vertical-layout vertical-menu-modern blank-page navbar-floating footer-static  " data-open="click" data-menu="vertical-menu-modern" data-col="blank-page">

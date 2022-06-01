@@ -41,8 +41,10 @@
                   <?php } ?>
 
 
-                  <p class="text-center mt-2 fw-bolder"><span>PPDB Telah Dibuka ! Yuk Daftar ! </span></p>
-                  <a href="auth/registration" class="btn btn-success w-100" tabindex="4">Daftar Gratis Sekarang !</a>
+                  <?php if ($serverSetting['modulPPDB'] == 1) { ?>
+                    <p class="text-center mt-2 fw-bolder"><span>PPDB Telah Dibuka ! Yuk Daftar ! </span></p>
+                    <a href="auth/registration" class="btn btn-success w-100" tabindex="4">Daftar Gratis Sekarang !</a>
+                  <?php } ?>
 
                   <?php if ($profilSekolah['twitter'] != null || $profilSekolah['whatsapp'] != null || $profilSekolah['facebook'] != null || $profilSekolah['instagram'] != null || $profilSekolah['youtube'] != null) { ?>
                     <div class="divider my-2 pt-0">

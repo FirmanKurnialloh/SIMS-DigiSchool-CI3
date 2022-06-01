@@ -14,9 +14,9 @@ class Auth extends CI_Controller
   {
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
-    $this->load->view('templates/header', $data);
+    $this->load->view('templates/auth_header', $data);
     $this->load->view('welcome.php');
-    $this->load->view('templates/footer');
+    $this->load->view('templates/auth_footer');
   }
 
   public function gtk()
@@ -36,10 +36,10 @@ class Auth extends CI_Controller
     if ($this->form_validation->run() == false) {
       $data['serverSetting'] = $this->App_model->getServerSetting();
       $data['profilSekolah'] = $this->App_model->getProfilSekolah();
-      $this->load->view('templates/header', $data);
+      $this->load->view('templates/auth_header', $data);
       $this->load->view('auth/login-gtk', $data);
       $this->load->view('templates/modal', $data);
-      $this->load->view('templates/footer', $data);
+      $this->load->view('templates/auth_footer', $data);
     } else {
       $this->_login_gtk();
     }
@@ -47,6 +47,7 @@ class Auth extends CI_Controller
 
   private function _login_gtk()
   {
+    is_server_gtk_active();
     $username = $this->input->post('username');
     $password = $this->input->post('password');
 
@@ -236,15 +237,16 @@ class Auth extends CI_Controller
   {
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
-    $this->load->view('templates/header', $data);
+    $this->load->view('templates/auth_header', $data);
     $this->load->view('auth/login-pd', $data);
     $this->load->view('templates/modal', $data);
-    $this->load->view('templates/footer', $data);
+    $this->load->view('templates/auth_footer', $data);
     $this->load->view('auth/login-pd-ajax', $data);
   }
 
   public function pdLoginNISN()
   {
+    is_server_pd_active();
     $nisn           = $this->input->post('nisn');
     $dataUser       = $this->db->get_where('user', ['username' => $nisn])->row_array();
     if ($dataUser) {
@@ -385,10 +387,10 @@ class Auth extends CI_Controller
         $data['serverSetting'] = $this->App_model->getServerSetting();
         $data['profilSekolah'] = $this->App_model->getProfilSekolah();
         $data['profilPD']      = $this->db->get_where('profil_pd', ['nisn' => $dataUser['username']])->row_array();
-        $this->load->view('templates/header', $data);
+        $this->load->view('templates/auth_header', $data);
         $this->load->view('auth/login-pd-confirm', $data);
         $this->load->view('templates/modal', $data);
-        $this->load->view('templates/footer', $data);
+        $this->load->view('templates/auth_footer', $data);
         $this->load->view('auth/login-pd-ajax', $data);
       } else {
         $this->session->unset_userdata('username');
@@ -435,7 +437,7 @@ class Auth extends CI_Controller
     $postTanggalLahir = $this->input->post('data');
     $sessionNISN      = $this->session->userdata('username');
     $sessionROLE      = $this->session->userdata('role_id');
-    $dataUser     = $this->db->get_where('user', ['username' => $sessionNISN, 'role_id' => $sessionROLE])->row_array();
+    $dataUser         = $this->db->get_where('user', ['username' => $sessionNISN, 'role_id' => $sessionROLE])->row_array();
     if ($dataUser) {
       $data['serverSetting'] = $this->App_model->getServerSetting();
       $data['profilSekolah'] = $this->App_model->getProfilSekolah();
@@ -526,9 +528,9 @@ class Auth extends CI_Controller
     if ($this->form_validation->run() == false) {
       $data['serverSetting'] = $this->App_model->getServerSetting();
       $data['profilSekolah'] = $this->App_model->getProfilSekolah();
-      $this->load->view('templates/header', $data);
+      $this->load->view('templates/auth_header', $data);
       $this->load->view('auth/login-ppdb');
-      $this->load->view('templates/footer');
+      $this->load->view('templates/auth_footer');
     } else {
       $this->_login_ppdb();
     }
@@ -599,9 +601,9 @@ class Auth extends CI_Controller
     if ($this->form_validation->run() == false) {
       $data['serverSetting'] = $this->App_model->getServerSetting();
       $data['profilSekolah'] = $this->App_model->getProfilSekolah();
-      $this->load->view('templates/header', $data);
+      $this->load->view('templates/auth_header', $data);
       $this->load->view('auth/registration');
-      $this->load->view('templates/footer');
+      $this->load->view('templates/auth_footer');
     } else {
       $data = [
         'username'      => htmlspecialchars($this->input->post('username', true)),

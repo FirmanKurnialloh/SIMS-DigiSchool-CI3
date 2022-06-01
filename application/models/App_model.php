@@ -12,4 +12,14 @@ class App_model extends CI_Model
   {
     return $this->db->get('profil_sekolah')->row_array();
   }
+
+  public function getTapel()
+  {
+    return $this->db->get('setting_tapel')->row_array();
+  }
+
+  public function getTapelAktif()
+  {
+    return $this->db->get_where('setting_tapel', ['is_aktif' => '1'])->row_array();
+  }
 }
