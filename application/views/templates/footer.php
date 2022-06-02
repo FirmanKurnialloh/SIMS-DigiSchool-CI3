@@ -18,6 +18,10 @@
 <script src="<?= base_url('assets/'); ?>app-assets/vendors/js/vendors.min.js"></script>
 <script src="<?= base_url('assets/'); ?>app-assets/vendors/js/extensions/toastr.min.js"></script>
 <script src="<?= base_url('assets/'); ?>app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/forms/cleave/cleave.min.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/forms/cleave/addons/cleave-phone.us.js"></script>
 <!-- BEGIN Vendor JS-->
 
 <!-- BEGIN: Page Vendor JS-->
@@ -31,6 +35,7 @@
 <!-- BEGIN: Page JS-->
 <script src="<?= base_url('assets/'); ?>assets/js/scripts.js"></script>
 <script src="<?= base_url('assets/'); ?>app-assets/js/scripts/pages/page-knowledge-base.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/js/scripts/pages/page-account-settings-account.js"></script>
 <!-- END: Page JS-->
 
 <?= $this->session->flashdata('toastr'); ?>

@@ -21,6 +21,9 @@ class Auth extends CI_Controller
 
   public function gtk()
   {
+    if ($this->session->userdata('username')) {
+      redirect(base_url('gtk'));
+    }
     $this->form_validation->set_rules('username', 'Username', 'required|trim', [
       'required' => 'Username Tidak Boleh Kosong!',
       'trim' => 'Username Tidak Boleh Mengandung Spasi!',
@@ -235,6 +238,9 @@ class Auth extends CI_Controller
 
   public function pd()
   {
+    if ($this->session->userdata('username')) {
+      redirect(base_url('pd'));
+    }
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $this->load->view('templates/auth_header', $data);

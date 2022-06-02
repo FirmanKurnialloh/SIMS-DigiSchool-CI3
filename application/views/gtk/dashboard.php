@@ -11,6 +11,7 @@ if ($profilGTK) {
   }
 }
 ?>
+
 <!-- BEGIN: Content-->
 <div class="app-content content">
   <!-- <div class="content-overlay"></div> -->
@@ -41,7 +42,7 @@ if ($profilGTK) {
                   <p class="card-text mb-0 text-success">
                     <span><strong>Anda Login Sebagai Admin</strong></span>
                   </p>
-                  <a href="app-settings">
+                  <a href="<?= base_url('settings') ?>">
                     <button type="button" class="btn btn-success">
                       <i data-feather="settings" class="mr-25"></i>
                       <span>Pengaturan Aplikasi</span>
@@ -59,10 +60,10 @@ if ($profilGTK) {
       <section id="knowledge-base-content">
         <div class="row kb-search-content-info match-height">
           <!-- Add-On PPDB -->
-          <?php if (file_exists(APPPATH . "views" . "/gtk/ppdb/dashboard.php")) { ?>
+          <?php if (file_exists(APPPATH . "views/gtk/ppdb/dashboard.php")) { ?>
             <div class="col-md-4 col-sm-6 col-12 kb-search-content">
               <div class="card">
-                <a href="<?= base_url('gtk/ppdb'); ?>">
+                <a href="<?= base_url('LayananPPDB'); ?>">
                   <img src="<?= base_url('assets/'); ?>app-assets/images/illustration/demand.svg" class="card-img-top d-none d-lg-block" />
                   <div class="card-body text-center">
                     <h4>PPDB</h4>
@@ -74,7 +75,7 @@ if ($profilGTK) {
                 <div class="card-footer">
                   <div class="row justify-content-center">
                     <div class="col-12 text-center pb-0">
-                      <a href="<?= base_url('gtk/ppdb'); ?>">
+                      <a href="<?= base_url('LayananPPDB'); ?>">
                         <button type="button" class="btn btn-primary btn-sm">
                           <i data-feather="log-in" class="mr-50"></i><span> Akses Layanan PPDB</span>
                         </button>

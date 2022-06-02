@@ -12,6 +12,11 @@ class Pd extends CI_Controller
   }
 
 
+  public function index()
+  {
+    redirect(base_url('pd/dashboard'));
+  }
+
   public function dashboard()
   {
     $data['sesiRole']      = $this->session->userdata('role_id');

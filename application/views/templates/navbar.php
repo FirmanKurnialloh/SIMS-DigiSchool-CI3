@@ -1,8 +1,18 @@
 <nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl">
   <div class="navbar-container d-flex content">
     <div class="bookmark-wrapper d-flex align-items-center">
-      <?php
-      if ($tapelAktif) { ?>
+      <?php $page = $this->uri->segment(2);
+      if ($page != "dashboard" && $page != "profil" && $page != "akun") { ?>
+        <ul class="nav navbar-nav d-xl-none">
+          <li class="nav-item">
+            <a class="nav-link menu-toggle" href="#">
+              <i class="ficon" data-feather="menu"></i>
+            </a>
+          </li>
+        </ul>
+      <?php } ?>
+
+      <?php if ($tapelAktif) { ?>
         <h4 class="content-header-left float-left mb-0 d-none d-lg-block"><?= $profilSekolah['namaSekolah'] . " Tahun Pelajaran " . $tapelAktif['tapel'] . " Semester " . $tapelAktif['semester'] ?></h4>
       <?php } else { ?>
         <h4 class="content-header-left float-left mb-0 d-none d-lg-block"><?= $profilSekolah['namaSekolah'] ?></h4>
@@ -32,9 +42,9 @@
               <!-- <div class="badge rounded-pill badge-light-primary">6 New</div> -->
             </div>
           </li>
-          <?php if (file_exists(APPPATH . "views" . "/gtk/ppdb/dashboard.php")) { ?>
+          <?php if (file_exists(APPPATH . "views/gtk/ppdb/dashboard.php")) { ?>
             <li class="scrollable-container media-list">
-              <a class="d-flex" href="<?= base_url('gtk/ppdb'); ?>">
+              <a class="d-flex" href="<?= base_url('LayananPPDB'); ?>">
                 <div class="list-item d-flex align-items-start">
                   <div class="me-1">
                     <div class="avatar bg-light-primary">
@@ -64,8 +74,8 @@
             <span class="user-status d-none d-lg-block"><?= $profilGTK['username'] ?></span>
           </div>
           <span class="avatar">
-            <?php if (file_exists(APPPATH . "assets/files/images/fotoGuru/" . $profilGTK['id'])) { ?>
-              <img class="round" src="<?= base_url('assets/'); ?>files/images/fotoGuru/<?= $profilGTK['id']; ?>" alt="avatar" height="40" width="40">
+            <?php if (file_exists(FCPATH . "assets/files/images/fotoGuru/" . $profilGTK['foto'])) { ?>
+              <img class="round" src="<?= base_url('assets/'); ?>files/images/fotoGuru/<?= $profilGTK['foto']; ?>" alt="avatar" height="40" width="40">
             <?php  } else { ?>
               <img class="round" src="<?= base_url('assets/'); ?>files/images/logo/<?= $profilSekolah['logoSekolah']; ?>" alt="avatar" height="40" width="40">
             <?php } ?>
