@@ -1,8 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Welcome extends CI_Controller
+class CustomErrorPage extends CI_Controller
 {
+
   public function __construct()
   {
     parent::__construct();
@@ -13,8 +14,7 @@ class Welcome extends CI_Controller
   {
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
-    $this->load->view('templates/auth_header', $data);
-    $this->load->view('welcome');
-    $this->load->view('templates/auth_footer');
+    $this->output->set_status_header('404');
+    $this->load->view('errors/custom/error', $data);
   }
 }

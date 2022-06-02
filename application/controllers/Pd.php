@@ -19,7 +19,7 @@ class Pd extends CI_Controller
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     var_dump($_SESSION);
     $this->load->view('templates/header', $data);
-    $this->load->view('pd/dashboard.php');
+    $this->load->view('pd/dashboard');
     $this->load->view('templates/footer');
   }
 }

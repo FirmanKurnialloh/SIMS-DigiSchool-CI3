@@ -22,7 +22,7 @@ class Gtk extends CI_Controller
     $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
-    $this->load->view('gtk/dashboard.php', $data);
+    $this->load->view('gtk/dashboard', $data);
     $this->load->view('templates/modal', $data);
     $this->load->view('templates/footer', $data);
   }
@@ -39,7 +39,7 @@ class Gtk extends CI_Controller
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('templates/menu', $data);
-    $this->load->view('gtk/ppdb/dashboard.php', $data);
+    $this->load->view('gtk/ppdb/dashboard', $data);
     $this->load->view('templates/modal', $data);
     $this->load->view('templates/footer', $data);
   }

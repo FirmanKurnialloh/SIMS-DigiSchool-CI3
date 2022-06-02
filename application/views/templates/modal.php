@@ -84,5 +84,4 @@
     </div>
   </div>
 </div>
-
 <!-- MODAL LOGOUT -->

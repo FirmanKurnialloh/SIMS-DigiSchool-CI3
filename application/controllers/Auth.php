@@ -15,7 +15,7 @@ class Auth extends CI_Controller
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $this->load->view('templates/auth_header', $data);
-    $this->load->view('welcome.php');
+    $this->load->view('welcome');
     $this->load->view('templates/auth_footer');
   }
 

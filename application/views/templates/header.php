@@ -50,8 +50,8 @@ $page = $this->uri->segment(2);
 if ($page == "dashboard") {
   $pageCollumn = "1-column";
 } else {
-  $pageCollumn = "blank-page";
+  $pageCollumn = "";
 }
 ?>
 
-<body class="vertical-layout vertical-menu-modern navbar-floating footer-static menu-collapsed " data-open="click" data-menu="vertical-menu-modern" data-col="<?= $pageCollumn ?>">
+<body class="vertical-layout vertical-menu-modern navbar-floating footer-static menu-collapsed <?= $pageCollumn ?>" data-open="click" data-menu="vertical-menu-modern" data-col="<?= $pageCollumn ?>">
