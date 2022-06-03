@@ -361,12 +361,10 @@
                           <div class="col-12 col-sm-3">
                             <div class="form-group">
                               <label for="account-web">Website</label>
-                              <div class="input-group input-group-merge">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">
-                                    <i data-feather="globe" class="font-medium-2"></i>
-                                  </span>
-                                </div>
+                              <div class="input-group input-group-merge mb-2">
+                                <span class="input-group-text">
+                                  <i data-feather="globe" class="font-medium-2"></i>
+                                </span>
                                 <input type="text" id="account-web" name="web" class="form-control" placeholder="Alamat Website" value="<?= $profilSekolah['web'] ?>" />
                               </div>
                             </div>
@@ -376,11 +374,9 @@
                             <div class="form-group">
                               <label for="account-email">Email</label>
                               <div class="input-group input-group-merge">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">
-                                    <i data-feather="mail" class="font-medium-2"></i>
-                                  </span>
-                                </div>
+                                <span class="input-group-text">
+                                  <i data-feather="mail" class="font-medium-2"></i>
+                                </span>
                                 <input type="text" id="account-email" name="email" class="form-control" placeholder="Alamat Email" value="<?= $profilSekolah['email'] ?>" />
                               </div>
                             </div>
@@ -390,11 +386,9 @@
                             <div class="form-group">
                               <label for="account-tel">Telepon</label>
                               <div class="input-group input-group-merge">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">
-                                    <i data-feather="phone" class="font-medium-2"></i>
-                                  </span>
-                                </div>
+                                <span class="input-group-text">
+                                  <i data-feather="phone" class="font-medium-2"></i>
+                                </span>
                                 <input type="text" id="account-tel" name="tel" class="form-control" placeholder="Nomor Telepon" value="<?= $profilSekolah['telepon'] ?>" />
                               </div>
                             </div>
@@ -404,11 +398,9 @@
                             <div class="form-group">
                               <label for="account-fax">Fax</label>
                               <div class="input-group input-group-merge">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">
-                                    <i data-feather="printer" class="font-medium-2"></i>
-                                  </span>
-                                </div>
+                                <span class="input-group-text">
+                                  <i data-feather="printer" class="font-medium-2"></i>
+                                </span>
                                 <input type="text" id="account-fax" name="fax" class="form-control" placeholder="Nomor Fax" value="<?= $profilSekolah['fax'] ?>" />
                               </div>
                             </div>
@@ -417,11 +409,9 @@
                             <div class="form-group">
                               <label for="account-facebook">Facebook</label>
                               <div class="input-group input-group-merge">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">
-                                    <i data-feather="facebook" class="font-medium-2"></i>
-                                  </span>
-                                </div>
+                                <span class="input-group-text">
+                                  <i data-feather="facebook" class="font-medium-2"></i>
+                                </span>
                                 <input type="text" id="account-facebook" name="facebook" class="form-control" placeholder="Link Facebook" value="<?= $profilSekolah['facebook'] ?>" />
                               </div>
                             </div>
@@ -431,11 +421,9 @@
                             <div class="form-group">
                               <label for="account-instagram">Instagram</label>
                               <div class="input-group input-group-merge">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">
-                                    <i data-feather="instagram" class="font-medium-2"></i>
-                                  </span>
-                                </div>
+                                <span class="input-group-text">
+                                  <i data-feather="instagram" class="font-medium-2"></i>
+                                </span>
                                 <input type="text" id="account-instagram" name="instagram" class="form-control" placeholder="Link Instagram" value="<?= $profilSekolah['instagram'] ?>" />
                               </div>
                             </div>
@@ -445,11 +433,9 @@
                             <div class="form-group">
                               <label for="account-youtube">YouTube</label>
                               <div class="input-group input-group-merge">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">
-                                    <i data-feather="youtube" class="font-medium-2"></i>
-                                  </span>
-                                </div>
+                                <span class="input-group-text">
+                                  <i data-feather="youtube" class="font-medium-2"></i>
+                                </span>
                                 <input type="text" id="account-youtube" name="youtube" class="form-control" placeholder="Link YouTube" value="<?= $profilSekolah['youtube'] ?>" />
                               </div>
                             </div>
@@ -459,11 +445,9 @@
                             <div class="form-group">
                               <label for="account-whatsapp">WhatsApp</label>
                               <div class="input-group input-group-merge">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text">
-                                    <i data-feather="message-circle" class="font-medium-2"></i>
-                                  </span>
-                                </div>
+                                <span class="input-group-text">
+                                  <i data-feather="message-circle" class="font-medium-2"></i>
+                                </span>
                                 <input type="text" id="account-whatsapp" name="whatsapp" class="form-control" placeholder="Link WhatsApp" value="<?= $profilSekolah['whatsapp'] ?>" />
                               </div>
                             </div>
