@@ -1,7 +1,7 @@
 <!-- BEGIN: Content-->
 <div class="app-content content">
-  <!-- <div class="content-overlay"></div> -->
-  <!-- <div class="header-navbar-shadow"></div> -->
+  <div class="content-overlay"></div>
+  <div class="header-navbar-shadow"></div>
   <div class="content-wrapper container-xxl p-0">
     <div class="content-header row">
       <div class="content-header-left col-md-9 col-8 mb-2">

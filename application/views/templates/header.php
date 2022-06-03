@@ -37,6 +37,7 @@
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/css/plugins/extensions/ext-component-sweet-alerts.min.css">
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/css/pages/page-knowledge-base.css">
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/css/plugins/forms/form-validation.css">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/css/pages/page-faq.css">
   <!-- END: Page CSS-->
 
   <!-- BEGIN: Custom CSS-->
