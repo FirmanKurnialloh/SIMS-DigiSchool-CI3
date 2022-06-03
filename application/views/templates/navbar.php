@@ -74,7 +74,7 @@
             <span class="user-status d-none d-lg-block"><?= $profilGTK['username'] ?></span>
           </div>
           <span class="avatar">
-            <?php if (file_exists(FCPATH . "assets/files/images/fotoGuru/" . $profilGTK['foto'])) { ?>
+            <?php if ($profilGTK['foto'] && file_exists(FCPATH . "assets/files/images/fotoGuru/" . $profilGTK['foto'])) { ?>
               <img class="round" src="<?= base_url('assets/'); ?>files/images/fotoGuru/<?= $profilGTK['foto']; ?>" alt="avatar" height="40" width="40">
             <?php  } else { ?>
               <img class="round" src="<?= base_url('assets/'); ?>files/images/logo/<?= $profilSekolah['logoSekolah']; ?>" alt="avatar" height="40" width="40">

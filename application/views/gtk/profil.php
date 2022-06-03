@@ -1,17 +1,3 @@
-<?php
-// var_dump($profilGTK);
-// die;
-if ($profilGTK) {
-  if ($profilGTK['jk'] == "L") {
-    $jkPanjang = "Laki - Laki";
-    $jkPanggil = "Pak";
-  } else {
-    $jkPanjang = "Perempuan";
-    $jkPanggil = "Bu";
-  }
-}
-?>
-
 <!-- BEGIN: Content-->
 <div class="app-content content">
   <!-- <div class="content-overlay"></div> -->
@@ -73,7 +59,7 @@ if ($profilGTK) {
                 <!-- header section -->
                 <div class="d-flex">
                   <a href="#" class="me-25">
-                    <?php if (file_exists(FCPATH . "assets/files/images/fotoGuru/" . $profilGTK['foto'])) { ?>
+                    <?php if ($profilGTK['foto'] && file_exists(FCPATH . "assets/files/images/fotoGuru/" . $profilGTK['foto'])) { ?>
                       <img src="<?= base_url('assets/'); ?>files/images/fotoGuru/<?= $profilGTK['foto']; ?>" id="account-upload-img" class="uploadedAvatar rounded me-50" alt="profil image" height="100" width="100" />
                     <?php  } else { ?>
                       <img src="<?= base_url('assets/'); ?>files/images/logo/pd-square.png" id="account-upload-img" class="uploadedAvatar rounded me-50" alt="profil image" height="100" width="100" />
@@ -160,6 +146,7 @@ if ($profilGTK) {
       </div>
 
     </div>
+
   </div>
 </div>
 <!-- END: Content-->
