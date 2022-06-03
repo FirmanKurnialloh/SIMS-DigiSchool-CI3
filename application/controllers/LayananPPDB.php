@@ -14,9 +14,11 @@ class LayananPPDB extends CI_Controller
 
   public function index()
   {
-    is_ppdb_active();
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    if ($data['sessionRole'] != "1") {
+      is_ppdb_active();
+    }
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();

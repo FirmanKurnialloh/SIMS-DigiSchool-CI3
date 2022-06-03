@@ -79,7 +79,9 @@
             <?php  } else { ?>
               <img class="round" src="<?= base_url('assets/'); ?>files/images/logo/<?= $profilSekolah['logoSekolah']; ?>" alt="avatar" height="40" width="40">
             <?php } ?>
-            <span class="avatar-status-online"></span>
+            <?php if ($sessionRole == "1") { ?>
+              <span class="avatar-status-online"></span>
+            <?php } ?>
           </span>
         </a>
         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">

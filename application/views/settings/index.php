@@ -7,13 +7,13 @@
       <div class="content-header-left col-md-9 col-8 mb-2">
         <div class="row breadcrumbs-top">
           <div class="col-12">
-            <h2 class="content-header-title float-start mb-0">Pengaturan Aplikasi</h2>
+            <h2 class="content-header-title float-start mb-0"><?= $page ?></h2>
             <div class="breadcrumb-wrapper">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                   <a href="<?= base_url('gtk/dashboard'); ?>">Dashboard</a>
                 </li>
-                <li class="breadcrumb-item active">Pengaturan Aplikasi</li>
+                <li class="breadcrumb-item active"><?= $page ?></li>
               </ol>
             </div>
           </div>
@@ -140,13 +140,13 @@
                         </div>
                       </div>
                     </div>
+                    <h5>
+                      <strong>
+                        Modul PPDB
+                      </strong>
+                    </h5>
                     <?php if (file_exists(APPPATH . "views/gtk/ppdb/dashboard.php") && $serverSetting['modulPPDB'] == "0") { ?>
                       <form id="formSwitchModulPPDB" method="post">
-                        <h5>
-                          <strong>
-                            PPDB
-                          </strong>
-                        </h5>
                         <div class="form-switch">
                           <input type="checkbox" class="form-check-input" id="switchModulPPDB" />
                           <input type="text" name="statusModulPPDB" id="statusModulPPDB" value="0" hidden />
@@ -155,11 +155,6 @@
                       </form>
                     <?php } elseif (file_exists(APPPATH . "views/gtk/ppdb/dashboard.php") && $serverSetting['modulPPDB']  == "1") { ?>
                       <form id="formSwitchModulPPDB" method="post">
-                        <h5>
-                          <strong>
-                            PPDB
-                          </strong>
-                        </h5>
                         <div class="form-switch">
                           <input type="checkbox" class="form-check-input" id="switchModulPPDB" checked />
                           <input type="text" name="statusModulPPDB" id="statusModulPPDB" value="1" hidden />
@@ -167,12 +162,11 @@
                         </div>
                       </form>
                     <?php } elseif (!file_exists(APPPATH . "views/gtk/ppdb/dashboard.php")) { ?>
-                      <div class="custom-control custom-control-primary custom-switch">
-                        <div>
-                          <p class="mb-50">PPDB</p>
-                          <label>Add-On Tidak Ditemukan !</label>
-                        </div>
-                      </div>
+                      <sup>Add-On Tidak Ditemukan !</sup>
+                      <a href="http://www.jayvyn-host.com/#contact" type="button" class="btn btn-md btn-flat-success">
+                        <i data-feather="cpu" class="me-25"></i>
+                        <span>Pesan Modul</span>
+                      </a>
                     <?php } ?>
                   </div>
 

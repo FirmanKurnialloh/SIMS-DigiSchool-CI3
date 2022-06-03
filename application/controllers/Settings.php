@@ -20,9 +20,10 @@ class Settings extends CI_Controller
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
     $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
+    $data['page']          = "Pengaturan Aplikasi";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
-    $this->load->view('templates/menu', $data);
+    $this->load->view('settings/menu', $data);
     $this->load->view('settings/index', $data);
     $this->load->view('templates/modal', $data);
     $this->load->view('templates/footer', $data);
@@ -66,5 +67,149 @@ class Settings extends CI_Controller
       $this->db->set('modulPPDB', '0');
       $this->db->update('setting_server');
     }
+  }
+
+  public function sekolah()
+  {
+    $data['sessionUser']   = $this->session->userdata('username');
+    $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['serverSetting'] = $this->App_model->getServerSetting();
+    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $data['tapelAktif']    = $this->App_model->getTapelAktif();
+    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
+    $data['page']          = "Profil Sekolah";
+    $this->load->view('templates/header', $data);
+    $this->load->view('templates/navbar', $data);
+    $this->load->view('settings/menu', $data);
+    $this->load->view('settings/sekolah', $data);
+    $this->load->view('templates/modal', $data);
+    $this->load->view('templates/footer', $data);
+    $this->load->view('settings/ajax', $data);
+  }
+
+  public function tapel()
+  {
+    $data['sessionUser']   = $this->session->userdata('username');
+    $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['serverSetting'] = $this->App_model->getServerSetting();
+    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $data['tapelAktif']    = $this->App_model->getTapelAktif();
+    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
+    $data['page']          = "Tahun Pelajaran";
+    $this->load->view('templates/header', $data);
+    $this->load->view('templates/navbar', $data);
+    $this->load->view('settings/menu', $data);
+    $this->load->view('settings/tapel', $data);
+    $this->load->view('templates/modal', $data);
+    $this->load->view('templates/footer', $data);
+    $this->load->view('settings/ajax', $data);
+  }
+
+  public function mapel()
+  {
+    $data['sessionUser']   = $this->session->userdata('username');
+    $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['serverSetting'] = $this->App_model->getServerSetting();
+    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $data['tapelAktif']    = $this->App_model->getTapelAktif();
+    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
+    $data['page']          = "Mata Pelajaran";
+    $this->load->view('templates/header', $data);
+    $this->load->view('templates/navbar', $data);
+    $this->load->view('settings/menu', $data);
+    $this->load->view('settings/mapel', $data);
+    $this->load->view('templates/modal', $data);
+    $this->load->view('templates/footer', $data);
+    $this->load->view('settings/ajax', $data);
+  }
+
+  public function ekskul()
+  {
+    $data['sessionUser']   = $this->session->userdata('username');
+    $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['serverSetting'] = $this->App_model->getServerSetting();
+    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $data['tapelAktif']    = $this->App_model->getTapelAktif();
+    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
+    $data['page']          = "Ekstrakurikuler";
+    $this->load->view('templates/header', $data);
+    $this->load->view('templates/navbar', $data);
+    $this->load->view('settings/menu', $data);
+    $this->load->view('settings/ekskul', $data);
+    $this->load->view('templates/modal', $data);
+    $this->load->view('templates/footer', $data);
+    $this->load->view('settings/ajax', $data);
+  }
+
+  public function kelas()
+  {
+    $data['sessionUser']   = $this->session->userdata('username');
+    $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['serverSetting'] = $this->App_model->getServerSetting();
+    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $data['tapelAktif']    = $this->App_model->getTapelAktif();
+    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
+    $data['page']          = "Kelas";
+    $this->load->view('templates/header', $data);
+    $this->load->view('templates/navbar', $data);
+    $this->load->view('settings/menu', $data);
+    $this->load->view('settings/kelas', $data);
+    $this->load->view('templates/modal', $data);
+    $this->load->view('templates/footer', $data);
+    $this->load->view('settings/ajax', $data);
+  }
+
+  public function gtk()
+  {
+    $data['sessionUser']   = $this->session->userdata('username');
+    $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['serverSetting'] = $this->App_model->getServerSetting();
+    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $data['tapelAktif']    = $this->App_model->getTapelAktif();
+    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
+    $data['page']          = "Akun GTK";
+    $this->load->view('templates/header', $data);
+    $this->load->view('templates/navbar', $data);
+    $this->load->view('settings/menu', $data);
+    $this->load->view('settings/gtk', $data);
+    $this->load->view('templates/modal', $data);
+    $this->load->view('templates/footer', $data);
+    $this->load->view('settings/ajax', $data);
+  }
+
+  public function pd()
+  {
+    $data['sessionUser']   = $this->session->userdata('username');
+    $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['serverSetting'] = $this->App_model->getServerSetting();
+    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $data['tapelAktif']    = $this->App_model->getTapelAktif();
+    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
+    $data['page']          = "Akun Peserta Didik";
+    $this->load->view('templates/header', $data);
+    $this->load->view('templates/navbar', $data);
+    $this->load->view('settings/menu', $data);
+    $this->load->view('settings/pd', $data);
+    $this->load->view('templates/modal', $data);
+    $this->load->view('templates/footer', $data);
+    $this->load->view('settings/ajax', $data);
+  }
+
+  public function db()
+  {
+    $data['sessionUser']   = $this->session->userdata('username');
+    $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['serverSetting'] = $this->App_model->getServerSetting();
+    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $data['tapelAktif']    = $this->App_model->getTapelAktif();
+    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
+    $data['page']          = "Database";
+    $this->load->view('templates/header', $data);
+    $this->load->view('templates/navbar', $data);
+    $this->load->view('settings/menu', $data);
+    $this->load->view('settings/db', $data);
+    $this->load->view('templates/modal', $data);
+    $this->load->view('templates/footer', $data);
+    $this->load->view('settings/ajax', $data);
   }
 }
