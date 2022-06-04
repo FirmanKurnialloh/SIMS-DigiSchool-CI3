@@ -53,6 +53,7 @@
 <!-- END: Page JS-->
 
 <?= $this->session->flashdata('toastr'); ?>
+<?= $this->session->flashdata('sweet'); ?>
 
 <script>
   $(window).on('load', function() {

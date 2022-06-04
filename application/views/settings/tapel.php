@@ -1,7 +1,7 @@
 <!-- BEGIN: Content-->
 <div class="app-content content">
-  <!-- <div class="content-overlay"></div> -->
-  <!-- <div class="header-navbar-shadow"></div> -->
+  <div class="content-overlay"></div>
+  <div class="header-navbar-shadow"></div>
   <div class="content-wrapper container-xxl p-0">
     <div class="content-header row">
       <div class="content-header-left col-md-9 col-8 mb-2">
@@ -34,16 +34,8 @@
 
     <div class="content-body">
 
-      <div class="row" hidden>
-        <div class=" col-12">
-          <div class="alert alert-primary" role="alert">
-            <div class="alert-body"><strong>Info:</strong></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Data Tahun Pelajaran Starts -->
-      <section id="settings">
+      <!-- Data Tahun Pelajaran Start -->
+      <section id="SettingsTahunPelajaran">
         <div class="row">
           <!-- Data Tahun Pelajaran Card -->
           <div class="col-12">
@@ -64,6 +56,9 @@
                     </div>
                     <form class="validate-form" action="<?= base_url('settings/tambahTapel'); ?>" method="POST">
                       <div class="modal-body">
+                        <div class="alert alert-primary" role="alert">
+                          <div class="alert-body"><strong>Tips: Contoh Penulisan Tahun Pelajaran : 2022/2023</strong></div>
+                        </div>
                         <!-- Tahun Pelajaran input -->
                         <div class="mb-1">
                           <label class="form-label" for="tahunInput">Tahun Pelajaran</label>
@@ -104,7 +99,7 @@
               </div>
               <!-- Modal -->
               <?php
-              $query = "SELECT * FROM `setting_tapel` ORDER BY `tapel`,`semester` ASC";
+              $query = "SELECT * FROM `setting_tapel` ORDER BY `tapel`,`semester` DESC";
               $query = $this->db->query($query);
               if ($query->num_rows() <= 0) { ?>
                 <div class="text-center">
@@ -114,13 +109,6 @@
                 </div>
               <?php } else { ?>
                 <div class="card-body">
-                  <div class="row" hidden>
-                    <div class=" col-12">
-                      <div class="alert alert-primary" role="alert">
-                        <div class="alert-body"><strong>Info: </strong></div>
-                      </div>
-                    </div>
-                  </div>
                   <table class="dataTabel table table-hover table-responsive compact text-center" style="height: 450px;">
                     <thead>
                       <tr>
@@ -167,19 +155,10 @@
                             <?php } ?>
                           </td>
                           <td>
-                            <button type="button" class="btn btn-danger btn-sm" aria-expanded="false">
+                            <button type="button" class="btn btn-danger btn-sm" aria-expanded="false" data-id="<?= $id; ?>" data-tapel="<?= $tapel; ?>" data-semester="<?= $semester; ?>" id="hapusTapel">
                               <i data-feather="trash"></i>
                               Hapus
                             </button>
-                            <div class="btn-group" hidden>
-                              <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                Kelola
-                              </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEdit<?= $id; ?>" data-id="<?= $id; ?>">Ubah</a>
-                                <a class="dropdown-item" href="#" data-id="<?= $id; ?>">Hapus</a>
-                              </div>
-                            </div>
                           </td>
                         </tr>
                       <?php } ?>
@@ -194,8 +173,7 @@
           </div>
         </div>
       </section>
-      <!-- Data Tahun Pelajaran ends -->
-
+      <!-- Data Tahun Pelajaran end -->
 
     </div>
 

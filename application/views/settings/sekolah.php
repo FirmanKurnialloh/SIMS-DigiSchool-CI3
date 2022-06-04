@@ -1,7 +1,7 @@
 <!-- BEGIN: Content-->
 <div class="app-content content">
-  <!-- <div class="content-overlay"></div> -->
-  <!-- <div class="header-navbar-shadow"></div> -->
+  <div class="content-overlay"></div>
+  <div class="header-navbar-shadow"></div>
   <div class="content-wrapper container-xxl p-0">
     <div class="content-header row">
       <div class="content-header-left col-md-9 col-8 mb-2">
@@ -34,15 +34,7 @@
 
     <div class="content-body">
 
-      <div class="row" hidden>
-        <div class=" col-12">
-          <div class="alert alert-primary" role="alert">
-            <div class="alert-body"><strong>Info:</strong></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Identitas Sekolah Starts -->
+      <!-- Identitas Sekolah Start -->
       <section id="faq-tabs">
         <!-- vertical tab pill -->
         <div class="row">
@@ -477,6 +469,7 @@
         </div>
         <!--  Identitas Sekolah Ends -->
       </section>
+
     </div>
 
   </div>
