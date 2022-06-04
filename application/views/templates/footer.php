@@ -22,6 +22,19 @@
 <script src="<?= base_url('assets/'); ?>app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
 <script src="<?= base_url('assets/'); ?>app-assets/vendors/js/forms/cleave/cleave.min.js"></script>
 <script src="<?= base_url('assets/'); ?>app-assets/vendors/js/forms/cleave/addons/cleave-phone.us.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/tables/datatable/responsive.bootstrap5.min.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/tables/datatable/datatables.checkboxes.min.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/tables/datatable/datatables.buttons.min.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/tables/datatable/jszip.min.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/tables/datatable/pdfmake.min.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/tables/datatable/vfs_fonts.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/tables/datatable/buttons.html5.min.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/tables/datatable/buttons.print.min.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/tables/datatable/dataTables.rowGroup.min.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
 <!-- BEGIN Vendor JS-->
 
 <!-- BEGIN: Page Vendor JS-->
@@ -36,6 +49,7 @@
 <script src="<?= base_url('assets/'); ?>assets/js/scripts.js"></script>
 <script src="<?= base_url('assets/'); ?>app-assets/js/scripts/pages/page-knowledge-base.js"></script>
 <script src="<?= base_url('assets/'); ?>app-assets/js/scripts/pages/page-account-settings-account.js"></script>
+<script src="<?= base_url('assets/'); ?>app-assets/js/scripts/tables/table-datatables-basic.js"></script>
 <!-- END: Page JS-->
 
 <?= $this->session->flashdata('toastr'); ?>
@@ -48,6 +62,21 @@
         height: 14
       });
     }
+
+    $('.dataTabel').DataTable({
+      "order": [
+        [0, "asc"]
+      ],
+      "autoWidth": true,
+      pageLength: 10,
+      "lengthMenu": [
+        [10, 25, 50, -1],
+        [10, 25, 50, "All"]
+      ],
+      "language": {
+        "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Indonesian.json"
+      }
+    });
   })
 </script>
 </body>

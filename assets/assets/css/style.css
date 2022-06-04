@@ -10,18 +10,18 @@ NOTE:
 PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
 body,
+nav,
+div,
+table,
 p,
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
-	/* font-size: 13px; */
+h6
+{
 	font-family: "Quicksand" !important;
-	/* line-height: 26px !important; */
-	/* color: #6c6c6c !important; */
-	/* background-color: #f0f0f0; */
 }
 
 #signature {

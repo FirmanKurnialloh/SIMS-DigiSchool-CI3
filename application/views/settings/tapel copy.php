@@ -124,10 +124,10 @@
                   <table class="dataTabel table table-hover table-responsive compact text-center" style="height: 450px;">
                     <thead>
                       <tr>
-                        <th style="width: 5%;">Tahun Pelajaran</th>
-                        <th style="width: 1%;">Semester</th>
-                        <th style="width: 1%;">Status</th>
-                        <th style="width: 1%;">Aksi</th>
+                        <th style="width: 40%;">Tahun Pelajaran</th>
+                        <th style="width: 30%;">Semester</th>
+                        <th style="width: 30%;">Status</th>
+                        <th style="width: 30%;">Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -147,37 +147,35 @@
                           </td>
                           <td>
                             <?php if ($is_aktif == "1") { ?>
-                              <form id="switchTapelForm<?= $id ?>" action="<?= base_url('settings/switchTapel') ?>" method="POST">
-                                <div class="form-switch">
-                                  <input type="checkbox" class="form-check-input" id="switchTapelButton" checked onclick="document.getElementById('switchTapelForm<?= $id ?>').submit();" />
-                                  <input type="text" name="id" value="<?= $id ?>" hidden />
-                                  <input type="text" name="is_aktif" id="switchTapelStatus" value="1" hidden />
-                                  <sub id="switchTapelLabel">Aktif</sub>
-                                </div>
-                              </form>
+                              <span class="badge badge-pill badge-light-success mr-1">Aktif</span>
                             <?php } elseif ($is_aktif == "0") { ?>
-                              <form id="switchTapelForm<?= $id ?>" action="<?= base_url('settings/switchTapel') ?>" method="POST">
-                                <div class="form-switch">
-                                  <input type="checkbox" class="form-check-input" id="switchTapelButton" onclick="document.getElementById('switchTapelForm<?= $id ?>').submit();" />
-                                  <input type="text" name="id" value="<?= $id ?>" hidden />
-                                  <input type="text" name="is_aktif" id="switchTapelStatus" value="0" hidden />
-                                  <sub id="switchTapelLabel">Tidak Aktif</sub>
-                                </div>
-                              </form>
+                              <span class="badge badge-pill badge-light-danger mr-1">Tidak Aktif</span>
                             <?php } ?>
                           </td>
                           <td>
-                            <button type="button" class="btn btn-danger btn-sm" aria-expanded="false">
-                              <i data-feather="trash"></i>
-                              Hapus
-                            </button>
-                            <div class="btn-group" hidden>
+                            <div class="btn-group">
                               <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 Kelola
                               </button>
                               <div class="dropdown-menu">
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#modalEdit<?= $id; ?>" data-id="<?= $id; ?>">Ubah</a>
                                 <a class="dropdown-item" href="#" data-id="<?= $id; ?>">Hapus</a>
+                              </div>
+                            </div>
+
+                            <div class="dropdown" hidden>
+                              <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
+                                <i data-feather="more-vertical"></i>
+                              </button>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" href="javascript:void(0)" data-id="<?= $id; ?>" id="ubahDataTahunPelajaran" data-toggle="modal" data-target="#modalEdit<?= $id; ?>">
+                                  <i data-feather="edit-2" class="mr-50"></i>
+                                  <span>Ubah</span>
+                                </a>
+                                <a class="dropdown-item" href="javascript:void(0)" data-id="<?= $id; ?>" id="hapusDataTahunPelajaran">
+                                  <i data-feather="trash" class="mr-50"></i>
+                                  <span>Hapus</span>
+                                </a>
                               </div>
                             </div>
                           </td>

@@ -12,7 +12,8 @@
   <title><?= $serverSetting['namaAplikasi'] . ' ' . $profilSekolah['namaSekolah']; ?></title>
   <link rel="apple-touch-icon" href="<?= base_url('assets/'); ?>files/images/logo/<?= $profilSekolah['logoSekolah']; ?>">
   <link rel="shortcut icon" type="image/x-icon" href="<?= base_url('assets/'); ?>files/images/logo/<?= $profilSekolah['logoSekolah']; ?>">
-  <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
+  <!-- <link href="https://fonts.googleapis.com/css?family=Quicksand:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet"> -->
 
   <!-- BEGIN: Vendor CSS-->
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/vendors/css/vendors.min.css">
@@ -20,6 +21,11 @@
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/vendors/css/extensions/sweetalert2.min.css">
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/vendors/css/forms/select/select2.min.css">
   <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/vendors/css/animate/animate.min.css">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/vendors/css/tables/datatable/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/vendors/css/tables/datatable/responsive.bootstrap5.min.css">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/vendors/css/tables/datatable/buttons.bootstrap5.min.css">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/vendors/css/tables/datatable/rowGroup.bootstrap5.min.css">
+  <link rel="stylesheet" type="text/css" href="<?= base_url('assets/'); ?>app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
   <!-- END: Vendor CSS-->
 
   <!-- BEGIN: Theme CSS-->

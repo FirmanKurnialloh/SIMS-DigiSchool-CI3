@@ -105,6 +105,114 @@ class Settings extends CI_Controller
     $this->load->view('settings/ajax', $data);
   }
 
+  public function tambahTapel()
+  {
+    $data = [
+      'tapel'         => htmlspecialchars($this->input->post('tapel', true)),
+      'semester'      => htmlspecialchars($this->input->post('semester', true)),
+      'is_aktif'      => htmlspecialchars($this->input->post('is_aktif', true)),
+    ];
+    $checkData        = $this->db->get_where('setting_tapel', ['tapel' => $data['tapel'], 'semester' => $data['semester']]);
+    if ($checkData->num_rows() == "0") {
+      if ($data['is_aktif'] == "1") {
+        $query = "UPDATE `setting_tapel` SET `is_aktif` = '0'";
+        $this->db->query($query);
+      }
+      $this->db->insert('setting_tapel', $data);
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['success'](
+            'Tahun Pelajaran Ditambahkan !',
+            'Berhasil !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+      redirect(base_url('settings/tapel'));
+    } elseif ($checkData->num_rows() == "1") {
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['error'](
+            'Tahun Pelajaran Sudah Tersedia !',
+            'Gagal !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+      redirect(base_url('settings/tapel'));
+    }
+  }
+
+  public function switchTapel()
+  {
+    $data = [
+      'id'         => htmlspecialchars($this->input->post('id', true)),
+      'is_aktif'   => htmlspecialchars($this->input->post('is_aktif', true)),
+    ];
+    $checkData     = $this->db->get_where('setting_tapel', ['id' => $data['id']]);
+    var_dump($_POST);
+    if ($checkData->num_rows() == "1") {
+      if ($data['is_aktif'] == "0") {
+        $query = "UPDATE `setting_tapel` SET `is_aktif` = '0'";
+        $this->db->query($query);
+        $this->db->set('is_aktif', '1');
+        $this->db->where('id', $data['id']);
+        $this->db->update('setting_tapel');
+      } else {
+        $query = "UPDATE `setting_tapel` SET `is_aktif` = '0'";
+        $this->db->query($query);
+        $this->db->set('is_aktif', '0');
+        $this->db->where('id', $data['id']);
+        $this->db->update('setting_tapel');
+      }
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['success'](
+            'Tahun Pelajaran Diaktifkan !',
+            'Berhasil !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+      redirect(base_url('settings/tapel'));
+    } elseif ($checkData->num_rows() == "0") {
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['error'](
+            'Tahun Pelajaran Tidak Tersedia !',
+            'Gagal !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+      redirect(base_url('settings/tapel'));
+    }
+  }
+
+  public function deleteTapel()
+  {
+  }
+
   public function mapel()
   {
     $data['sessionUser']   = $this->session->userdata('username');
