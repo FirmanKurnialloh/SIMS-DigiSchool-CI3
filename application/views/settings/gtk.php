@@ -34,14 +34,18 @@
 
     <div class="content-body">
 
-      <div class="row" hidden>
-        <div class=" col-12">
-          <div class="alert alert-primary" role="alert">
-            <div class="alert-body"><strong>Info:</strong></div>
+
+      <!-- Data Akun GTK Start -->
+      <section id="gtkPage">
+        <div class='card card-body'>
+          <div class='text-center'>
+            <img src='<?= base_url('assets/'); ?>files/images/logo/page-loader-2.gif' width='300px' />
+            <h1 class='text-center font-400'>Harap Tunggu, Sistem Sedang Mencari Data ...</h1>
+            <p class='text-center'>Jika proses ini memakan waktu yang cukup lama, silahkan periksa koneksi internet anda dan gunakan Google Chrome Terbaru !</p>
           </div>
         </div>
-      </div>
-
+      </section>
+      <!-- Data Akun GTK end -->
 
     </div>
 

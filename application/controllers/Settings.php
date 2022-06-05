@@ -30,6 +30,13 @@ class Settings extends CI_Controller
     $this->load->view('settings/ajax', $data);
   }
 
+  function sekolahLoad()
+  {
+    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $page = $this->input->post("page");
+    $this->load->view($page, $data);
+  }
+
   public function swtichServerGuru()
   {
     $checkServerGTK = $this->App_model->getServerSetting();
@@ -103,6 +110,18 @@ class Settings extends CI_Controller
     $this->load->view('templates/modal', $data);
     $this->load->view('templates/footer', $data);
     $this->load->view('settings/ajax', $data);
+  }
+
+  function tapelLoad()
+  {
+    $data['sessionUser']   = $this->session->userdata('username');
+    $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['serverSetting'] = $this->App_model->getServerSetting();
+    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $data['tapelAktif']    = $this->App_model->getTapelAktif();
+    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
+    $page = $this->input->post("page");
+    $this->load->view($page, $data);
   }
 
   public function tambahTapel()
@@ -261,6 +280,18 @@ class Settings extends CI_Controller
     $this->load->view('settings/ajax', $data);
   }
 
+  function mapelLoad()
+  {
+    $data['sessionUser']   = $this->session->userdata('username');
+    $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['serverSetting'] = $this->App_model->getServerSetting();
+    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $data['tapelAktif']    = $this->App_model->getTapelAktif();
+    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
+    $page = $this->input->post("page");
+    $this->load->view($page, $data);
+  }
+
   public function tambahMapel()
   {
     $data = [
@@ -342,6 +373,18 @@ class Settings extends CI_Controller
     $this->load->view('settings/ajax', $data);
   }
 
+  function ekskulLoad()
+  {
+    $data['sessionUser']   = $this->session->userdata('username');
+    $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['serverSetting'] = $this->App_model->getServerSetting();
+    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $data['tapelAktif']    = $this->App_model->getTapelAktif();
+    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
+    $page = $this->input->post("page");
+    $this->load->view($page, $data);
+  }
+
   public function tambahEkskul()
   {
     $data = [
@@ -421,6 +464,81 @@ class Settings extends CI_Controller
     $this->load->view('settings/ajax', $data);
   }
 
+  function kelasLoad()
+  {
+    $data['sessionUser']   = $this->session->userdata('username');
+    $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['serverSetting'] = $this->App_model->getServerSetting();
+    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $data['tapelAktif']    = $this->App_model->getTapelAktif();
+    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
+    $page = $this->input->post("page");
+    $this->load->view($page, $data);
+  }
+
+  public function tambahKelas()
+  {
+    $data = [
+      'level'         => htmlspecialchars($this->input->post('level', true)),
+      'jurusan'       => htmlspecialchars($this->input->post('jurusan', true)),
+      'kelas'         => htmlspecialchars($this->input->post('kelas', true)),
+    ];
+    $checkData        = $this->db->get_where('setting_kelas', ['kelas' => $data['kelas']]);
+    if ($checkData->num_rows() == "0") {
+      $this->db->insert('setting_kelas', $data);
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['success'](
+            'Kelas " .  $data['kelas'] . " Di Tambahkan !',
+            'Berhasil !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+    } elseif ($checkData->num_rows() == "1") {
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['error'](
+            'Kelas " .  $data['kelas'] . " Sudah Tersedia !',
+            'Gagal !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+    }
+    redirect(base_url('settings/kelas'));
+  }
+
+  public function deleteKelas()
+  {
+    $data = [
+      'id'         => htmlspecialchars($this->input->post('id', true)),
+      'kelas'      => htmlspecialchars($this->input->post('kelas', true)),
+    ];
+    $checkData     = $this->db->get_where('setting_kelas', ['id' => $data['id']]);
+    if ($checkData->num_rows() == "1") {
+      $this->db->delete('setting_kelas', array('id' => $data['id']));
+      $response['status']   = 'success';
+      $response['judul']    = 'Berhasil !';
+      $response['pesan']    = 'Kelas ' . $data['kelas'] . ' Telah Dihapus!';
+    } elseif ($checkData->num_rows() == "0") {
+      $response['status']   = 'error';
+      $response['judul']    = 'Gagal !';
+      $response['pesan']    = 'Kelas ' . $data['kelas'] . ' Tidak Ditemukan!';
+    }
+    echo json_encode($response);
+  }
+
   public function gtk()
   {
     $data['sessionUser']   = $this->session->userdata('username');
@@ -437,6 +555,18 @@ class Settings extends CI_Controller
     $this->load->view('templates/modal', $data);
     $this->load->view('templates/footer', $data);
     $this->load->view('settings/ajax', $data);
+  }
+
+  function gtkLoad()
+  {
+    $data['sessionUser']   = $this->session->userdata('username');
+    $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['serverSetting'] = $this->App_model->getServerSetting();
+    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $data['tapelAktif']    = $this->App_model->getTapelAktif();
+    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
+    $page = $this->input->post("page");
+    $this->load->view($page, $data);
   }
 
   public function pd()
@@ -457,6 +587,18 @@ class Settings extends CI_Controller
     $this->load->view('settings/ajax', $data);
   }
 
+  function pdLoad()
+  {
+    $data['sessionUser']   = $this->session->userdata('username');
+    $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['serverSetting'] = $this->App_model->getServerSetting();
+    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $data['tapelAktif']    = $this->App_model->getTapelAktif();
+    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
+    $page = $this->input->post("page");
+    $this->load->view($page, $data);
+  }
+
   public function db()
   {
     $data['sessionUser']   = $this->session->userdata('username');
@@ -473,5 +615,17 @@ class Settings extends CI_Controller
     $this->load->view('templates/modal', $data);
     $this->load->view('templates/footer', $data);
     $this->load->view('settings/ajax', $data);
+  }
+
+  function dbLoad()
+  {
+    $data['sessionUser']   = $this->session->userdata('username');
+    $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['serverSetting'] = $this->App_model->getServerSetting();
+    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $data['tapelAktif']    = $this->App_model->getTapelAktif();
+    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
+    $page = $this->input->post("page");
+    $this->load->view($page, $data);
   }
 }

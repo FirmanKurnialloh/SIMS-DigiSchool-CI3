@@ -1,6 +1,6 @@
 <script>
   $("#loginNISN").bind('paste change input', function() {
-    $("#data-pd").html("<div class='card shadow-none bg-transparent border-primary'><div class='card-body'><img src='<?= base_url('assets/'); ?>files/images/logo/page-loader-new.gif' width='150px' /><h4 class='card-title'>Harap Tunggu, Sistem Sedang Mencari Data ...</h4><p class='card-text'>Jika proses ini memakan waktu yang cukup lama, silahakan periksa koneksi internet dan gunakan Google Chrome Terbaru !</p></div></div>");
+    $("#data-pd").html("<div class='card shadow-none bg-transparent border-primary'><div class='card-body'><img src='<?= base_url('assets/'); ?>files/images/logo/page-loader-2.gif' width='150px' /><h4 class='card-title'>Harap Tunggu, Sistem Sedang Mencari Data ...</h4><p class='card-text'>Jika proses ini memakan waktu yang cukup lama, silahakan periksa koneksi internet dan gunakan Google Chrome Terbaru !</p></div></div>");
 
     var nisn = $("#loginNISN").val();
 
@@ -16,7 +16,7 @@
   });
 
   $("#tanggalLahirConfirmLogin").bind('change', function() {
-    $("#data-pd").html("<img src='<?= base_url('assets/'); ?>files/images/logo/page-loader-new.gif' width='150px' /><h4 class='card-title'>Harap Tunggu, Sistem Sedang Mencari Data ...</h4><p class='card-text'>Jika proses ini memakan waktu yang cukup lama, silahakan periksa koneksi internet dan gunakan Google Chrome Terbaru !</p>");
+    $("#data-pd").html("<img src='<?= base_url('assets/'); ?>files/images/logo/page-loader-2.gif' width='150px' /><h4 class='card-title'>Harap Tunggu, Sistem Sedang Mencari Data ...</h4><p class='card-text'>Jika proses ini memakan waktu yang cukup lama, silahakan periksa koneksi internet dan gunakan Google Chrome Terbaru !</p>");
 
     var tanggalLahirConfirmLogin = $("#tanggalLahirConfirmLogin").val();
 

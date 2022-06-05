@@ -1,7 +1,7 @@
 <!-- BEGIN: Content-->
 <div class="app-content content">
-  <!-- <div class="content-overlay"></div> -->
-  <!-- <div class="header-navbar-shadow"></div> -->
+  <div class="content-overlay"></div>
+  <div class="header-navbar-shadow"></div>
   <div class="content-wrapper container-xxl p-0">
     <div class="content-header row">
       <div class="content-header-left col-md-9 col-8 mb-2">
@@ -34,14 +34,17 @@
 
     <div class="content-body">
 
-      <div class="row" hidden>
-        <div class=" col-12">
-          <div class="alert alert-primary" role="alert">
-            <div class="alert-body"><strong>Info:</strong></div>
+      <!-- Data Kelas Start -->
+      <section id="kelasPage">
+        <div class='card card-body'>
+          <div class='text-center'>
+            <img src='<?= base_url('assets/'); ?>files/images/logo/page-loader-2.gif' width='300px' />
+            <h1 class='text-center font-400'>Harap Tunggu, Sistem Sedang Mencari Data ...</h1>
+            <p class='text-center'>Jika proses ini memakan waktu yang cukup lama, silahkan periksa koneksi internet anda dan gunakan Google Chrome Terbaru !</p>
           </div>
         </div>
-      </div>
-
+      </section>
+      <!-- Data Kelas end -->
 
     </div>
 

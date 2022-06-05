@@ -1,4 +1,128 @@
 <script>
+  $(document).ready(function() {
+    sekolahLoad();
+    tapelLoad();
+    mapelLoad();
+    ekskulLoad();
+    kelasLoad();
+    gtkLoad();
+    pdLoad();
+    dbLoad();
+
+    function sekolahLoad() {
+      $.ajax({
+        cache: false,
+        url: "<?= base_url('settings/sekolahLoad') ?>",
+        type: "POST",
+        data: {
+          page: "settings/sekolahLoad"
+        },
+        success: function(data) {
+          $("#sekolahPage").html(data);
+        }
+      });
+    }
+
+    function tapelLoad() {
+      $.ajax({
+        cache: false,
+        url: "<?= base_url('settings/tapelLoad') ?>",
+        type: "POST",
+        data: {
+          page: "settings/tapelLoad"
+        },
+        success: function(data) {
+          $("#tapelPage").html(data);
+        }
+      });
+    }
+
+    function mapelLoad() {
+      $.ajax({
+        cache: false,
+        url: "<?= base_url('settings/mapelLoad') ?>",
+        type: "POST",
+        data: {
+          page: "settings/mapelLoad"
+        },
+        success: function(data) {
+          $("#mapelPage").html(data);
+        }
+      });
+    }
+
+    function ekskulLoad() {
+      $.ajax({
+        cache: false,
+        url: "<?= base_url('settings/ekskulLoad') ?>",
+        type: "POST",
+        data: {
+          page: "settings/ekskulLoad"
+        },
+        success: function(data) {
+          $("#ekskulPage").html(data);
+        }
+      });
+    }
+
+    function kelasLoad() {
+      $.ajax({
+        cache: false,
+        url: "<?= base_url('settings/kelasLoad') ?>",
+        type: "POST",
+        data: {
+          page: "settings/kelasLoad"
+        },
+        success: function(data) {
+          $("#kelasPage").html(data);
+        }
+      });
+    }
+
+    function gtkLoad() {
+      $.ajax({
+        cache: false,
+        url: "<?= base_url('settings/gtkLoad') ?>",
+        type: "POST",
+        data: {
+          page: "settings/gtkLoad"
+        },
+        success: function(data) {
+          $("#gtkPage").html(data);
+        }
+      });
+    }
+
+    function pdLoad() {
+      $.ajax({
+        cache: false,
+        url: "<?= base_url('settings/pdLoad') ?>",
+        type: "POST",
+        data: {
+          page: "errors/custom/soon"
+        },
+        success: function(data) {
+          $("#pdPage").html(data);
+        }
+      });
+    }
+
+    function dbLoad() {
+      $.ajax({
+        cache: false,
+        url: "<?= base_url('settings/dbLoad') ?>",
+        type: "POST",
+        data: {
+          page: "errors/custom/soon"
+        },
+        success: function(data) {
+          $("#dbPage").html(data);
+        }
+      });
+    }
+
+  });
+
   $("#serverGuruSwitch").click(function() {
     var formServerGuru = $('#formSwitchServerGuru').serialize();
     var statusServerGuru = document.getElementById("statusServerGuru").value;
@@ -303,6 +427,74 @@
                 icon: 'error',
                 title: 'Terdapat Kesalahan Sistem!',
                 text: 'Ekstrakurikuler  ' + ekskul + ' Gagal Dihapus!',
+                allowOutsideClick: false,
+                customClass: {
+                  confirmButton: 'btn btn-danger btn-sm'
+                }
+              }).then(function(result) {
+                if (result.value) {
+                  location.reload()
+                }
+              })
+            });
+        });
+      },
+    });
+
+  }
+
+  $(document).on('click', '#hapusKelas', function(e) {
+    var id = $(this).data('id');
+    var kelas = $(this).data('kelas');
+    SwalDeleteKelas(id, kelas);
+    e.preventDefault();
+  });
+
+  function SwalDeleteKelas(id, kelas) {
+
+    Swal.fire({
+      title: 'Anda Yakin Ingin Menghapus Kelas ' + kelas + ' ? ',
+      text: "Anda tidak dapat mengembalikan data yang dihapus!",
+      icon: 'question',
+      allowOutsideClick: false,
+      showCancelButton: true,
+      confirmButtonText: 'Ya, hapus data!',
+      cancelButtonText: 'Batalkan!',
+      customClass: {
+        confirmButton: 'btn btn-primary btn-sm',
+        cancelButton: 'btn btn-outline-danger btn-sm ms-1'
+      },
+      buttonsStyling: false,
+      preConfirm: function() {
+        return new Promise(function(resolve) {
+          $.ajax({
+              type: 'POST',
+              url: '<?= base_url('settings/deleteKelas'); ?>',
+              data: 'id=' + id + '&kelas=' + kelas,
+              dataType: 'json',
+              cache: false,
+            })
+            .done(function(response) {
+              Swal.fire({
+                  icon: response.status,
+                  title: response.judul,
+                  text: response.pesan,
+                  allowOutsideClick: false,
+                  customClass: {
+                    confirmButton: 'btn btn-success btn-sm'
+                  }
+                })
+                .then(function(result) {
+                  if (result.value) {
+                    location.reload()
+                  }
+                })
+            })
+            .fail(function(response) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Terdapat Kesalahan Sistem!',
+                text: 'Kelas  ' + kelas + ' Gagal Dihapus!',
                 allowOutsideClick: false,
                 customClass: {
                   confirmButton: 'btn btn-danger btn-sm'
