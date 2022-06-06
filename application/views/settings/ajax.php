@@ -510,4 +510,139 @@
     });
 
   }
+
+  $(document).on('click', '#resetPassGTK', function(e) {
+    var id = $(this).data('id');
+    var username = $(this).data('username');
+    SwalResetPassGTK(id, username);
+    e.preventDefault();
+  });
+
+  function SwalResetPassGTK(id, username) {
+
+    Swal.fire({
+      title: 'Anda yakin ingin mereset password akun dengan username ' + username + ' ? ',
+      text: "Password akan direset menjadi password default! #MerdekaBelajar!",
+      icon: 'question',
+      allowOutsideClick: false,
+      showCancelButton: true,
+      confirmButtonText: 'Ya, Reset Password!',
+      cancelButtonText: 'Batalkan!',
+      customClass: {
+        confirmButton: 'btn btn-primary btn-sm',
+        cancelButton: 'btn btn-outline-danger btn-sm ms-1'
+      },
+      buttonsStyling: false,
+      preConfirm: function() {
+        return new Promise(function(resolve) {
+          $.ajax({
+              type: 'POST',
+              url: '<?= base_url('settings/resetAkunGTK'); ?>',
+              data: 'id=' + id + '&username=' + username,
+              dataType: 'json',
+              cache: false,
+            })
+            .done(function(response) {
+              Swal.fire({
+                  icon: response.status,
+                  title: response.judul,
+                  text: response.pesan,
+                  allowOutsideClick: false,
+                  customClass: {
+                    confirmButton: 'btn btn-success btn-sm'
+                  }
+                })
+                .then(function(result) {
+                  if (result.value) {
+                    location.reload()
+                  }
+                })
+            })
+            .fail(function(response) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Terdapat Kesalahan Sistem!',
+                text: 'Password akun dengan username  ' + username + ' Gagal Direset !',
+                allowOutsideClick: false,
+                customClass: {
+                  confirmButton: 'btn btn-danger btn-sm'
+                }
+              }).then(function(result) {
+                if (result.value) {
+                  location.reload()
+                }
+              })
+            });
+        });
+      },
+    });
+
+  }
+
+  $(document).on('click', '#hapusAkunGTK', function(e) {
+    var username = $(this).data('username');
+    SwalDeleteAkunGTK(username);
+    e.preventDefault();
+  });
+
+  function SwalDeleteAkunGTK(username) {
+
+    Swal.fire({
+      title: 'Anda Yakin Ingin Menghapus Akun Dengan Username ' + username + ' ? ',
+      text: "Anda tidak dapat mengembalikan data yang dihapus!",
+      icon: 'question',
+      allowOutsideClick: false,
+      showCancelButton: true,
+      confirmButtonText: 'Ya, hapus data!',
+      cancelButtonText: 'Batalkan!',
+      customClass: {
+        confirmButton: 'btn btn-primary btn-sm',
+        cancelButton: 'btn btn-outline-danger btn-sm ms-1'
+      },
+      buttonsStyling: false,
+      preConfirm: function() {
+        return new Promise(function(resolve) {
+          $.ajax({
+              type: 'POST',
+              url: '<?= base_url('settings/deleteAkunGTK'); ?>',
+              data: '&username=' + username,
+              dataType: 'json',
+              cache: false,
+            })
+            .done(function(response) {
+              Swal.fire({
+                  icon: response.status,
+                  title: response.judul,
+                  text: response.pesan,
+                  allowOutsideClick: false,
+                  customClass: {
+                    confirmButton: 'btn btn-success btn-sm'
+                  }
+                })
+                .then(function(result) {
+                  if (result.value) {
+                    location.reload()
+                  }
+                })
+            })
+            .fail(function(response) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Terdapat Kesalahan Sistem!',
+                text: 'Akun dengan username  ' + username + ' Gagal Dihapus!',
+                allowOutsideClick: false,
+                customClass: {
+                  confirmButton: 'btn btn-danger btn-sm'
+                }
+              }).then(function(result) {
+                if (result.value) {
+                  location.reload()
+                }
+              })
+            });
+        });
+      },
+    });
+
+  }
 </script>

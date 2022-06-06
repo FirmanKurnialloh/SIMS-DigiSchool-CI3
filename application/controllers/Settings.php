@@ -569,6 +569,201 @@ class Settings extends CI_Controller
     $this->load->view($page, $data);
   }
 
+  public function tambahAkunGTK()
+  {
+    $dataUser = [
+      'username'         => htmlspecialchars($this->input->post('username', true)),
+      'password'         => password_hash('#MerdekaBelajar!', PASSWORD_DEFAULT),
+      'role_id'          => htmlspecialchars($this->input->post('hakAkses', true)),
+      'is_active'        => htmlspecialchars($this->input->post('is_aktif', true)),
+    ];
+    $dataProfile = [
+      'username'         => htmlspecialchars($this->input->post('username', true)),
+      'namaLengkap'      => htmlspecialchars($this->input->post('namaLengkap', true)),
+      'namaPanggil'      => htmlspecialchars($this->input->post('namaPanggil', true)),
+      'gelarDepan'       => htmlspecialchars($this->input->post('gelarDepan', true)),
+      'gelarBelakang'    => htmlspecialchars($this->input->post('gelarBelakang', true)),
+      'jk'               => htmlspecialchars($this->input->post('jenisKelamin', true)),
+    ];
+    $checkDataUser       = $this->db->get_where('user', ['username' => $dataUser['username']]);
+    $checkDataProfile    = $this->db->get_where('profil_gtk', ['username' => $dataProfile['username']]);
+    if ($checkDataUser->num_rows() == "0" && $checkDataProfile->num_rows() == "0") {
+      $this->db->insert('user', $dataUser);
+      $this->db->insert('profil_gtk', $dataProfile);
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['success'](
+            'Akun " .  $dataUser['username'] . " Di Tambahkan !',
+            'Berhasil !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+    } elseif ($checkDataProfile->num_rows() == "1" && $checkDataProfile->num_rows() == "1") {
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['error'](
+            'Akun " .  $dataUser['username'] . " Sudah Tersedia !',
+            'Gagal !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+    }
+    redirect(base_url('settings/gtk'));
+  }
+
+  public function deleteAkunGTK()
+  {
+    $data = [
+      'username'   => htmlspecialchars($this->input->post('username', true)),
+    ];
+    $checkSession        = $this->session->userdata('username');
+    $checkDataUser       = $this->db->get_where('user', ['username' => $data['username']]);
+    $checkDataProfile    = $this->db->get_where('profil_gtk', ['username' => $data['username']]);
+    if ($checkSession != $data['username']) {
+      if ($checkDataUser->num_rows() == "1" && $checkDataProfile->num_rows() == "1") {
+        $this->db->delete('user', array('username' => $data['username']));
+        $this->db->delete('profil_gtk', array('username' => $data['username']));
+        $response['status']   = 'success';
+        $response['judul']    = 'Berhasil !';
+        $response['pesan']    = 'Akun ' . $data['username'] . ' Telah Dihapus!';
+      } elseif ($checkDataProfile->num_rows() == "0" && $checkDataProfile->num_rows() == "0") {
+        $response['status']   = 'error';
+        $response['judul']    = 'Gagal !';
+        $response['pesan']    = 'Akun ' . $data['username'] . ' Tidak Ditemukan!';
+      }
+    } else {
+      $response['status']   = 'error';
+      $response['judul']    = 'Gagal !';
+      $response['pesan']    = 'Akun ' . $data['username'] . ' Sedang Aktif!';
+    }
+    echo json_encode($response);
+  }
+
+  public function resetAkunGTK()
+  {
+    $data = [
+      'username'         => htmlspecialchars($this->input->post('username', true)),
+      'password'         => password_hash('#MerdekaBelajar!', PASSWORD_DEFAULT),
+    ];
+    $checkSession        = $this->session->userdata('username');
+    $checkDataUser       = $this->db->get_where('user', ['username' => $data['username']]);
+    $checkDataProfile    = $this->db->get_where('profil_gtk', ['username' => $data['username']]);
+    if ($checkSession != $data['username']) {
+      if ($checkDataUser->num_rows() == "1" && $checkDataProfile->num_rows() == "1") {
+        $this->db->set('password', $data['password']);
+        $this->db->where('username', $data['username']);
+        $this->db->update('user');
+        $response['status']   = 'success';
+        $response['judul']    = 'Berhasil !';
+        $response['pesan']    = 'Akun ' . $data['username'] . ' Telah Direset!';
+      } elseif ($checkDataProfile->num_rows() == "0" && $checkDataProfile->num_rows() == "0") {
+        $response['status']   = 'error';
+        $response['judul']    = 'Gagal !';
+        $response['pesan']    = 'Akun ' . $data['username'] . ' Tidak Ditemukan!';
+      }
+    } else {
+      $response['status']   = 'error';
+      $response['judul']    = 'Gagal !';
+      $response['pesan']    = 'Akun ' . $data['username'] . ' Sedang Aktif!';
+    }
+    echo json_encode($response);
+  }
+
+  public function switchActivateGTK()
+  {
+    $data = [
+      'username'   => htmlspecialchars($this->input->post('username', true)),
+      'is_aktif'   => htmlspecialchars($this->input->post('is_aktif', true)),
+    ];
+    $checkData     = $this->db->get_where('user', ['username' => $data['username']]);
+    $row           = $checkData->row_array();
+    $checkSession  = $this->session->userdata('username');
+    if ($checkSession != $row['username']) {
+      if ($checkData->num_rows() == "1") {
+        if ($row['is_active'] == "1") {
+          $this->db->set('is_active', '0');
+          $this->db->where('username', $data['username']);
+          $this->db->update('user');
+          $this->session->set_flashdata('toastr', "
+          <script>
+          $(window).on('load', function() {
+            setTimeout(function() {
+              toastr['success'](
+                'Akun " .  $row['username'] . " Di Non-Aktifkan !',
+                'Berhasil !', {
+                  closeButton: true,
+                  tapToDismiss: true
+                }
+              );
+            }, 0);
+          })
+          </script>");
+        } else {
+          $this->db->set('is_active', '1');
+          $this->db->where('username', $data['username']);
+          $this->db->update('user');
+          $this->session->set_flashdata('toastr', "
+          <script>
+          $(window).on('load', function() {
+            setTimeout(function() {
+              toastr['success'](
+                'Akun " .  $row['username'] . " Di Aktifkan !',
+                'Berhasil !', {
+                  closeButton: true,
+                  tapToDismiss: true
+                }
+              );
+            }, 0);
+          })
+          </script>");
+        }
+      } elseif ($checkData->num_rows() == "0") {
+        $this->session->set_flashdata('toastr', "
+        <script>
+        $(window).on('load', function() {
+          setTimeout(function() {
+            toastr['error'](
+              'Akun " .  $row['username'] . " Tidak Tersedia !',
+              'Gagal !', {
+                closeButton: true,
+                tapToDismiss: true
+              }
+            );
+          }, 0);
+        })
+        </script>");
+      }
+    } else {
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['error'](
+            'Akun " .  $row['username'] . " Sedang Aktif !',
+            'Gagal !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+    }
+    redirect(base_url('settings/gtk'));
+  }
+
   public function pd()
   {
     $data['sessionUser']   = $this->session->userdata('username');

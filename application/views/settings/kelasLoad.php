@@ -152,4 +152,15 @@
       "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Indonesian.json"
     }
   });
+
+  var select2 = $('.select2');
+  if (select2.length) {
+    select2.each(function() {
+      var $this = $(this);
+      $this.wrap('<div class="position-relative"></div>');
+      $this.select2({
+        dropdownParent: $this.parent()
+      });
+    });
+  }
 </script>

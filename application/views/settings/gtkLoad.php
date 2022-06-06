@@ -95,6 +95,18 @@
                   </div>
                 </div>
                 <div class="modal-footer">
+                  <!-- Aktif input -->
+                  <div class="mb-0">
+                    <label>Aktifkan? &nbsp;</label>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="aktif1" value="1" name="is_aktif" required />
+                      <label class="form-check-label" for="aktif1">Ya</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="aktif0" value="0" name="is_aktif" required />
+                      <label class="form-check-label" for="aktif0">Tidak</label>
+                    </div>
+                  </div>
                   <button type="submit" class="btn btn-sm btn-primary">Tambah Data</button>
                   <button type="reset" class="btn btn-sm btn-outline-secondary">Reset</button>
                 </div>
@@ -105,7 +117,7 @@
       </div>
       <!-- Modal -->
       <?php
-      $query = "SELECT * FROM `user` JOIN `profil_gtk` ON `user`.`username` ORDER BY `user`.`id` ASC";
+      $query = "SELECT * FROM `user` JOIN `profil_gtk` ON `user`.`username` = `profil_gtk`.`username` ORDER BY `profil_gtk`.`namaLengkap` ASC";
       $query = $this->db->query($query);
       if ($query->num_rows() <= 0) { ?>
         <div class="text-center">
@@ -120,6 +132,7 @@
               <tr>
                 <th style="width: 5%;">Username</th>
                 <th style="width: 5%;">Nama GTK</th>
+                <th style="width: 5%;">Status</th>
                 <th style="width: 5%;">Aksi</th>
               </tr>
             </thead>
@@ -131,6 +144,7 @@
                 $namaLengkap   = $i['namaLengkap'];
                 $gelarDepan    = $i['gelarDepan'];
                 $gelarBelakang = $i['gelarBelakang'];
+                $is_active     = $i['is_active'];
               ?>
                 <tr>
                   <td>
@@ -140,15 +154,36 @@
                     <span class="font-weight-bold"><?= $gelarDepan . ' ' . $namaLengkap . ', ' . $gelarBelakang ?></span>
                   </td>
                   <td>
-                    <button type="button" class="btn btn-primary btn-sm" aria-expanded="false" data-id="<?= $id; ?>" data-username="<?= $username; ?>" id="lihatProfil">
+                    <?php if ($is_active == "0") { ?>
+                      <form id="switchActivateGTKForm<?= $id ?>" action="<?= base_url('settings/switchActivateGTK') ?>" method="POST">
+                        <div class="form-switch">
+                          <input type="checkbox" class="form-check-input" id="switchActivateGTK" onclick="document.getElementById('switchActivateGTKForm<?= $id ?>').submit();" />
+                          <input type="text" name="username" value="<?= $username ?>" hidden />
+                          <input type="text" name="is_aktif" id="statusActivateGTK" value="0" hidden />
+                          <sub id="LabelswitchActivateGTK">Tidak Aktif</sub>
+                        </div>
+                      </form>
+                    <?php } elseif ($is_active == "1") { ?>
+                      <form id="switchActivateGTKForm<?= $id ?>" action="<?= base_url('settings/switchActivateGTK') ?>" method="POST">
+                        <div class="form-switch">
+                          <input type="checkbox" class="form-check-input" id="switchActivateGTK" checked onclick="document.getElementById('switchActivateGTKForm<?= $id ?>').submit();" />
+                          <input type="text" name="username" value="<?= $username ?>" hidden />
+                          <input type="text" name="is_aktif" id="statusActivateGTK" value="1" hidden />
+                          <sub id="LabelswitchActivateGTK">Aktif</sub>
+                        </div>
+                      </form>
+                    <?php } ?>
+                  </td>
+                  <td>
+                    <a hidden href="<?= base_url('gtk/profil/view/') . $username; ?>" type="button" class="btn btn-primary btn-sm" aria-expanded="false" data-username="<?= $username; ?>" id="lihatProfil">
                       <i data-feather="user"></i>
                       Lihat Profil
-                    </button>
-                    <button type="button" class="btn btn-success btn-sm" aria-expanded="false" data-id="<?= $id; ?>" data-username="<?= $username; ?>" id="resetPassGTK">
+                    </a>
+                    <button type="button" class="btn btn-success btn-sm" aria-expanded="false" data-username="<?= $username; ?>" id="resetPassGTK">
                       <i data-feather='refresh-cw'></i>
                       Reset Password
                     </button>
-                    <button type="button" class="btn btn-danger btn-sm" aria-expanded="false" data-id="<?= $id; ?>" data-username="<?= $username; ?>" id="hapusAkunGTK">
+                    <button type="button" class="btn btn-danger btn-sm" aria-expanded="false" data-username="<?= $username; ?>" id="hapusAkunGTK">
                       <i data-feather="trash"></i>
                       Hapus
                     </button>
@@ -187,4 +222,15 @@
       "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Indonesian.json"
     }
   });
+
+  var select2 = $('.select2');
+  if (select2.length) {
+    select2.each(function() {
+      var $this = $(this);
+      $this.wrap('<div class="position-relative"></div>');
+      $this.select2({
+        dropdownParent: $this.parent()
+      });
+    });
+  }
 </script>
