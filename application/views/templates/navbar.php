@@ -71,17 +71,17 @@
         <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <div class="user-nav">
             <span class="user-name fw-bolder d-none d-lg-block"><?= $profilGTK['gelarDepan'] . " " .  $profilGTK['namaLengkap'] . ", " . $profilGTK['gelarBelakang'] ?></span>
-            <span class="user-status d-none d-lg-block"><?= $profilGTK['username'] ?></span>
+            <span class="user-status d-none d-lg-block"><?= $sessionUser ?></span>
           </div>
-          <span class="avatar">
+          <span class="avatar-wrapper">
             <?php if ($profilGTK['foto'] && file_exists(FCPATH . "assets/files/images/fotoGuru/" . $profilGTK['foto'])) { ?>
-              <img class="round" src="<?= base_url('assets/'); ?>files/images/fotoGuru/<?= $profilGTK['foto']; ?>" alt="avatar" height="40" width="40">
+              <img src="<?= base_url('assets/'); ?>files/images/fotoGuru/<?= $profilGTK['foto']; ?>" alt="Avatar" height="32" width="32">
             <?php  } else { ?>
-              <img class="round" src="<?= base_url('assets/'); ?>files/images/logo/<?= $profilSekolah['logoSekolah']; ?>" alt="avatar" height="40" width="40">
+              <div class="avatar bg-light-<?= warnaPeran(getPeran($sessionRole)); ?>">
+                <div class="avatar-content"><?= namaInisial($profilGTK['namaLengkap']); ?></div>
+              </div>
             <?php } ?>
-            <?php if ($sessionRole == "1") { ?>
-              <span class="avatar-status-online"></span>
-            <?php } ?>
+            <span class="avatar-status-online"></span>
           </span>
         </a>
         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">

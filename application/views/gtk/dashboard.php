@@ -1,21 +1,7 @@
-<?php
-// var_dump($profilGTK);
-// die;
-if ($profilGTK) {
-  if ($profilGTK['jk'] == "L") {
-    $jkPanjang = "Laki - Laki";
-    $jkPanggil = "Pak";
-  } else {
-    $jkPanjang = "Perempuan";
-    $jkPanggil = "Bu";
-  }
-}
-?>
-
 <!-- BEGIN: Content-->
 <div class="app-content content">
-  <!-- <div class="content-overlay"></div> -->
-  <!-- <div class="header-navbar-shadow"></div> -->
+  <div class="content-overlay"></div>
+  <div class="header-navbar-shadow"></div>
   <div class="content-wrapper container-xxl p-0">
     <div class="content-header row">
       <div class="content-header-left col-md-9 col-8 mb-2">
@@ -34,7 +20,7 @@ if ($profilGTK) {
           <div class="col-12">
             <div class="card knowledge-base-bg text-center" style="background-image: url('<?= base_url('assets/') ?>app-assets/images/banner/banner.png')">
               <div class="card-body">
-                <h2 class="text-primary">Hai, <?= $jkPanggil . " " . $profilGTK['namaPanggil'] ?> 👋</h2>
+                <h2 class="text-primary">Hai, <?= panggilJenisKelaminGTK($profilGTK['jk']) . " " . $profilGTK['namaPanggil'] ?> 👋</h2>
                 <p class="card-text mb-2">
                   <span class="fw-bolder">Silahkan Pilih Fasilitas Layanan Daring <br><?= $profilSekolah['namaSekolah'] ?> Di Bawah Ini </span>
                 </p>

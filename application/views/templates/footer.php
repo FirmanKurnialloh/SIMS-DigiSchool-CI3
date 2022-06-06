@@ -1,5 +1,6 @@
 <div class="sidenav-overlay"></div>
 <div class="drag-target"></div>
+<p id="is_change" class="hidden"><?= $is_change ?></p>
 
 <!-- BEGIN: Footer-->
 <footer class="footer footer-static footer-light">
@@ -52,11 +53,14 @@
 <script src="<?= base_url('assets/'); ?>app-assets/js/scripts/tables/table-datatables-basic.js"></script>
 <!-- END: Page JS-->
 
-<?= $this->session->flashdata('toastr'); ?>
 <?= $this->session->flashdata('sweet'); ?>
-
+<?= $this->session->flashdata('toastr'); ?>
+<script>
+  $(window).on('load', function() {});
+</script>
 <script>
   $(window).on('load', function() {
+
     if (feather) {
       feather.replace({
         width: 14,
@@ -79,6 +83,24 @@
       }
     });
   })
+
+  var is_change = document.getElementById("is_change").innerHTML;
+  if (is_change == true) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Anda Masih Menggunakan Password Default!',
+        text: 'Demi Keamanan Data Silahkan Ubah Password!',
+        allowOutsideClick: false,
+        customClass: {
+          confirmButton: 'btn btn-danger btn-sm'
+        }
+      })
+      .then(function(result) {
+        if (result.value) {
+          top.location.href = '<?= base_url('gtk/akun') ?>';
+        }
+      });
+  }
 </script>
 </body>
 <!-- END: Body-->

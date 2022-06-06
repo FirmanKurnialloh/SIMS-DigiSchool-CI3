@@ -1,7 +1,7 @@
 <!-- BEGIN: Content-->
 <div class="app-content content">
-  <!-- <div class="content-overlay"></div> -->
-  <!-- <div class="header-navbar-shadow"></div> -->
+  <div class="content-overlay"></div>
+  <div class="header-navbar-shadow"></div>
   <div class="content-wrapper container-xxl p-0">
     <div class="content-header row">
       <div class="content-header-left col-md-9 col-8 mb-2">
@@ -100,15 +100,15 @@
                     <label class="form-label" for="jenisKelamin">Jenis Kelamin</label>
                     <select id="jenisKelamin" name="jenisKelamin" class="select2 form-select">
                       <?php if ($profilGTK['jk'] == null) { ?>
-                        <option value="">Pilih Jenis Kelamin</option>
+                        <option value="" selected disabled>Pilih Jenis Kelamin</option>
                         <option value="L">Laki - Laki</option>
                         <option value="P">Perempuan</option>
                       <?php } elseif ($profilGTK['jk'] == "L") { ?>
-                        <option value="">Pilih Jenis Kelamin</option>
+                        <option value="" disabled>Pilih Jenis Kelamin</option>
                         <option value="L" selected>Laki - Laki</option>
                         <option value="P">Perempuan</option>
                       <?php } elseif ($profilGTK['jk'] == "P") { ?>
-                        <option value="">Pilih Jenis Kelamin</option>
+                        <option value="" disabled>Pilih Jenis Kelamin</option>
                         <option value="L">Laki - Laki</option>
                         <option value="P" selected>Perempuan</option>
                       <?php } ?>

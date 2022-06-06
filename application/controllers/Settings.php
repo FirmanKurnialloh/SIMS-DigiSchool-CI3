@@ -16,6 +16,7 @@ class Settings extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
@@ -80,6 +81,7 @@ class Settings extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
@@ -98,6 +100,7 @@ class Settings extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
@@ -116,6 +119,7 @@ class Settings extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
@@ -249,7 +253,7 @@ class Settings extends CI_Controller
         $response['judul']    = 'Gagal !';
         $response['pesan']    = 'Tahun Pelajaran ' . $data['tapel'] . ' Semester ' . $data['semester'] . ' Sedang Aktif!';
       } else {
-        $this->db->delete('setting_tapel', array('id' => $data['id']));
+        $this->db->delete('setting_tapel', ['id' => $data['id']]);
         $response['status']   = 'success';
         $response['judul']    = 'Berhasil !';
         $response['pesan']    = 'Tahun Pelajaran ' . $data['tapel'] . ' Semester ' . $data['semester'] . ' Telah Dihapus!';
@@ -266,6 +270,7 @@ class Settings extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
@@ -284,6 +289,7 @@ class Settings extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
@@ -343,7 +349,7 @@ class Settings extends CI_Controller
     ];
     $checkData     = $this->db->get_where('setting_mapel', ['id' => $data['id']]);
     if ($checkData->num_rows() == "1") {
-      $this->db->delete('setting_mapel', array('id' => $data['id']));
+      $this->db->delete('setting_mapel', ['id' => $data['id']]);
       $response['status']   = 'success';
       $response['judul']    = 'Berhasil !';
       $response['pesan']    = 'Mata Pelajaran ' . $data['namaMapel'] . ' Kelompok ' . $data['kelompokMapel'] . ' Telah Dihapus!';
@@ -359,6 +365,7 @@ class Settings extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
@@ -377,6 +384,7 @@ class Settings extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
@@ -434,7 +442,7 @@ class Settings extends CI_Controller
     ];
     $checkData     = $this->db->get_where('setting_ekskul', ['id' => $data['id']]);
     if ($checkData->num_rows() == "1") {
-      $this->db->delete('setting_ekskul', array('id' => $data['id']));
+      $this->db->delete('setting_ekskul', ['id' => $data['id']]);
       $response['status']   = 'success';
       $response['judul']    = 'Berhasil !';
       $response['pesan']    = 'Ekstrakurikuler ' . $data['namaEkskul'] . ' Telah Dihapus!';
@@ -450,6 +458,7 @@ class Settings extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
@@ -468,6 +477,7 @@ class Settings extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
@@ -527,7 +537,7 @@ class Settings extends CI_Controller
     ];
     $checkData     = $this->db->get_where('setting_kelas', ['id' => $data['id']]);
     if ($checkData->num_rows() == "1") {
-      $this->db->delete('setting_kelas', array('id' => $data['id']));
+      $this->db->delete('setting_kelas', ['id' => $data['id']]);
       $response['status']   = 'success';
       $response['judul']    = 'Berhasil !';
       $response['pesan']    = 'Kelas ' . $data['kelas'] . ' Telah Dihapus!';
@@ -543,6 +553,7 @@ class Settings extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
@@ -561,6 +572,7 @@ class Settings extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
@@ -623,6 +635,74 @@ class Settings extends CI_Controller
     redirect(base_url('settings/gtk'));
   }
 
+  public function resetDataGTK()
+  {
+    $query      = "SELECT `username` FROM `user` WHERE `role_id` != '1'";
+    $queryUser  = $this->db->query($query)->result_array();
+    foreach ($queryUser as $rowUsername) {
+      $this->db->delete('profil_gtk', ['username' => $rowUsername['username']]);
+      $this->db->delete('user', ['username' => $rowUsername['username']]);
+    }
+    $response['status']   = 'success';
+    $response['judul']    = 'Berhasil !';
+    $response['pesan']    = 'Database Telah Direset!';
+    echo json_encode($response);
+  }
+
+  public function editAkunGTK()
+  {
+    $username       = htmlspecialchars($this->input->post('username', true));
+    $password       = password_hash('#MerdekaBelajar!', PASSWORD_DEFAULT);
+    $hakAkses       = htmlspecialchars($this->input->post('hakAkses', true));
+    $is_aktif       = htmlspecialchars($this->input->post('is_aktif', true));
+
+    $namaLengkap    = htmlspecialchars($this->input->post('namaLengkap', true));
+    $namaPanggil    = htmlspecialchars($this->input->post('namaPanggil', true));
+    $gelarDepan     = htmlspecialchars($this->input->post('gelarDepan', true));
+    $gelarBelakang  = htmlspecialchars($this->input->post('gelarBelakang', true));
+    $jenisKelamin   = htmlspecialchars($this->input->post('jenisKelamin', true));
+
+    $checkDataUser       = $this->db->get_where('user', ['username' => $username]);
+    $checkDataProfile    = $this->db->get_where('profil_gtk', ['username' => $username]);
+
+    if ($checkDataUser->num_rows() && $checkDataProfile->num_rows()) {
+      $this->db->set(
+        [
+          'role_id'         => $hakAkses,
+          'is_active'       => $is_aktif
+        ]
+      );
+      $this->db->where('username', $username);
+      $this->db->update('user');
+      $this->db->set(
+        [
+          'namaLengkap'     => $namaLengkap,
+          'namaPanggil'     => $namaPanggil,
+          'gelarDepan'      => $gelarDepan,
+          'gelarBelakang'   => $gelarBelakang,
+          'jk'              => $jenisKelamin
+        ]
+      );
+      $this->db->where('username', $username);
+      $this->db->update('profil_gtk');
+    }
+    $this->session->set_flashdata('toastr', "
+    <script>
+    $(window).on('load', function() {
+      setTimeout(function() {
+        toastr['success'](
+          'Akun" . $username . " telah diperbarui !',
+          'Berhasil !', {
+            closeButton: true,
+            tapToDismiss: true
+          }
+        );
+      }, 0);
+    })
+    </script>");
+    redirect(base_url('settings/gtk'));
+  }
+
   public function deleteAkunGTK()
   {
     $data = [
@@ -633,8 +713,8 @@ class Settings extends CI_Controller
     $checkDataProfile    = $this->db->get_where('profil_gtk', ['username' => $data['username']]);
     if ($checkSession != $data['username']) {
       if ($checkDataUser->num_rows() == "1" && $checkDataProfile->num_rows() == "1") {
-        $this->db->delete('user', array('username' => $data['username']));
-        $this->db->delete('profil_gtk', array('username' => $data['username']));
+        $this->db->delete('user', ['username' => $data['username']]);
+        $this->db->delete('profil_gtk', ['username' => $data['username']]);
         $response['status']   = 'success';
         $response['judul']    = 'Berhasil !';
         $response['pesan']    = 'Akun ' . $data['username'] . ' Telah Dihapus!';
@@ -768,6 +848,7 @@ class Settings extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
@@ -786,6 +867,7 @@ class Settings extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
@@ -798,6 +880,7 @@ class Settings extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
@@ -816,6 +899,7 @@ class Settings extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();

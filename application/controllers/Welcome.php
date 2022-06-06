@@ -6,15 +6,15 @@ class Welcome extends CI_Controller
   public function __construct()
   {
     parent::__construct();
-    $this->load->model('App_model');
+    $this->load->model('App_model', 'modelApp');
   }
 
   public function index()
   {
-    $data['serverSetting'] = $this->App_model->getServerSetting();
-    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $data['serverSetting'] = $this->modelApp->getServerSetting();
+    $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
     $this->load->view('templates/auth_header', $data);
-    $this->load->view('welcome');
+    $this->load->view('welcome', $data);
     $this->load->view('templates/auth_footer');
   }
 }

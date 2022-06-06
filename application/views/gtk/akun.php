@@ -1,21 +1,7 @@
-<?php
-// var_dump($profilGTK);
-// die;
-if ($profilGTK) {
-  if ($profilGTK['jk'] == "L") {
-    $jkPanjang = "Laki - Laki";
-    $jkPanggil = "Pak";
-  } else {
-    $jkPanjang = "Perempuan";
-    $jkPanggil = "Bu";
-  }
-}
-?>
-
 <!-- BEGIN: Content-->
 <div class="app-content content">
-  <!-- <div class="content-overlay"></div> -->
-  <!-- <div class="header-navbar-shadow"></div> -->
+  <div class="content-overlay"></div>
+  <div class="header-navbar-shadow"></div>
   <div class="content-wrapper container-xxl p-0">
     <div class="content-header row">
       <div class="content-header-left col-md-9 col-8 mb-2">
@@ -68,22 +54,28 @@ if ($profilGTK) {
             <div class="card-header border-bottom">
               <h4 class="card-title">Account Details</h4>
             </div>
-            <div class="card-body py-2 my-25">
+            <div class="card-body">
               <form class="validate-form" action="<?= base_url('gtk/editAkun'); ?>" method="POST">
 
                 <!-- form -->
-                <div class="row mt-2 pt-50">
+                <div class="row">
                   <div class="col-12 col-sm-4 mb-1">
                     <label class="form-label" for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" value="<?= $userGTK['username']; ?>" data-msg="Username" required disabled />
+                    <input class="form-control" type="text" id="username" name="username" placeholder="Username" value="<?= $sessionUser; ?>" data-msg="Username" required disabled />
                   </div>
                   <div class="col-12 col-sm-4 mb-1">
                     <label class="form-label" for="password">Password Baru</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="<?= $userGTK['password']; ?>" data-msg="Password" required disabled />
+                    <div class="input-group input-group-merge form-password-toggle">
+                      <input class="form-control form-control-merge" id="password" type="password" name="password" value="" placeholder="Password" data-msg="Password Baru Minimal 8 Karakter" minlength="8" required />
+                      <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                    </div>
                   </div>
                   <div class="col-12 col-sm-4 mb-1">
-                    <label class="form-label" for="password2">Ulangi Password</label>
-                    <input type="password" class="form-control" id="password2" name="password2" placeholder="Ulangi Password" value="<?= $userGTK['password']; ?>" data-msg="Ulangi Password" required disabled />
+                    <label class="form-label" for="password2">Ulangi Password Baru</label>
+                    <div class="input-group input-group-merge form-password-toggle">
+                      <input class="form-control form-control-merge" id="password2" type="password" name="password2" value="" placeholder="Ulangi Password Baru" data-msg="Ulangi Password Baru Minimal 8 Karakter" minlength="8" required />
+                      <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                    </div>
                   </div>
                   <div class="col-12">
                     <button type="submit" class="btn btn-primary mt-1 me-1">Simpan Perubahan</button>

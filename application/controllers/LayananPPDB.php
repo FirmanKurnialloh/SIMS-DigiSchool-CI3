@@ -16,6 +16,7 @@ class LayananPPDB extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     if ($data['sessionRole'] != "1") {
       is_ppdb_active();
     }

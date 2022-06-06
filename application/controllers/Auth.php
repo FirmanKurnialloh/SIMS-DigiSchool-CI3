@@ -7,13 +7,13 @@ class Auth extends CI_Controller
   {
     parent::__construct();
     $this->load->library('form_validation');
-    $this->load->model('App_model');
+    $this->load->model('App_model', 'modelApp');
   }
 
   public function index()
   {
-    $data['serverSetting'] = $this->App_model->getServerSetting();
-    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $data['serverSetting'] = $this->modelApp->getServerSetting();
+    $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
     $this->load->view('templates/auth_header', $data);
     $this->load->view('welcome');
     $this->load->view('templates/auth_footer');
@@ -37,8 +37,8 @@ class Auth extends CI_Controller
     ]);
 
     if ($this->form_validation->run() == false) {
-      $data['serverSetting'] = $this->App_model->getServerSetting();
-      $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+      $data['serverSetting'] = $this->modelApp->getServerSetting();
+      $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
       $this->load->view('templates/auth_header', $data);
       $this->load->view('auth/login-gtk', $data);
       $this->load->view('templates/modal', $data);
@@ -53,31 +53,39 @@ class Auth extends CI_Controller
     is_server_gtk_active();
     $username = $this->input->post('username');
     $password = $this->input->post('password');
-
-    $user = $this->db->get_where('user', ['username' => $username])->row_array();
+    $user     = $this->modelApp->getUser($username);
 
     if ($user) {
       if ($user['is_active'] == 1) {
         if (password_verify($password, $user['password'])) {
-          $data = [
-            'username' => $user['username'],
-            'role_id' => $user['role_id']
-          ];
+          if (password_verify('#MerdekaBelajar!', $user['password'])) {
+            $data = [
+              'username'  => $user['username'],
+              'role_id'   => $user['role_id'],
+              'is_change' => '1',
+            ];
+          } else {
+            $data = [
+              'username'  => $user['username'],
+              'role_id'   => $user['role_id'],
+              'is_change' => '0',
+            ];
+          }
           $this->session->set_userdata($data);
           $this->session->set_flashdata('toastr', "
-          <script>
-          $(window).on('load', function() {
-            setTimeout(function() {
-              toastr['success'](
-                'Selamat Beraktifitas !',
-                'Hai ! 👋', {
-                  closeButton: true,
-                  tapToDismiss: true
-                }
-              );
-            }, 0);
-          })
-          </script>");
+            <script>
+            $(window).on('load', function() {
+              setTimeout(function() {
+                toastr['success'](
+                  'Selamat Beraktifitas !',
+                  'Hai ! 👋', {
+                    closeButton: true,
+                    tapToDismiss: true
+                  }
+                );
+              }, 0);
+            })
+            </script>");
           redirect(base_url('gtk/dashboard'));
         } else {
           $this->session->set_flashdata('toastr', "
@@ -155,16 +163,19 @@ class Auth extends CI_Controller
 
   public function forgotPassGTK()
   {
+    $serverSetting  = $this->modelApp->getServerSetting();
+    $namaAplikasi   = $serverSetting['namaAplikasi'];
 
-    $serverSetting  = $this->App_model->getServerSetting();
-    $profilSekolah  = $this->App_model->getProfilSekolah();
+    $profilSekolah  = $this->modelApp->getProfilSekolah();
+    $namaSekolah    = $profilSekolah['namaSekolah'];
+
     $nama           = $this->input->post('modalForgotGTKNama');
     $username       = $this->input->post('modalForgotGTKUsername');
-    $admin          = $this->input->post('modalForgotGTKSelectAdmin');
-    $hpAdmin        = $this->db->get_where('profil_gtk', ['username' => $admin])->row_array();
-    $namaPanggil    = $hpAdmin['namaPanggil'];
-    $jkKontakAdmin  = $hpAdmin['jk'];
-    $hpKontakAdmin  = $hpAdmin['hp'];
+    $adminUsername  = $this->input->post('modalForgotGTKSelectAdmin');
+    $adminProfil    = $this->modelApp->getProfilGtk($adminUsername);
+    $namaPanggil    = $adminProfil['namaPanggil'];
+    $jkKontakAdmin  = $adminProfil['jk'];
+    $hpKontakAdmin  = $adminProfil['hp'];
 
     if ($jkKontakAdmin == "L") {
       $jkPanggilAdmin = "Pak";
@@ -177,7 +188,7 @@ class Auth extends CI_Controller
     if ($hpKontakAdmin != null) {
       $teks = ("Hallo " . $jkPanggilAdmin . " " . $namaPanggil . " !\n\n" .
         "Saya *" . $nama . "*\n" .
-        "Request Reset Akun *" . $username . "* untuk mengakses aplikasi " . $serverSetting['namaAplikasi'] . " " . $profilSekolah['namaSekolah'] . " terima kasih !");
+        "Request Reset Akun *" . $username . "* untuk mengakses aplikasi " . $namaAplikasi . " " . $namaSekolah . " terima kasih !");
       echo " 
             <textarea id='teks' disabled readonly>$teks</textarea>
             <script>
@@ -241,8 +252,8 @@ class Auth extends CI_Controller
     if ($this->session->userdata('username')) {
       redirect(base_url('pd'));
     }
-    $data['serverSetting'] = $this->App_model->getServerSetting();
-    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+    $data['serverSetting'] = $this->modelApp->getServerSetting();
+    $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
     $this->load->view('templates/auth_header', $data);
     $this->load->view('auth/login-pd', $data);
     $this->load->view('templates/modal', $data);
@@ -253,23 +264,22 @@ class Auth extends CI_Controller
   public function pdLoginNISN()
   {
     is_server_pd_active();
-    $nisn           = $this->input->post('nisn');
-    $dataUser       = $this->db->get_where('user', ['username' => $nisn])->row_array();
-    if ($dataUser) {
-      if ($dataUser['is_active'] == 1) {
+    $nisn        = $this->input->post('nisn');
+    $user        = $this->modelApp->getUser($nisn);
+    if ($user) {
+      if ($user['is_active'] == 1) {
         $dataUser = [
-          'username'  => $dataUser['username'],
-          'role_id'   => $dataUser['role_id']
+          'username'  => $user['username'],
+          'role_id'   => $user['role_id']
         ];
         $this->session->set_userdata($dataUser);
-        $dataProfil     = $this->db->get_where('profil_pd', ['nisn' => $dataUser['username']])->row_array();
+
+        $dataProfil   = $this->modelApp->getProfilPd($nisn);
         if ($dataProfil) {
           if ($dataProfil['jk'] == "L") {
             $jkPanjang = "Laki - Laki";
-            $jkPanggil = "Bapak";
           } else {
-            $jkPanjang = "Laki - Laki";
-            $jkPanggil = "Bapak";
+            $jkPanjang = "Perempuan";
           }
           echo "
           <div class='card card-profile shadow-none bg-transparent border-primary'>
@@ -390,9 +400,9 @@ class Auth extends CI_Controller
     if ($postNISN == $sessionNISN) {
       $dataUser     = $this->db->get_where('user', ['username' => $sessionNISN, 'role_id' => $sessionROLE])->row_array();
       if ($dataUser) {
-        $data['serverSetting'] = $this->App_model->getServerSetting();
-        $data['profilSekolah'] = $this->App_model->getProfilSekolah();
-        $data['profilPD']      = $this->db->get_where('profil_pd', ['nisn' => $dataUser['username']])->row_array();
+        $data['serverSetting'] = $this->modelApp->getServerSetting();
+        $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
+        $data['profilPD']      = $this->modelApp->getProfilPd($sessionNISN);
         $this->load->view('templates/auth_header', $data);
         $this->load->view('auth/login-pd-confirm', $data);
         $this->load->view('templates/modal', $data);
@@ -445,8 +455,8 @@ class Auth extends CI_Controller
     $sessionROLE      = $this->session->userdata('role_id');
     $dataUser         = $this->db->get_where('user', ['username' => $sessionNISN, 'role_id' => $sessionROLE])->row_array();
     if ($dataUser) {
-      $data['serverSetting'] = $this->App_model->getServerSetting();
-      $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+      $data['serverSetting'] = $this->modelApp->getServerSetting();
+      $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
       $dataProfil            = $this->db->get_where('profil_pd', ['nisn' => $sessionNISN, 'tanggalLahir' => $postTanggalLahir])->row_array();
       if ($dataProfil) {
         $this->session->set_flashdata('toastr', "
@@ -517,6 +527,29 @@ class Auth extends CI_Controller
     }
   }
 
+  public function logout()
+  {
+    $this->session->unset_userdata('username');
+    $this->session->unset_userdata('role_id');
+    $this->session->unset_userdata('is_change');
+    $this->session->set_flashdata('toastr', "
+    <script>
+    $(window).on('load', function() {
+      setTimeout(function() {
+        toastr['success'](
+          'Anda telah keluar dari sistem !',
+          'Berhasil !', {
+            closeButton: true,
+            tapToDismiss: true
+          }
+        );
+      }, 0);
+    })
+    </script>");
+    redirect(base_url('/'));
+  }
+
+  // FUNGSI PPDB
   public function ppdb()
   {
     $this->form_validation->set_rules('username', 'Username', 'required|trim', [
@@ -532,8 +565,8 @@ class Auth extends CI_Controller
     ]);
 
     if ($this->form_validation->run() == false) {
-      $data['serverSetting'] = $this->App_model->getServerSetting();
-      $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+      $data['serverSetting'] = $this->modelApp->getServerSetting();
+      $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
       $this->load->view('templates/auth_header', $data);
       $this->load->view('auth/login-ppdb');
       $this->load->view('templates/auth_footer');
@@ -605,8 +638,8 @@ class Auth extends CI_Controller
     ]);
 
     if ($this->form_validation->run() == false) {
-      $data['serverSetting'] = $this->App_model->getServerSetting();
-      $data['profilSekolah'] = $this->App_model->getProfilSekolah();
+      $data['serverSetting'] = $this->modelApp->getServerSetting();
+      $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
       $this->load->view('templates/auth_header', $data);
       $this->load->view('auth/registration');
       $this->load->view('templates/auth_footer');
@@ -628,26 +661,5 @@ class Auth extends CI_Controller
       </div>');
       redirect(base_url('auth/ppdb'));
     }
-  }
-
-  public function logout()
-  {
-    $this->session->unset_userdata('username');
-    $this->session->unset_userdata('role_id');
-    $this->session->set_flashdata('toastr', "
-    <script>
-    $(window).on('load', function() {
-      setTimeout(function() {
-        toastr['success'](
-          'Anda telah keluar dari sistem !',
-          'Berhasil !', {
-            closeButton: true,
-            tapToDismiss: true
-          }
-        );
-      }, 0);
-    })
-    </script>");
-    redirect(base_url('/'));
   }
 }

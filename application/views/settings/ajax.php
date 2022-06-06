@@ -237,6 +237,7 @@
     });
   });
 
+  // FUNGSI PENGATURAN TAPEL START
   $(document).on('click', '#hapusTapel', function(e) {
     var id = $(this).data('id');
     var tapel = $(this).data('tapel');
@@ -305,7 +306,8 @@
     });
 
   }
-
+  // FUNGSI PENGATURAN TAPEL END
+  // FUNGSI PENGATURAN MAPEL START
   $(document).on('click', '#hapusMapel', function(e) {
     var id = $(this).data('id');
     var mapel = $(this).data('mapel');
@@ -374,7 +376,8 @@
     });
 
   }
-
+  // FUNGSI PENGATURAN MAPEL END
+  // FUNGSI PENGATURAN EKSKUL START
   $(document).on('click', '#hapusEkskul', function(e) {
     var id = $(this).data('id');
     var ekskul = $(this).data('ekskul');
@@ -442,7 +445,8 @@
     });
 
   }
-
+  // FUNGSI PENGATURAN EKSKUL END
+  // FUNGSI PENGATURAN KELAS START
   $(document).on('click', '#hapusKelas', function(e) {
     var id = $(this).data('id');
     var kelas = $(this).data('kelas');
@@ -495,6 +499,72 @@
                 icon: 'error',
                 title: 'Terdapat Kesalahan Sistem!',
                 text: 'Kelas  ' + kelas + ' Gagal Dihapus!',
+                allowOutsideClick: false,
+                customClass: {
+                  confirmButton: 'btn btn-danger btn-sm'
+                }
+              }).then(function(result) {
+                if (result.value) {
+                  location.reload()
+                }
+              })
+            });
+        });
+      },
+    });
+
+  }
+  // FUNGSI PENGATURAN KELAS END
+  // FUNGSI PENGATURAN AKUN GTK START
+  $(document).on('click', '#resetDataButton', function(e) {
+    SwalResetDataGTK();
+    e.preventDefault();
+  });
+
+  function SwalResetDataGTK() {
+
+    Swal.fire({
+      title: 'Anda yakin ingin mereset DATABASE AKUN dan PROFIL GTK ? ',
+      text: "Anda tidak dapat mengembalikan data yang dihapus!",
+      icon: 'warning',
+      allowOutsideClick: false,
+      showCancelButton: true,
+      confirmButtonText: 'Ya, Reset Database!',
+      cancelButtonText: 'Batalkan!',
+      customClass: {
+        confirmButton: 'btn btn-primary btn-sm',
+        cancelButton: 'btn btn-outline-danger btn-sm ms-1'
+      },
+      buttonsStyling: false,
+      preConfirm: function() {
+        return new Promise(function(resolve) {
+          $.ajax({
+              type: 'POST',
+              url: '<?= base_url('settings/resetDataGTK'); ?>',
+              dataType: 'json',
+              cache: false,
+            })
+            .done(function(response) {
+              Swal.fire({
+                  icon: response.status,
+                  title: response.judul,
+                  text: response.pesan,
+                  allowOutsideClick: false,
+                  customClass: {
+                    confirmButton: 'btn btn-success btn-sm'
+                  }
+                })
+                .then(function(result) {
+                  if (result.value) {
+                    location.reload()
+                  }
+                })
+            })
+            .fail(function(response) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Terdapat Kesalahan Sistem!',
+                text: 'Database Gagal Direset !',
                 allowOutsideClick: false,
                 customClass: {
                   confirmButton: 'btn btn-danger btn-sm'
@@ -645,4 +715,5 @@
     });
 
   }
+  // FUNGSI PENGATURAN AKUN GTK END
 </script>

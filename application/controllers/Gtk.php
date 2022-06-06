@@ -21,10 +21,11 @@ class Gtk extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
-    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
+    $data['profilGTK']     = $this->App_model->getProfilGtk($data['sessionUser']);
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('gtk/dashboard', $data);
@@ -36,10 +37,11 @@ class Gtk extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = $this->session->userdata('is_change');
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
-    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
+    $data['profilGTK']     = $this->App_model->getProfilGtk($data['sessionUser']);
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('gtk/profil', $data);
@@ -51,11 +53,11 @@ class Gtk extends CI_Controller
   {
     $data['sessionUser']   = $this->session->userdata('username');
     $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['is_change']     = "0";
     $data['serverSetting'] = $this->App_model->getServerSetting();
     $data['profilSekolah'] = $this->App_model->getProfilSekolah();
     $data['tapelAktif']    = $this->App_model->getTapelAktif();
-    $data['profilGTK']     = $this->db->get_where('profil_gtk', ['username' => $data['sessionUser']])->row_array();
-    $data['userGTK']     = $this->db->get_where('user', ['username' => $data['sessionUser']])->row_array();
+    $data['profilGTK']     = $this->App_model->getProfilGtk($data['sessionUser']);
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('gtk/akun', $data);
@@ -68,15 +70,15 @@ class Gtk extends CI_Controller
     $username       = $this->session->userdata('username');
 
     $fotoGTK        = $_FILES['fotoGTK']['name'];
-    $namaLengkap    = $this->input->post('namaLengkap');
-    $namaPanggil    = $this->input->post('namaPanggil');
-    $gelarDepan     = $this->input->post('gelarDepan');
-    $gelarBelakang  = $this->input->post('gelarBelakang');
-    $jenisKelamin   = $this->input->post('jenisKelamin');
-    $nik            = $this->input->post('nik');
-    $nukg           = $this->input->post('nukg');
-    $nuptk          = $this->input->post('nuptk');
-    $nip            = $this->input->post('nip');
+    $namaLengkap    = htmlspecialchars($this->input->post('namaLengkap', true));
+    $namaPanggil    = htmlspecialchars($this->input->post('namaPanggil', true));
+    $gelarDepan     = htmlspecialchars($this->input->post('gelarDepan', true));
+    $gelarBelakang  = htmlspecialchars($this->input->post('gelarBelakang', true));
+    $jenisKelamin   = htmlspecialchars($this->input->post('jenisKelamin', true));
+    $nik            = htmlspecialchars($this->input->post('nik', true));
+    $nukg           = htmlspecialchars($this->input->post('nukg', true));
+    $nuptk          = htmlspecialchars($this->input->post('nuptk', true));
+    $nip            = htmlspecialchars($this->input->post('nip', true));
 
     if ($fotoGTK) {
       $file_name                = str_replace(' ', '_', $namaLengkap);
@@ -90,7 +92,7 @@ class Gtk extends CI_Controller
       $config['max_size']       = '1024';
       $config['upload_path']    = './assets/files/images/fotoGuru/';
 
-      $old_foto  = $this->db->get_where('profil_gtk', ['username' => $username])->row_array();
+      $old_foto  = $this->App_model->getProfilGtk($username);
       $old_image = $old_foto['foto'];
       if ($old_image != null) {
         unlink(FCPATH . 'assets/files/images/fotoGuru/' . $new_filename);
@@ -145,22 +147,36 @@ class Gtk extends CI_Controller
 
   public function editAkun()
   {
-    $username       = $this->session->userdata('username');
-    $password       = $this->input->post('password');
-    $password2      = $this->input->post('password2');
-    // var_dump($password);
-    // die;
-    if ($password) {
+    $username      = $this->session->userdata('username');
+    $password      = htmlspecialchars($this->input->post('password', true));
+    $password2     = htmlspecialchars($this->input->post('password2', true));
+    $hashPass      = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+    if (password_verify('#MerdekaBelajar!', $hashPass)) {
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['error'](
+            'Akun anda tidak diperbarui !',
+            'Gagal !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+    } else {
       if ($password == $password2) {
-        $this->db->set('password', $password);
+        $this->session->set_userdata('is_change', "0");
+        $this->db->set('password', $hashPass);
         $this->db->where('username', $username);
         $this->db->update('user');
-
         $this->session->set_flashdata('toastr', "
         <script>
         $(window).on('load', function() {
           setTimeout(function() {
-            toastr['error'](
+            toastr['success'](
               'Akun anda berhasil diperbarui !',
               'Berhasil !', {
                 closeButton: true,
