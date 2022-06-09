@@ -24,7 +24,7 @@
                 <p class="card-text mb-2">
                   <span class="fw-bolder">Silahkan Pilih Fasilitas Layanan Daring <br><?= $profilSekolah['namaSekolah'] ?> Di Bawah Ini </span>
                 </p>
-                <?php if ($sessionRole == "1") { ?>
+                <?php if (is_admin() == true) { ?>
                   <p class="card-text mb-0 text-success">
                     <span><strong>Anda Login Sebagai Admin</strong></span>
                   </p>

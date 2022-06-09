@@ -7,7 +7,7 @@ class Gtk extends CI_Controller
   {
     parent::__construct();
     $this->load->library('form_validation');
-    $this->load->model('App_model');
+    $this->load->model('App_model', 'modelApp');
     is_server_gtk_active();
     is_logged_in_as_gtk();
   }
@@ -20,12 +20,13 @@ class Gtk extends CI_Controller
   public function dashboard()
   {
     $data['sessionUser']   = $this->session->userdata('username');
-    $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['sessionRole1']  = $this->session->userdata('role_id_1');
+    $data['sessionRole2']  = $this->session->userdata('role_id_2');
     $data['is_change']     = $this->session->userdata('is_change');
-    $data['serverSetting'] = $this->App_model->getServerSetting();
-    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
-    $data['tapelAktif']    = $this->App_model->getTapelAktif();
-    $data['profilGTK']     = $this->App_model->getProfilGtk($data['sessionUser']);
+    $data['serverSetting'] = $this->modelApp->getServerSetting();
+    $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
+    $data['tapelAktif']    = $this->modelApp->getTapelAktif();
+    $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('gtk/dashboard', $data);
@@ -36,12 +37,13 @@ class Gtk extends CI_Controller
   public function profil()
   {
     $data['sessionUser']   = $this->session->userdata('username');
-    $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['sessionRole1']  = $this->session->userdata('role_id_1');
+    $data['sessionRole2']  = $this->session->userdata('role_id_2');
     $data['is_change']     = $this->session->userdata('is_change');
-    $data['serverSetting'] = $this->App_model->getServerSetting();
-    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
-    $data['tapelAktif']    = $this->App_model->getTapelAktif();
-    $data['profilGTK']     = $this->App_model->getProfilGtk($data['sessionUser']);
+    $data['serverSetting'] = $this->modelApp->getServerSetting();
+    $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
+    $data['tapelAktif']    = $this->modelApp->getTapelAktif();
+    $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('gtk/profil', $data);
@@ -52,12 +54,13 @@ class Gtk extends CI_Controller
   public function akun()
   {
     $data['sessionUser']   = $this->session->userdata('username');
-    $data['sessionRole']   = $this->session->userdata('role_id');
+    $data['sessionRole1']  = $this->session->userdata('role_id_1');
+    $data['sessionRole2']  = $this->session->userdata('role_id_2');
     $data['is_change']     = "0";
-    $data['serverSetting'] = $this->App_model->getServerSetting();
-    $data['profilSekolah'] = $this->App_model->getProfilSekolah();
-    $data['tapelAktif']    = $this->App_model->getTapelAktif();
-    $data['profilGTK']     = $this->App_model->getProfilGtk($data['sessionUser']);
+    $data['serverSetting'] = $this->modelApp->getServerSetting();
+    $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
+    $data['tapelAktif']    = $this->modelApp->getTapelAktif();
+    $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('gtk/akun', $data);
@@ -92,7 +95,7 @@ class Gtk extends CI_Controller
       $config['max_size']       = '1024';
       $config['upload_path']    = './assets/files/images/fotoGuru/';
 
-      $old_foto  = $this->App_model->getProfilGtk($username);
+      $old_foto  = $this->modelApp->getProfilGtk($username);
       $old_image = $old_foto['foto'];
       if ($old_image != null) {
         unlink(FCPATH . 'assets/files/images/fotoGuru/' . $new_filename);
@@ -171,7 +174,7 @@ class Gtk extends CI_Controller
         $this->session->set_userdata('is_change', "0");
         $this->db->set('password', $hashPass);
         $this->db->where('username', $username);
-        $this->db->update('user');
+        $this->db->update('user_gtk');
         $this->session->set_flashdata('toastr', "
         <script>
         $(window).on('load', function() {

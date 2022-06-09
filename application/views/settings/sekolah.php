@@ -41,6 +41,10 @@
             <img src='<?= base_url('assets/'); ?>files/images/logo/page-loader-2.gif' width='300px' />
             <h1 class='text-center font-400'>Harap Tunggu, Sistem Sedang Mencari Data ...</h1>
             <p class='text-center'>Jika proses ini memakan waktu yang cukup lama, silahkan periksa koneksi internet anda dan gunakan Google Chrome Terbaru !</p>
+            <a href="#" id="reload" type="button" style="display: none;" class="btn btn-sm btn-primary" onclick="location.reload(true);">
+              <i data-feather='refresh-cw'></i>
+              <span>Muat Ulang</span>
+            </a>
           </div>
         </div>
       </section>
@@ -51,5 +55,3 @@
   </div>
 </div>
 <!-- END: Content-->
-<script>
-</script>

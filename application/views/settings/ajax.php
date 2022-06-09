@@ -99,7 +99,7 @@
         url: "<?= base_url('settings/pdLoad') ?>",
         type: "POST",
         data: {
-          page: "errors/custom/soon"
+          page: "settings/pdLoad"
         },
         success: function(data) {
           $("#pdPage").html(data);
@@ -516,7 +516,7 @@
   }
   // FUNGSI PENGATURAN KELAS END
   // FUNGSI PENGATURAN AKUN GTK START
-  $(document).on('click', '#resetDataButton', function(e) {
+  $(document).on('click', '#resetDataGTK', function(e) {
     SwalResetDataGTK();
     e.preventDefault();
   });

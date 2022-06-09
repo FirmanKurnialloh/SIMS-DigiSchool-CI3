@@ -38,6 +38,11 @@
     });
   }
 
+  var hideSearch = $('.hide-search');
+  hideSearch.select2({
+    minimumResultsForSearch: Infinity
+  });
+
   //form validation  
   var form = $('.validate-form');
   if (form.length) {
@@ -83,6 +88,30 @@
 
     accountResetBtn.on('click', function () {
       accountUserImage.attr('src', resetImage);
+    });
+  }
+
+  // Update user photo on click of button
+    var accountUploadImg2 = $('#account-upload-img2');
+    var accountUploadBtn2 = $('#account-upload2');
+    var accountUserImage2 = $('.uploadedAvatar2');
+    var accountResetBtn2  = $('#account-reset2');
+
+  if (accountUserImage) {
+    var resetImage2 = accountUserImage2.attr('src');
+    accountUploadBtn2.on('change', function (e) {
+      var reader = new FileReader(),
+        files = e.target.files;
+      reader.onload = function () {
+        if (accountUploadImg2) {
+          accountUploadImg2.attr('src', reader.result);
+        }
+      };
+      reader.readAsDataURL(files[0]);
+    });
+
+    accountResetBtn2.on('click', function () {
+      accountUserImage2.attr('src', resetImage2);
     });
   }
 

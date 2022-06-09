@@ -21,44 +21,43 @@
                 <!-- Level input -->
                 <div class="mb-1">
                   <label for="level">Level</label>
-                  <select class="select2 form-control" id="level" name="level" required>
-                    <?php if ($profilSekolah['bentukPendidikan'] == "PAUD") { ?>
-                      <option value="" selected disabled>Pilih Kelas Jenjang <?= $profilSekolah['bentukPendidikan'] ?></option>
-                      <option value="Kelompok Bermain">Kelompok Bermain</option>
-                      <option value="Kelompok A">Kelompok A</option>
-                      <option value="Kelompok B">Kelompok B</option>
-                    <?php } elseif ($profilSekolah['bentukPendidikan'] == "SD" || $profilSekolah['bentukPendidikan'] == "MI") { ?>
-                      <option value="" selected disabled>Pilih Kelas Jenjang <?= $profilSekolah['bentukPendidikan'] ?></option>
-                      <option value="1">Kelas 1</option>
-                      <option value="2">Kelas 2</option>
-                      <option value="3">Kelas 3</option>
-                      <option value="4">Kelas 4</option>
-                      <option value="5">Kelas 5</option>
-                      <option value="6">Kelas 6</option>
-                    <?php } elseif ($profilSekolah['bentukPendidikan'] == "SMP" || $profilSekolah['bentukPendidikan'] == "MTS") { ?>
-                      <option value="" selected disabled>Pilih Kelas Jenjang <?= $profilSekolah['bentukPendidikan'] ?></option>
-                      <option value="7">Kelas 7</option>
-                      <option value="8">Kelas 8</option>
-                      <option value="9">Kelas 9</option>
-                    <?php } elseif ($profilSekolah['bentukPendidikan'] == "SMA" || $profilSekolah['bentukPendidikan'] == "MA" || $profilSekolah['bentukPendidikan'] == "SMK") { ?>
-                      <option value="" selected disabled>Pilih Kelas Jenjang <?= $profilSekolah['bentukPendidikan'] ?></option>
-                      <option value="10">Kelas 10</option>
-                      <option value="11">Kelas 11</option>
-                      <option value="12">Kelas 12</option>
-                    <?php } ?>
+                  <select class="select2 hide-search form-control" id="level" name="level" required data-placeholder="Pilih Kelas" data-msg="Pilih Kelas">
+                    <option></option>
+                    <optgroup label="Pilih Kelas Jenjang <?= $profilSekolah['bentukPendidikan'] ?>">
+                      <?php if ($profilSekolah['bentukPendidikan'] == "PAUD") { ?>
+                        <option value="Kelompok Bermain">Kelompok Bermain</option>
+                        <option value="Kelompok A">Kelompok A</option>
+                        <option value="Kelompok B">Kelompok B</option>
+                      <?php } elseif ($profilSekolah['bentukPendidikan'] == "SD" || $profilSekolah['bentukPendidikan'] == "MI") { ?>
+                        <option value="1">Kelas 1</option>
+                        <option value="2">Kelas 2</option>
+                        <option value="3">Kelas 3</option>
+                        <option value="4">Kelas 4</option>
+                        <option value="5">Kelas 5</option>
+                        <option value="6">Kelas 6</option>
+                      <?php } elseif ($profilSekolah['bentukPendidikan'] == "SMP" || $profilSekolah['bentukPendidikan'] == "MTS") { ?>
+                        <option value="7">Kelas 7</option>
+                        <option value="8">Kelas 8</option>
+                        <option value="9">Kelas 9</option>
+                      <?php } elseif ($profilSekolah['bentukPendidikan'] == "SMA" || $profilSekolah['bentukPendidikan'] == "MA" || $profilSekolah['bentukPendidikan'] == "SMK") { ?>
+                        <option value="10">Kelas 10</option>
+                        <option value="11">Kelas 11</option>
+                        <option value="12">Kelas 12</option>
+                      <?php } ?>
+                    </optgroup>
                   </select>
                 </div>
                 <?php if ($profilSekolah['bentukPendidikan'] == "SMA" || $profilSekolah['bentukPendidikan'] == "MA" || $profilSekolah['bentukPendidikan'] == "SMK") { ?>
                   <!-- Jurusan input -->
                   <div class="mb-1">
                     <label class="form-label" for="jurusan">Jurusan</label>
-                    <input type="text" class="form-control" id="jurusan" placeholder="Jurusan" name="jurusan" required />
+                    <input type="text" class="form-control" id="jurusan" placeholder="Jurusan" name="jurusan" required data-msg="Masukan Nama Jurusan" />
                   </div>
                 <?php } ?>
                 <!-- Kelas input -->
                 <div class="mb-1">
                   <label class="form-label" for="kelas">Nama Kelas</label>
-                  <input type="text" class="form-control" id="kelas" placeholder="Nama Kelas" name="kelas" required />
+                  <input type="text" class="form-control" id="kelas" placeholder="Nama Kelas" name="kelas" required data-msg="Masukan Nama Kelas" />
                 </div>
               </div>
               <div class="modal-footer">
@@ -71,8 +70,7 @@
       </div>
       <!-- Modal -->
       <?php
-      $query = "SELECT * FROM `setting_kelas` ORDER BY `id` ASC";
-      $query = $this->db->query($query);
+      $query = getSelect('setting_kelas', '*', 'id', 'desc');
       if ($query->num_rows() <= 0) { ?>
         <div class="text-center">
           <h3 class="text-danger">Tidak Ada Data <br> </h3>
@@ -84,25 +82,41 @@
           <table class="dataTabel table table-hover table-responsive compact text-center" style="height: 450px;">
             <thead>
               <tr>
-                <th style="width: 5%;">Level</th>
+                <th style="width: 0%;">No</th>
+                <th style="width: 1%;">Level</th>
                 <?php if ($profilSekolah['bentukPendidikan'] == "SMA" || $profilSekolah['bentukPendidikan'] == "MA" || $profilSekolah['bentukPendidikan'] == "SMK") { ?>
                   <th style="width: 5%;">Jurusan</th>
                 <?php } ?>
-                <th style="width: 5%;">Kelas</th>
+                <th style="width: 1%;">Kelas</th>
+                <th style="width: 5%;">Nama Walikelas</th>
                 <th style="width: 1%;">Aksi</th>
               </tr>
             </thead>
             <tbody>
               <?php
+              $no = 1;
               foreach ($query->result_array() as $i) {
-                $id         = $i['id'];
-                $level      = $i['level'];
-                $jurusan    = $i['jurusan'];
-                $kelas      = $i['kelas'];
+                $id               = $i['id'];
+                $level            = $i['level'];
+                $jurusan          = $i['jurusan'];
+                $kelas            = $i['kelas'];
+                $walikelas        = $i['walikelas'];
+                $query            = getWhere('profil_gtk', '*', ['username' => $walikelas]);
+                if ($query->num_rows()) {
+                  $namaLengkap    = $query->row('namaLengkap');
+                  $gelarDepan     = $query->row('gelarDepan');
+                  $gelarBelakang  = ',' . $query->row('gelarBelakang');
+                  $namaWalikelas  = $gelarDepan . ' ' . $namaLengkap . ' ' . $gelarBelakang;
+                } else {
+                  $namaWalikelas  = "Walikelas Belum Di Pilih";
+                }
               ?>
                 <tr>
                   <td>
-                    <span class="font-weight-bold"><?= $level ?></span>
+                    <span class="font-weight-bold"><?= $no++; ?></span>
+                  </td>
+                  <td>
+                    <span class="font-weight-bold">Kelas <?= $level ?></span>
                   </td>
                   <?php if ($profilSekolah['bentukPendidikan'] == "SMA" || $profilSekolah['bentukPendidikan'] == "MA" || $profilSekolah['bentukPendidikan'] == "SMK") { ?>
                     <td>
@@ -111,6 +125,9 @@
                   <?php } ?>
                   <td>
                     <span class="font-weight-bold"><?= $kelas ?></span>
+                  </td>
+                  <td>
+                    <span class="font-weight-bold"><?= $namaWalikelas ?></span>
                   </td>
                   <td>
                     <button type="button" class="btn btn-danger btn-sm" aria-expanded="false" data-id="<?= $id; ?>" data-kelas="<?= $kelas; ?>" id="hapusKelas">
@@ -130,6 +147,7 @@
     </div>
   </div>
 </div>
+<script src="<?= base_url('assets/'); ?>assets/js/scripts.js"></script>
 <script>
   if (feather) {
     feather.replace({
@@ -163,4 +181,10 @@
       });
     });
   }
+
+  var hideSearch = $('.hide-search');
+  hideSearch.select2({
+    placeholder: 'Select an option',
+    minimumResultsForSearch: Infinity
+  });
 </script>

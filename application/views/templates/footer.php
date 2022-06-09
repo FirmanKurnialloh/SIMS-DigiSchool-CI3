@@ -1,6 +1,5 @@
 <div class="sidenav-overlay"></div>
 <div class="drag-target"></div>
-<p id="is_change" class="hidden"><?= $is_change ?></p>
 
 <!-- BEGIN: Footer-->
 <footer class="footer footer-static footer-light">
@@ -49,14 +48,14 @@
 <!-- BEGIN: Page JS-->
 <script src="<?= base_url('assets/'); ?>assets/js/scripts.js"></script>
 <script src="<?= base_url('assets/'); ?>app-assets/js/scripts/pages/page-knowledge-base.js"></script>
-<script src="<?= base_url('assets/'); ?>app-assets/js/scripts/pages/page-account-settings-account.js"></script>
+<!-- <script src="<?= base_url('assets/'); ?>app-assets/js/scripts/pages/page-account-settings-account.js"></script> -->
 <script src="<?= base_url('assets/'); ?>app-assets/js/scripts/tables/table-datatables-basic.js"></script>
 <!-- END: Page JS-->
 
 <?= $this->session->flashdata('sweet'); ?>
 <?= $this->session->flashdata('toastr'); ?>
-<script>
-  $(window).on('load', function() {});
+
+<script type="text/javascript">
 </script>
 <script>
   $(window).on('load', function() {
@@ -82,9 +81,11 @@
         "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Indonesian.json"
       }
     });
+
+    $('#reload').delay(5000).show(0);
   })
 
-  var is_change = document.getElementById("is_change").innerHTML;
+  var is_change = "<?= $is_change ?>";
   if (is_change == true) {
     Swal.fire({
         icon: 'error',

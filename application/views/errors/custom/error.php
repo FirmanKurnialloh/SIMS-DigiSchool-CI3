@@ -65,7 +65,7 @@
               <p class="mb-2">Oops! 😖 Halaman yang diakses tidak ditemukan di server atau sedang dalam perbaikan.</p>
               <a class="btn btn-primary mb-2 btn-sm-block" href="javascript:void(0)" onclick="goBack()">Kembali</a>
             </div>
-            <img class="img-fluid" src="<?= base_url('assets/'); ?>app-assets/images/pages/error.svg" alt="Error page" />
+            <img class="img-fluid" src="<?= base_url('assets/'); ?>/files/images/logo/error.png" alt="Error page" />
           </div>
         </div>
         <!-- / Error page-->

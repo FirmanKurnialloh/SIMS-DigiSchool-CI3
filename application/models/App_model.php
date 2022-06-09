@@ -23,18 +23,23 @@ class App_model extends CI_Model
     return $this->db->get_where('setting_tapel', ['is_aktif' => '1'])->row_array();
   }
 
-  public function getUser($username)
+  public function getUserGTK($username)
   {
-    return $this->db->get_where('user', ['username' => $username])->row_array();
+    return $this->db->get_where('user_gtk', ['username' => $username])->row_array();
   }
 
-  public function getProfilGtk($username)
+  public function getProfilGTK($username)
   {
     return $this->db->get_where('profil_gtk', ['username' => $username])->row_array();
   }
 
-  public function getProfilPd($username)
+  public function getUserPD($nisn)
   {
-    return $this->db->get_where('profil_pd', ['nisn' => $username])->row_array();
+    return $this->db->get_where('user_pd', ['nisn' => $nisn])->row_array();
+  }
+
+  public function getProfilPd($nisn)
+  {
+    return $this->db->get_where('profil_pd', ['nisn' => $nisn])->row_array();
   }
 }

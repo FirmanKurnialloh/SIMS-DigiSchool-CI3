@@ -56,7 +56,6 @@
             </div>
             <div class="card-body">
               <form class="validate-form" action="<?= base_url('gtk/editAkun'); ?>" method="POST">
-
                 <!-- form -->
                 <div class="row">
                   <div class="col-12 col-sm-4 mb-1">

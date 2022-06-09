@@ -46,7 +46,7 @@
 
           <!-- Identitas Sekolah panel -->
           <div role="tabpanel" class="tab-pane active" id="identitas-sekolah" aria-labelledby="pill-identitas-sekolah" aria-expanded="true">
-            <form class="validate-form1TEST" action="pengaturan_aplikasi" method="POST" enctype="multipart/form-data">
+            <form class="validate-form" action="<?= base_url("settings/editProfilSekolah") ?>" method="POST" enctype="multipart/form-data">
               <!-- icon and header -->
               <div class="d-flex align-items-center">
                 <div class="avatar avatar-tag bg-light-primary me-1">
@@ -76,7 +76,7 @@
                 <div class="d-flex align-items-end mt-75 ms-1">
                   <div>
                     <label for="account-upload" class="btn btn-sm btn-primary mb-75 me-75">Logo Sekolah</label>
-                    <input type="file" name="fotoGTK" id="account-upload" hidden accept="image/jpeg, image/jpg, image/png" />
+                    <input type="file" name="logoSekolah" id="account-upload" hidden accept="image/jpeg, image/jpg, image/png" />
                     <button type="button" id="account-reset" class="btn btn-sm btn-outline-secondary mb-75">Reset</button>
                     <p class="mb-0">JPEG, JPG, PNG. Max Filesize 1 MB</p>
                   </div>
@@ -111,16 +111,20 @@
                 <div class="col-12 col-sm-2">
                   <div class="form-group">
                     <label for="bentukPendidikan">Bentuk Pendidikan</label>
-                    <select class="select2 form-control" id="bentukPendidikan" name="bentukPendidikan">
-                      <option value="<?= $profilSekolah['bentukPendidikan'] ?>" selected><?= $profilSekolah['bentukPendidikan'] ?></option>
-                      <option value="PAUD">PAUD</option>
-                      <option value="SD">SD</option>
-                      <option value="MI">MI</option>
-                      <option value="SMP">SMP</option>
-                      <option value="MTS">MTS</option>
-                      <option value="SMA">SMA</option>
-                      <option value="MA">MA</option>
-                      <option value="SMK">SMK</option>
+                    <select class="select2 hide-search form-control" id="bentukPendidikan" name="bentukPendidikan">
+                      <optgroup label="Terpilih">
+                        <option value="<?= $profilSekolah['bentukPendidikan'] ?>" selected><?= $profilSekolah['bentukPendidikan'] ?></option>
+                      </optgroup>
+                      <optgroup label="Pilih">
+                        <option value="PAUD">PAUD</option>
+                        <option value="SD">SD</option>
+                        <option value="MI">MI</option>
+                        <option value="SMP">SMP</option>
+                        <option value="MTS">MTS</option>
+                        <option value="SMA">SMA</option>
+                        <option value="MA">MA</option>
+                        <option value="SMK">SMK</option>
+                      </optgroup>
                     </select>
                   </div>
                 </div>
@@ -128,10 +132,14 @@
                 <div class="col-12 col-sm-2">
                   <div class="form-group">
                     <label for="statusSekolah">Status Sekolah</label>
-                    <select class="select2 form-control" id="statusSekolah" name="statusSekolah">
-                      <option value="<?= $profilSekolah['statusSekolah'] ?>" selected><?= $profilSekolah['statusSekolah'] ?></option>
-                      <option value="Negeri">Negeri</option>
-                      <option value="Swasta">Swasta</option>
+                    <select class="select2 hide-search form-control" id="statusSekolah" name="statusSekolah">
+                      <optgroup label="Terpilih">
+                        <option value="<?= $profilSekolah['statusSekolah'] ?>" selected><?= $profilSekolah['statusSekolah'] ?></option>
+                      </optgroup>
+                      <optgroup label="Pilih">
+                        <option value="Negeri">Negeri</option>
+                        <option value="Swasta">Swasta</option>
+                      </optgroup>
                     </select>
                   </div>
                 </div>
@@ -149,7 +157,7 @@
 
           <!-- Lokasi Sekolah panel -->
           <div class="tab-pane fade" id="lokasi-sekolah" aria-labelledby="pill-lokasi-sekolah" aria-expanded="true">
-            <form class="validate-form1TEST" action="pengaturan_aplikasi" method="POST" enctype="multipart/form-data">
+            <form class="validate-form" action="<?= base_url("settings/editLokasiSekolah") ?>" method="POST" enctype="multipart/form-data">
               <!-- icon and header -->
               <div class="d-flex align-items-center">
                 <div class="avatar avatar-tag bg-light-primary me-1">
@@ -170,17 +178,17 @@
               <div class="d-flex">
                 <a href="#" class="me-25">
                   <?php if ($profilSekolah['logoPemerintah'] && file_exists(FCPATH . "assets/files/images/logo/" . $profilSekolah['logoPemerintah'])) { ?>
-                    <img src="<?= base_url('assets/'); ?>files/images/logo/<?= $profilSekolah['logoPemerintah']; ?>" id="account-upload-img" class="uploadedAvatar rounded me-50" alt="profil image" height="80" width="80" />
+                    <img src="<?= base_url('assets/'); ?>files/images/logo/<?= $profilSekolah['logoPemerintah']; ?>" id="account-upload-img2" class="uploadedAvatar2 rounded me-50" alt="profil image" height="80" width="80" />
                   <?php  } else { ?>
-                    <img src="<?= base_url('assets/'); ?>files/images/logo/kemendikbud.png" id="account-upload-img" class="uploadedAvatar rounded me-50" alt="profil image" height="80" width="80" />
+                    <img src="<?= base_url('assets/'); ?>files/images/logo/kemendikbud.png" id="account-upload-img2" class="uploadedAvatar2 rounded me-50" alt="profil image" height="80" width="80" />
                   <?php } ?>
                 </a>
                 <!-- upload and reset button -->
                 <div class="d-flex align-items-end mt-75 ms-1">
                   <div>
-                    <label for="account-upload" class="btn btn-sm btn-primary mb-75 me-75">Logo Pemerintah</label>
-                    <input type="file" name="fotoGTK" id="account-upload" hidden accept="image/jpeg, image/jpg, image/png" />
-                    <button type="button" id="account-reset" class="btn btn-sm btn-outline-secondary mb-75">Reset</button>
+                    <label for="account-upload2" class="btn btn-sm btn-primary mb-75 me-75">Logo Pemerintah</label>
+                    <input type="file" name="logoPemerintah" id="account-upload2" hidden accept="image/jpeg, image/jpg, image/png" />
+                    <button type="button" id="account-reset2" class="btn btn-sm btn-outline-secondary mb-75">Reset</button>
                     <p class="mb-0">JPEG, JPG, PNG. Max Filesize 1 MB</p>
                   </div>
                 </div>
@@ -189,18 +197,44 @@
               <!--/ header section -->
 
               <div class="row mt-2">
+                <!-- Nama Pemerintah input -->
+                <div class="col-12 col-sm-6">
+                  <div class="form-group">
+                    <label for="namaPemerintah">Nama Pemerintah</label>
+                    <input type="text" class="form-control" id="namaPemerintah" name="namaPemerintah" placeholder="Nama Pemerintah" value="<?= $profilSekolah['namaPemerintah'] ?>" />
+                  </div>
+                </div>
+                <!-- Bentuk Pemerintah input -->
+                <div class="col-12 col-sm-6">
+                  <div class="form-group">
+                    <label for="bentukPemerintah">Bentuk Pemerintah</label>
+                    <select class="select2 hide-search form-control" id="bentukPemerintah" name="bentukPemerintah">
+                      <optgroup label="Terpilih">
+                        <option value="<?= $profilSekolah['bentukPemerintah'] ?>" selected><?= $profilSekolah['bentukPemerintah'] ?></option>
+                      </optgroup>
+                      <optgroup label="Pilih">
+                        <option value="Provinsi">Provinsi</option>
+                        <option value="Kabupaten">Kabupaten</option>
+                        <option value="Kota">Kota</option>
+                        <option value="UPTD">UPTD</option>
+                        <option value="UPT">UPT</option>
+                        <option value="Yayasan">Yayasan</option>
+                      </optgroup>
+                    </select>
+                  </div>
+                </div>
                 <!-- Telepon input -->
                 <div class="col-12 col-sm-3">
                   <div class="form-group">
                     <label for="alamat">Alamat</label>
-                    <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat" value="<?= $profilSekolah['jl'] ?>" />
+                    <input type="text" class="form-control" id="alamat" name="jl" placeholder="Alamat" value="<?= $profilSekolah['jl'] ?>" />
                   </div>
                 </div>
                 <!-- Kampung input -->
                 <div class="col-12 col-sm-3">
                   <div class="form-group">
                     <label for="kampung">Kampung/Dusun</label>
-                    <input type="text" class="form-control" id="kampung" name="kampung" placeholder="Kampung/Dusun" value="<?= $profilSekolah['kp'] ?>" />
+                    <input type="text" class="form-control" id="kampung" name="kp" placeholder="Kampung/Dusun" value="<?= $profilSekolah['kp'] ?>" />
                   </div>
                 </div>
                 <!-- RT input -->
@@ -291,7 +325,7 @@
 
           <!-- Lokasi Sekolah panel -->
           <div class="tab-pane fade" id="kontak-sekolah" aria-labelledby="pill-kontak-sekolah" aria-expanded="true">
-            <form class="validate-form1TEST" action="pengaturan_aplikasi" method="POST" enctype="multipart/form-data">
+            <form class="validate-form" action="<?= base_url("settings/editKontakSekolah") ?>" method="POST" enctype="multipart/form-data">
               <!-- icon and header -->
               <div class="d-flex align-items-center">
                 <div class="avatar avatar-tag bg-light-primary me-1">
@@ -429,6 +463,7 @@
   </div>
 </div>
 <!--  Identitas Sekolah Ends -->
+<script src="<?= base_url('assets/'); ?>assets/js/scripts.js"></script>
 <script>
   if (feather) {
     feather.replace({
@@ -450,5 +485,22 @@
     "language": {
       "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Indonesian.json"
     }
+  });
+
+  var select2 = $('.select2');
+  if (select2.length) {
+    select2.each(function() {
+      var $this = $(this);
+      $this.wrap('<div class="position-relative"></div>');
+      $this.select2({
+        dropdownParent: $this.parent()
+      });
+    });
+  }
+
+  var hideSearch = $('.hide-search');
+  hideSearch.select2({
+    placeholder: 'Select an option',
+    minimumResultsForSearch: Infinity
   });
 </script>

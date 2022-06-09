@@ -24,16 +24,19 @@
                 <!-- Mata Pelajaran input -->
                 <div class="mb-1">
                   <label class="form-label" for="namaMapel">Mata Pelajaran</label>
-                  <input type="text" class="form-control" id="namaMapel" placeholder="Mata Pelajaran" name="namaMapel" minlength="5" required />
+                  <input type="text" class="form-control" id="namaMapel" placeholder="Mata Pelajaran" name="namaMapel" minlength="5" data-msg="Masukan Nama Mata Pelajaran" required />
                 </div>
                 <!-- Kelompok Mapel input -->
                 <div class="mb-1">
                   <label for="kelompokMapel">Kelompok</label>
-                  <select class="select2 form-control" id="kelompokMapel" name="kelompokMapel">
-                    <option value="Kelompok A">Kelompok A</option>
-                    <option value="Kelompok B">Kelompok B</option>
-                    <option value="Kelompok C">Kelompok C</option>
-                    <option value="Muatan Lokal">Muatan Lokal</option>
+                  <select class="select2 hide-search form-control" placeholder="Pilih" id="kelompokMapel" name="kelompokMapel" data-placeholder="Pilih Kelompok" data-msg="Pilih Kelompok Mata Pelajaran" required>
+                    <option></option>
+                    <optgroup label="Pilih Kelompok">
+                      <option value="Kelompok A">Kelompok A</option>
+                      <option value="Kelompok B">Kelompok B</option>
+                      <option value="Kelompok C">Kelompok C</option>
+                      <option value="Muatan Lokal">Muatan Lokal</option>
+                    </optgroup>
                   </select>
                 </div>
               </div>
@@ -47,8 +50,7 @@
       </div>
       <!-- Modal -->
       <?php
-      $query = "SELECT * FROM `setting_mapel` ORDER BY `id` ASC";
-      $query = $this->db->query($query);
+      $query = getSelect('setting_mapel', '*', 'id', 'asc');
       if ($query->num_rows() <= 0) { ?>
         <div class="text-center">
           <h3 class="text-danger">Tidak Ada Data <br> </h3>
@@ -97,6 +99,7 @@
     </div>
   </div>
 </div>
+<script src="<?= base_url('assets/'); ?>assets/js/scripts.js"></script>
 <script>
   if (feather) {
     feather.replace({
@@ -130,4 +133,10 @@
       });
     });
   }
+
+  var hideSearch = $('.hide-search');
+  hideSearch.select2({
+    placeholder: "Pilih",
+    minimumResultsForSearch: Infinity
+  });
 </script>

@@ -53,7 +53,7 @@ class Auth extends CI_Controller
     is_server_gtk_active();
     $username = $this->input->post('username');
     $password = $this->input->post('password');
-    $user     = $this->modelApp->getUser($username);
+    $user     = $this->modelApp->getUserGTK($username);
 
     if ($user) {
       if ($user['is_active'] == 1) {
@@ -61,13 +61,15 @@ class Auth extends CI_Controller
           if (password_verify('#MerdekaBelajar!', $user['password'])) {
             $data = [
               'username'  => $user['username'],
-              'role_id'   => $user['role_id'],
+              'role_id_1' => $user['role_id_1'],
+              'role_id_2' => $user['role_id_2'],
               'is_change' => '1',
             ];
           } else {
             $data = [
               'username'  => $user['username'],
-              'role_id'   => $user['role_id'],
+              'role_id_1' => $user['role_id_1'],
+              'role_id_2' => $user['role_id_2'],
               'is_change' => '0',
             ];
           }
@@ -172,7 +174,7 @@ class Auth extends CI_Controller
     $nama           = $this->input->post('modalForgotGTKNama');
     $username       = $this->input->post('modalForgotGTKUsername');
     $adminUsername  = $this->input->post('modalForgotGTKSelectAdmin');
-    $adminProfil    = $this->modelApp->getProfilGtk($adminUsername);
+    $adminProfil    = $this->modelApp->getProfilGTK($adminUsername);
     $namaPanggil    = $adminProfil['namaPanggil'];
     $jkKontakAdmin  = $adminProfil['jk'];
     $hpKontakAdmin  = $adminProfil['hp'];
@@ -265,23 +267,22 @@ class Auth extends CI_Controller
   {
     is_server_pd_active();
     $nisn        = $this->input->post('nisn');
-    $user        = $this->modelApp->getUser($nisn);
-    if ($user) {
-      if ($user['is_active'] == 1) {
-        $dataUser = [
-          'username'  => $user['username'],
-          'role_id'   => $user['role_id']
-        ];
-        $this->session->set_userdata($dataUser);
+    $profilePD   = $this->modelApp->getProfilPd($nisn);
+    if ($profilePD) {
+      $dataUser = [
+        'nisn'      => $profilePD['nisn'],
+        'role_id'   => $profilePD['role_id']
+      ];
+      $this->session->set_userdata($dataUser);
 
-        $dataProfil   = $this->modelApp->getProfilPd($nisn);
-        if ($dataProfil) {
-          if ($dataProfil['jk'] == "L") {
-            $jkPanjang = "Laki - Laki";
-          } else {
-            $jkPanjang = "Perempuan";
-          }
-          echo "
+      $dataProfil   = $this->modelApp->getProfilPd($nisn);
+      if ($dataProfil) {
+        if ($dataProfil['jk'] == "L") {
+          $jkPanjang = "Laki - Laki";
+        } else {
+          $jkPanjang = "Perempuan";
+        }
+        echo "
           <div class='card card-profile shadow-none bg-transparent border-primary'>
             <img src='" . base_url('assets/') . "files/images/logo/banner-login.png' class='img-fluid card-img-top' alt='Profile Cover Photo' />
             <div class='card-body'>
@@ -304,8 +305,8 @@ class Auth extends CI_Controller
             </div>
           </div>
         ";
-        } else {
-          echo "
+      } else {
+        echo "
           <script>      
             $(document).ready(function() {
               if (feather) {
@@ -334,37 +335,6 @@ class Auth extends CI_Controller
             </div>
           </div>
           ";
-        }
-      } else {
-        echo "
-        <script>      
-          $(document).ready(function() {
-            if (feather) {
-              feather.replace({
-                width: 14,
-                height: 14
-              });
-            }
-          })
-        </script>
-        <div class='card card-profile shadow-none bg-transparent border-primary'>
-            <img src='" . base_url('assets/') . "files/images/logo/banner-login.png' class='img-fluid card-img-top' alt='Profile Cover Photo' />
-            <div class='card-body'>
-              <div class='profile-image-wrapper'>
-                <div class='profile-image'>
-                  <div class='avatar'>
-                  <img src='" . base_url('assets/') . "files/images/logo/pd-square.png' alt='Profile Picture' />
-                  </div>
-                </div>
-              </div>
-              <h3 class='display-0 text-warning text-center'>Akun Tidak Aktif !</h3>
-              <h5>Silahkan hubungi admin !</h5>
-              <div class='d-flex justify-content-center pt-1'>
-                <a href'javascript:void(0);' data-bs-toggle='modal' data-bs-target='#modalReaktivasiPD' class='btn btn-sm btn-success'>Hubungi Admin</a>
-              </div>
-            </div>
-          </div>
-        ";
       }
     } else {
       echo "

@@ -24,17 +24,17 @@
                 <!-- Tahun Pelajaran input -->
                 <div class="mb-1">
                   <label class="form-label" for="tahunInput">Tahun Pelajaran</label>
-                  <input type="text" class="form-control" id="tahunInput" placeholder="2022/2023" name="tapel" minlength="9" required />
+                  <input type="text" class="form-control" id="tahunInput" placeholder="2022/2023" name="tapel" minlength="9" data-msg="Masukan Tahun Pelajaran" required />
                 </div>
                 <!-- Semester input -->
                 <div class="mb-1">
                   <label>Semester&nbsp;&nbsp;</label>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="semester1" value="1" name="semester" required />
+                    <input class="form-check-input" type="radio" id="semester1" value="1" name="semester" data-msg="Pilih Semester" required />
                     <label class="form-check-label" for="semester1">1</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="semester2" value="2" name="semester" required />
+                    <input class="form-check-input" type="radio" id="semester2" value="2" name="semester" data-msg="Pilih Semester" required />
                     <label class="form-check-label" for="semester2">2</label>
                   </div>
                 </div>
@@ -42,11 +42,11 @@
                 <div class="mb-1">
                   <label>Aktifkan? &nbsp;</label>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="aktif1" value="1" name="is_aktif" required />
+                    <input class="form-check-input" type="radio" id="aktif1" value="1" name="is_aktif" data-msg="Pilih Status" required />
                     <label class="form-check-label" for="aktif1">Ya</label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" id="aktif0" value="0" name="is_aktif" required />
+                    <input class="form-check-input" type="radio" id="aktif0" value="0" name="is_aktif" data-msg="Pilih Status" required />
                     <label class="form-check-label" for="aktif0">Tidak</label>
                   </div>
                 </div>
@@ -61,8 +61,7 @@
       </div>
       <!-- Modal -->
       <?php
-      $query = "SELECT * FROM `setting_tapel` ORDER BY `tapel`,`semester` DESC";
-      $query = $this->db->query($query);
+      $query = getSelect('setting_tapel', '*', 'id', 'desc');
       if ($query->num_rows() <= 0) { ?>
         <div class="text-center">
           <h3 class="text-danger">Tidak Ada Data <br> </h3>
@@ -134,6 +133,7 @@
     </div>
   </div>
 </div>
+<script src="<?= base_url('assets/'); ?>assets/js/scripts.js"></script>
 <script>
   if (feather) {
     feather.replace({

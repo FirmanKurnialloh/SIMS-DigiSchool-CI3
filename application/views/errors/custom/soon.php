@@ -3,7 +3,7 @@
     <div class="w-100 text-center">
       <h2 class="mb-1">Coming Soon 🚀</h2>
       <p class="mb-2">Halaman yang diakses belum tersedia.</p>
-      <img class="img-fluid" src="<?= base_url('assets/'); ?>app-assets/images/pages/coming-soon.svg" alt="Soon Page" />
+      <img class="img-fluid" src="<?= base_url('assets/'); ?>/files/images/logo/working.png" alt="Soon Page" width="50%" />
     </div>
   </div>
 </div>

@@ -24,7 +24,30 @@
                 <!-- Ekstrakurikuler input -->
                 <div class="mb-1">
                   <label class="form-label" for="namaEkskul">Ekstrakurikuler</label>
-                  <input type="text" class="form-control" id="namaEkskul" placeholder="Ekstrakurikuler" name="namaEkskul" minlength="5" required />
+                  <input type="text" class="form-control" id="namaEkskul" placeholder="Ekstrakurikuler" name="namaEkskul" minlength="5" data-msg="Masukan Nama Ekstrakurikuler" required />
+                </div>
+                <!-- Pelatih input -->
+                <div class="mb-1" hidden>
+                  <label for="pelatih">Pelatih / Pembina</label>
+                  <select class="select2 hide-search form-control" id="pelatih" name="pelatih" data-placeholder="Pilih Pelatih / Pembina">
+                    <option></option>
+                    <optgroup label="Pilih Pelatih / Pembina">
+                      <?php
+                      $query = getSelect('user_gtk', '*', 'id', 'asc');
+                      if ($query->num_rows() >= 1) {
+                        $data = $query->result_array();
+                        foreach ($data as $data) {
+                          $username     = $data['username'];
+                          $namaLengkap  = $data['namaLengkap'];
+                      ?>
+                          <option value="<?= $username ?>"><?= $namaLengkap ?></option>
+                        <?php
+                        }
+                      } else { ?>
+                        <option value="">Tidak ada GTK</option>
+                      <?php }; ?>
+                    </optgroup>
+                  </select>
                 </div>
               </div>
               <div class="modal-footer">
@@ -37,8 +60,7 @@
       </div>
       <!-- Modal -->
       <?php
-      $query = "SELECT * FROM `setting_ekskul` ORDER BY `id` ASC";
-      $query = $this->db->query($query);
+      $query = getSelect('setting_ekskul', '*', 'id', 'asc');
       if ($query->num_rows() <= 0) { ?>
         <div class="text-center">
           <h3 class="text-danger">Tidak Ada Data <br> </h3>
@@ -51,18 +73,32 @@
             <thead>
               <tr>
                 <th style="width: 5%;">Ekstrakurikuler</th>
+                <th style="width: 5%;">Nama Pelatih</th>
                 <th style="width: 1%;">Aksi</th>
               </tr>
             </thead>
             <tbody>
               <?php
               foreach ($query->result_array() as $i) {
-                $id              = $i['id'];
-                $ekskul        = $i['namaEkskul'];
+                $id             = $i['id'];
+                $ekskul         = $i['namaEkskul'];
+                $pelatih        = $i['pelatih'];
+                $query          = getWhere('profil_gtk', '*', ['username' => $pelatih]);
+                if ($query->num_rows()) {
+                  $namaLengkap    = $query->row('namaLengkap');
+                  $gelarDepan     = $query->row('gelarDepan');
+                  $gelarBelakang  = ',' . $query->row('gelarBelakang');
+                  $namaPelatih    = $gelarDepan . ' ' . $namaLengkap . ' ' . $gelarBelakang;
+                } else {
+                  $namaPelatih    = "Pelatih Belum Di Pilih";
+                }
               ?>
                 <tr>
                   <td>
                     <span class="font-weight-bold"><?= $ekskul ?></span>
+                  </td>
+                  <td>
+                    <span class="font-weight-bold"><?= $namaPelatih ?></span>
                   </td>
                   <td>
                     <button type="button" class="btn btn-danger btn-sm" aria-expanded="false" data-id="<?= $id; ?>" data-ekskul="<?= $ekskul; ?>" id="hapusEkskul">
@@ -82,6 +118,7 @@
     </div>
   </div>
 </div>
+<script src="<?= base_url('assets/'); ?>assets/js/scripts.js"></script>
 <script>
   if (feather) {
     feather.replace({
@@ -103,5 +140,21 @@
     "language": {
       "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Indonesian.json"
     }
+  });
+
+  var select2 = $('.select2');
+  if (select2.length) {
+    select2.each(function() {
+      var $this = $(this);
+      $this.wrap('<div class="position-relative"></div>');
+      $this.select2({
+        dropdownParent: $this.parent()
+      });
+    });
+  }
+
+  var hideSearch = $('.hide-search');
+  hideSearch.select2({
+    minimumResultsForSearch: Infinity
   });
 </script>
