@@ -6,7 +6,6 @@ class Settings extends CI_Controller
   public function __construct()
   {
     parent::__construct();
-    $this->load->library('form_validation');
     $this->load->model('App_model', 'modelApp');
     is_logged_in_as_gtk();
     is_logged_in_as_admin();

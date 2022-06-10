@@ -6,7 +6,6 @@ class LayananPPDB extends CI_Controller
   public function __construct()
   {
     parent::__construct();
-    $this->load->library('form_validation');
     $this->load->model('App_model');
     is_server_gtk_active();
     is_logged_in_as_gtk();
