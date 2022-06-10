@@ -35,6 +35,7 @@
 <script src="<?= base_url('assets/'); ?>app-assets/vendors/js/tables/datatable/buttons.print.min.js"></script>
 <script src="<?= base_url('assets/'); ?>app-assets/vendors/js/tables/datatable/dataTables.rowGroup.min.js"></script>
 <script src="<?= base_url('assets/'); ?>app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+<script src="https://npmcdn.com/flatpickr@4.6.9/dist/l10n/id.js"></script>
 <!-- BEGIN Vendor JS-->
 
 <!-- BEGIN: Page Vendor JS-->

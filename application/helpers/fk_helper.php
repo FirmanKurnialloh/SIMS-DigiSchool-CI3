@@ -367,10 +367,10 @@ function getUserPD()
 }
 
 // Profil PD
-function getProfilPdFromTapel($username, $tapelAktif, $semesterAktif)
+function getProfilPdFromTapel($username, $tapelAktif)
 {
   $ci = get_instance();
-  return $ci->db->get_where('profil_pd', ['nisn' => $username, 'tapel' => $tapelAktif, 'semester' => $semesterAktif])->row_array();
+  return $ci->db->get_where('profil_pd', ['nisn' => $username, 'id_tapel' => $tapelAktif])->row_array();
 }
 
 // Check Add-On PPDB

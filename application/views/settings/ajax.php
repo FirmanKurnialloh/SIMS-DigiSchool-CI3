@@ -675,7 +675,7 @@
           $.ajax({
               type: 'POST',
               url: '<?= base_url('settings/deleteAkunGTK'); ?>',
-              data: '&username=' + username,
+              data: 'username=' + username,
               dataType: 'json',
               cache: false,
             })
@@ -716,4 +716,137 @@
 
   }
   // FUNGSI PENGATURAN AKUN GTK END
+  // FUNGSI PENGATURAN AKUN PD START
+  $(document).on('click', '#resetDataPD', function(e) {
+    SwalResetDataPD();
+    e.preventDefault();
+  });
+
+  function SwalResetDataPD() {
+
+    Swal.fire({
+      title: 'Anda yakin ingin mereset DATABASE AKUN dan PROFIL PESERTA DIDIK ? ',
+      text: "Anda tidak dapat mengembalikan data yang dihapus!",
+      icon: 'warning',
+      allowOutsideClick: false,
+      showCancelButton: true,
+      confirmButtonText: 'Ya, Reset Database!',
+      cancelButtonText: 'Batalkan!',
+      customClass: {
+        confirmButton: 'btn btn-primary btn-sm',
+        cancelButton: 'btn btn-outline-danger btn-sm ms-1'
+      },
+      buttonsStyling: false,
+      preConfirm: function() {
+        return new Promise(function(resolve) {
+          $.ajax({
+              type: 'POST',
+              url: '<?= base_url('settings/resetDataPD'); ?>',
+              dataType: 'json',
+              cache: false,
+            })
+            .done(function(response) {
+              Swal.fire({
+                  icon: response.status,
+                  title: response.judul,
+                  text: response.pesan,
+                  allowOutsideClick: false,
+                  customClass: {
+                    confirmButton: 'btn btn-success btn-sm'
+                  }
+                })
+                .then(function(result) {
+                  if (result.value) {
+                    location.reload()
+                  }
+                })
+            })
+            .fail(function(response) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Terdapat Kesalahan Sistem!',
+                text: 'Database Gagal Direset !',
+                allowOutsideClick: false,
+                customClass: {
+                  confirmButton: 'btn btn-danger btn-sm'
+                }
+              }).then(function(result) {
+                if (result.value) {
+                  location.reload()
+                }
+              })
+            });
+        });
+      },
+    });
+
+  }
+
+  $(document).on('click', '#hapusAkunPD', function(e) {
+    var nisn = $(this).data('nisn');
+    SwalDeleteAkunPD(nisn);
+    e.preventDefault();
+  });
+
+  function SwalDeleteAkunPD(nisn) {
+
+    Swal.fire({
+      title: 'Anda Yakin Ingin Menghapus Akun Dengan NISN ' + nisn + ' ? ',
+      text: "Anda tidak dapat mengembalikan data yang dihapus!",
+      icon: 'question',
+      allowOutsideClick: false,
+      showCancelButton: true,
+      confirmButtonText: 'Ya, hapus data!',
+      cancelButtonText: 'Batalkan!',
+      customClass: {
+        confirmButton: 'btn btn-primary btn-sm',
+        cancelButton: 'btn btn-outline-danger btn-sm ms-1'
+      },
+      buttonsStyling: false,
+      preConfirm: function() {
+        return new Promise(function(resolve) {
+          $.ajax({
+              type: 'POST',
+              url: '<?= base_url('settings/deleteAkunPD'); ?>',
+              data: 'nisn=' + nisn,
+              dataType: 'json',
+              cache: false,
+            })
+            .done(function(response) {
+              Swal.fire({
+                  icon: response.status,
+                  title: response.judul,
+                  text: response.pesan,
+                  allowOutsideClick: false,
+                  customClass: {
+                    confirmButton: 'btn btn-success btn-sm'
+                  }
+                })
+                .then(function(result) {
+                  if (result.value) {
+                    location.reload()
+                  }
+                })
+            })
+            .fail(function(response) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Terdapat Kesalahan Sistem!',
+                text: 'Akun dengan NISN  ' + nisn + ' Gagal Dihapus!',
+                allowOutsideClick: false,
+                customClass: {
+                  confirmButton: 'btn btn-danger btn-sm'
+                }
+              }).then(function(result) {
+                if (result.value) {
+                  location.reload()
+                }
+              })
+            });
+        });
+      },
+    });
+
+  }
+  // FUNGSI PENGATURAN AKUN PD END
 </script>

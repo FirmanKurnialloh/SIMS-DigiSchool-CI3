@@ -8,20 +8,25 @@
           <a href=" javascript:void(0)" type="button" class="btn btn-sm btn-primary ms-1" data-bs-id="tambahData" id="tambahDataButton" data-bs-toggle="modal" data-bs-target="#tambahDataModal">
             Tambah Data Akun PD
           </a>
-          <a href="javascript:void(0)" type="button" class="btn btn-sm btn-success ms-1" data-bs-id="importData" id="importDataButton" data-bs-toggle="modal" data-bs-target="#importDataModal">
+          <a href="javascript:void(0)" type="button" class="btn btn-sm btn-success ms-1" data-bs-id="importData" id="importDataButton" data-bs-toggle="modal" data-bs-target="#soonFeature">
             Import Data Akun PD
           </a>
-          <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger ms-1" id="resetDataButton">
+          <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger ms-1" id="resetDataPD">
             Reset Data Akun PD
           </a>
         </span>
+        <div class="alert alert-primary col-12 my-1" role="alert">
+          <div class="alert-body">
+            <strong>Note : Data yang tampil berdasarkan tahun pelajaran yang sedang aktif</strong>
+          </div>
+        </div>
       </div>
-      <!-- Modal -->
+      <!-- Modal Tambah -->
       <div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="tambahDataModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="tambahDataModal">Tambah Data Akun PD</h5>
+              <h5 class="modal-title" id="tambahDataModal">Tambah Data Akun Peserta Didik</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form class="validate-form" action="<?= base_url('settings/tambahAkunPD'); ?>" method="POST">
@@ -30,65 +35,76 @@
                   <div class="alert-body">
                     <strong>Tips:
                       <li>
-                        Username Akun PD dapat berupa Email atau Huruf dan Angka
+                        Username Akun Peserta Didik hanya NISN
                       </li>
                       <li>
-                        Password Default <u>#MerdekaBelajar!</u>
+                        Password menggunakan Tanggal Lahir
                       </li>
                       <li>
-                        Nama Panggil tidak perlu memasukan "Pak/Bu", sistem otomatis mengenali dari jenis kelamin
-                      </li>
-                      <li>
-                        Penulisan Gelar harap disesuaikan dengan baik dan benar seperti <u>Dr. Nama Guru, S.Pd., M.Pd.</u>
+                        Akun yang dibuat disini, otomatis mengikuti Tahun Pelajaran dan Semester yang sedang aktif
                       </li>
                     </strong>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-lg-6 col-12">
-                    <!-- Nama Lengkap input -->
-                    <div class="mb-1">
-                      <label class="form-label" for="namaLengkap">Nama Lengkap</label>
-                      <input type="text" class="form-control" id="namaLengkap" placeholder="Nama Lengkap" name="namaLengkap" required />
-                    </div>
-                    <!-- Jenis Kelamin input -->
-                    <div class="mb-1">
-                      <label for="Jenis Kelamin">Jenis Kelamin</label>
-                      <select class="select2 hide-search form-control" id="jenisKelamin" name="jenisKelamin" required data-placeholder="Pilih Jenis Kelamin">
-                        <option></option>
-                        <optgroup label="Pilih Jenis Kelamin">
-                          <option value="L">Laki-Laki</option>
-                          <option value="P">Perempuan</option>
-                        </optgroup>
-                      </select>
-                    </div>
-                    <!-- Username input -->
-                    <div class="mb-1">
-                      <label class="form-label" for="nisn">NISN</label>
-                      <input type="text" class="form-control" id="nisn" placeholder="NISN" name="nisn" minlength="5" required />
-                    </div>
+                  <!-- Nama Lengkap input -->
+                  <div class="mb-1 col-lg-6 col-12">
+                    <label class="form-label" for="namaLengkap">Nama Lengkap</label>
+                    <input type="text" class="form-control" id="namaLengkap" placeholder="Nama Lengkap" name="namaLengkap" required data-msg="Masukan Nama Lengkap" autocomplete="off" />
                   </div>
-                  <div class="col-lg-6 col-12">
-                    <!-- Nama Panggil input -->
-                    <div class="mb-1">
-                      <label class="form-label" for="namaPanggil">Nama Panggil</label>
-                      <input type="text" class="form-control" id="namaPanggil" placeholder="Nama Panggil" name="namaPanggil" required />
-                    </div>
-                    <div class="mb-1">
-                      <label class="form-label" for="tanggalLahir">Tanggal Lahir</label>
-                      <input type="text" class="form-control" id="tanggalLahir" placeholder="Tanggal Lahir" name="tanggalLahir" minlength="5" required />
-                    </div>
-                    <!-- Kelas input -->
-                    <div class="mb-1">
-                      <label for="Jenis Kelamin">Jenis Kelamin</label>
-                      <select class="select2 hide-search form-control" id="jenisKelamin" name="jenisKelamin" required data-placeholder="Pilih Jenis Kelamin">
-                        <option></option>
-                        <optgroup label="Pilih Jenis Kelamin">
-                          <option value="L">Laki-Laki</option>
-                          <option value="P">Perempuan</option>
-                        </optgroup>
-                      </select>
-                    </div>
+                  <!-- Nama Panggil input -->
+                  <div class="mb-1 col-lg-6 col-12">
+                    <label class="form-label" for="namaPanggil">Nama Panggil</label>
+                    <input type="text" class="form-control" id="namaPanggil" placeholder="Nama Panggil" name="namaPanggil" required data-msg="Masukan Nama Panggil" autocomplete="off" />
+                  </div>
+                  <!-- Tanggal Lahir input -->
+                  <div class="mb-1 col-lg-6 col-12">
+                    <label class="form-label" for="tanggalLahir">Tanggal Lahir</label>
+                    <input type="text" class="form-control flatpickr-basic" id="tanggalLahir" name="tanggalLahir" placeholder="Tanggal Lahir" required data-msg="Pilih Tanggal Lahir" autocomplete="off" />
+                  </div>
+                  <!-- Jenis Kelamin input -->
+                  <div class="mb-1 col-lg-3 col-12">
+                    <label for="jenisKelaminPD">Jenis Kelamin</label>
+                    <select class="select2 hide-search form-control" id="jenisKelaminPD" name="jenisKelamin" required data-placeholder="Pilih Jenis Kelamin" data-msg="Pilih Tanggal Lahir">
+                      <option></option>
+                      <optgroup label="Pilih Jenis Kelamin">
+                        <option value="L">Laki-Laki</option>
+                        <option value="P">Perempuan</option>
+                      </optgroup>
+                    </select>
+                  </div>
+                  <!-- NISN input -->
+                  <div class="mb-1 col-lg-3 col-12">
+                    <label class="form-label" for="nisn">NISN</label>
+                    <input type="number" class="form-control" id="nisn" placeholder="NISN" name="nisn" required data-msg="Masukan NISN" autocomplete="off" maxlength="10" oninput="javascript:if(this.value.length>this.maxLength)this.value=this.value.slice(0, this.maxLength);">
+                  </div>
+                  <!-- Tahun Pelajaran & Semester input -->
+                  <div class="mb-1 col-lg-6 col-12">
+                    <label class="form-label" for="tapel">Tahun Pelajaran & Semester</label>
+                    <input type="text" class="form-control" id="tapel" placeholder="<?= 'Tahun Pelajaran ' . $tapelAktif['tapel'] . ' Semester ' . $tapelAktif['semester'] ?>" value="<?= 'Tahun Pelajaran ' . $tapelAktif['tapel'] . ' Semester ' .  $tapelAktif['semester'] ?>" name="tapel" required readonly disabled data-msg="Masukan Tahun Pelajaran & Semester" autocomplete="off" />
+                  </div>
+                  <!-- Kelas input -->
+                  <div class="mb-1 col-lg-6 col-12">
+                    <label for="kelas">Pilih Kelas</label>
+                    <select class="select2 form-control" id="selectKelas" name="kelas" data-placeholder="Pilih Kelas" required data-msg="Pilih Kelas">
+                      <option></option>
+                      <optgroup label="Pilih Kelas">
+                        <?php
+                        $query = getSelect('setting_kelas', '*', 'LENGTH(level), level, LENGTH(kelas), kelas', 'asc');
+                        if ($query->num_rows() >= 1) {
+                          $data = $query->result_array();
+                          foreach ($data as $data) {
+                            $id          = $data['id'];
+                            $level       = $data['level'];
+                            $kelas       = $data['kelas'];
+                        ?>
+                            <option value="<?= $id ?>"><?= $kelas ?></option>
+                          <?php }
+                        } else { ?>
+                          <option value="">Tidak ada Kelas</option>
+                        <?php }; ?>
+                      </optgroup>
+                    </select>
                   </div>
                 </div>
                 <div class="modal-footer">
@@ -112,13 +128,13 @@
           </div>
         </div>
       </div>
-      <!-- Modal -->
+      <!-- Modal Tambah-->
       <?php
       if (getUserPD()->num_rows() <= 0) { ?>
         <div class="text-center">
           <h3 class="text-danger">Tidak Ada Data <br> </h3>
           <h3 class="text-danger myicon"><i data-feather='x-circle' style="width: 100;"></i></h3>
-          <h4 class="mb-3 mt-2">Silahkan Tambah Data Akun PD</h4>
+          <h4 class="mb-3 mt-2">Silahkan Tambah Data Akun Peserta Didik</h4>
         </div>
       <?php } else { ?>
         <div class="card-body">
@@ -135,23 +151,39 @@
               <?php
               $no = 1;
               foreach (getUserPD()->result_array() as $i) :
-                $id            = $i['id'];
-                $username      = $i['username'];
-                $password      = $i['password'];
+                $id_user       = $i['id'];
+                $nisn          = $i['nisn'];
+                $tanggalLahir  = $i['tanggalLahir'];
+                $namaLengkap   = $i['namaLengkap'];
                 $is_active     = $i['is_active'];
                 $role_id       = $i['role_id'];
                 $role          = getPeran($role_id);
-                $profilPD      = getProfilPdFromTapel($username, $tapelAktif['tapel'], $tapelAktif['semester']);
+                $profilPD      = getProfilPdFromTapel($nisn, $tapelAktif['id']);
                 if ($profilPD) {
-                  $profilExist    = "Lihat Profil";
-                  $colorProfile   = "success";
-                  $namaLengkap    = $profilPD['namaLengkap'];
-                  $foto = $profilPD['foto'];
+                  $id_profil   = $profilPD['id'];
+                  $id_kelas    = $profilPD['id_kelas'];
+                  $namaPD      = $profilPD['namaLengkap'];
+                  $namaPanggil = $profilPD['namaPanggil'];
+                  if ($profilPD['nis']) {
+                    $nis       = ' / ' . $profilPD['nis'];
+                  } else {
+                    $nis       = "";
+                  }
+                  $jk          = $profilPD['jk'];
+                  $foto        = $profilPD['foto'];
                 } else {
-                  $namaLengkap    = $username;
-                  $foto           = "";
-                  $profilExist    = "Profil Tidak Tersedia";
-                  $colorProfile   = "danger";
+                  $namaPD      = $i['namaLengkap'];
+                  $namaPanggil = "";
+                  $nis         = "";
+                  $jk          = "";
+                  $foto        = "";
+                }
+
+                $dataKelas     = getWhere('setting_kelas', 'kelas', ['id' => $id_kelas])->row('kelas');
+                if ($profilPD) {
+                  $kelas = $dataKelas;
+                } else {
+                  $kelas = "";
                 }
               ?>
                 <tr>
@@ -164,53 +196,59 @@
                         <?php if ($foto && file_exists(FCPATH . "assets/files/images/fotoSiswa/" . $foto)) { ?>
                           <img src="<?= base_url('assets/'); ?>files/images/fotoSiswa/<?= $foto; ?>" alt="Avatar" height="32" width="32">
                         <?php  } else { ?>
-                          <div class="avatar bg-light-<?= $colorProfile; ?>">
+                          <div class="avatar bg-light-<?= warnaPeran($role); ?>">
                             <div class="avatar-content"><?= namaInisial($namaLengkap); ?></div>
                           </div>
                         <?php } ?>
                       </div>
                       <div class="d-flex flex-column">
-                        <a href="<?= base_url('profil/pd/') . $id; ?>" class="user_name text-body text-truncate">
-                          <span class="fw-bolder"><?= $namaLengkap ?></span>
-                        </a><small class="emp_post text-muted"><?= $username ?></small>
+                        <a href="<?= base_url('profil/pd/') . $nisn; ?>" class="user_name text-body text-truncate">
+                          <?php if ($profilPD) { ?>
+                            <span class="fw-bolder"><?= $namaLengkap ?></span>
+                          <?php } else { ?>
+                            <span class="fw-bolder"><?= $namaPD ?></span>
+                          <?php } ?>
+                        </a><small class="emp_post text-muted"><?= $nisn . $nis ?></small>
                       </div>
                     </div>
                   </td>
                   <td>
                     <div class="d-flex justify-content-left align-items-center">
-                      <span class="badge bg-<?= $colorProfile; ?> me-1">
-                        <i data-feather="user" class="me-25"></i>
-                        <span><?= $profilExist ?></span>
-                      </span>
-                    </div>
+                      <?php if (!$profilPD) { ?>
+                        <span class="badge bg-secondary me-1">
+                          <i data-feather="alert-triangle" class="me-25"></i>
+                          <span>Profil Tidak Tersedia</span>
+                        </span>
+                      <?php }; ?>
+                      <div class="d-flex justify-content-left align-items-center">
+                        <span class="badge bg-<?= warnaPeran($role); ?> me-1">
+                          <i data-feather="<?= iconPeran($role); ?>" class="me-25"></i>
+                          <span><?= $role . ' Kelas ' . $dataKelas ?></span>
+                        </span>
+                      </div>
                   </td>
                   <td>
                     <div class="d-flex justify-content-left align-items-center">
-                      <button type="button" class="btn btn-sm btn-icon rounded-circle btn-info me-1" aria-expanded="false" data-bs-id="updateDataButton<?= $id; ?>" id="updateDataButton<?= $id; ?>" data-bs-toggle="modal" data-bs-target="#updateDataModal<?= $id; ?>">
+                      <button type="button" class="btn btn-sm btn-icon rounded-circle btn-info me-1" aria-expanded="false" data-bs-id="updateDataButton<?= $id_user; ?>" id="updateDataButton<?= $id_user; ?>" data-bs-toggle="modal" data-bs-target="#updateDataModal<?= $id_user; ?>">
                         <i data-feather='edit'></i>
                       </button>
-                      <?php if ($sessionUser != $username) { ?>
-                        <button type="button" class="btn btn-sm btn-icon rounded-circle btn-success me-1" aria-expanded="false" data-username="<?= $username; ?>" id="resetPassPD">
-                          <i data-feather='refresh-cw'></i>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-icon rounded-circle btn-danger me-1" aria-expanded="false" data-username="<?= $username; ?>" id="hapusAkunPD">
-                          <i data-feather="trash"></i>
-                        </button>
-                      <?php } ?>
-                      <?php if ($sessionUser != $username && $is_active == "0") { ?>
-                        <form id="switchActivatePDForm<?= $id ?>" action="<?= base_url('settings/switchActivatePD') ?>" method="POST">
+                      <button type="button" class="btn btn-sm btn-icon rounded-circle btn-danger me-1" aria-expanded="false" data-nisn="<?= $nisn; ?>" id="hapusAkunPD">
+                        <i data-feather="trash"></i>
+                      </button>
+                      <?php if ($is_active == "0") { ?>
+                        <form id="switchActivatePDForm<?= $id_user ?>" action="<?= base_url('settings/switchActivatePD') ?>" method="POST">
                           <div class="form-switch">
-                            <input type="checkbox" class="form-check-input" id="switchActivatePD" onclick="document.getElementById('switchActivatePDForm<?= $id ?>').submit();" />
-                            <input type="text" name="username" value="<?= $username ?>" hidden />
+                            <input type="checkbox" class="form-check-input" id="switchActivatePD" onclick="document.getElementById('switchActivatePDForm<?= $id_user; ?>').submit();" />
+                            <input type="text" name="nisn" value="<?= $nisn ?>" hidden />
                             <input type="text" name="is_aktif" id="statusActivatePD" value="0" hidden />
                             <sub id="LabelswitchActivatePD">Tidak Aktif</sub>
                           </div>
                         </form>
-                      <?php } elseif ($sessionUser != $username && $is_active == "1") { ?>
-                        <form id="switchActivatePDForm<?= $id ?>" action="<?= base_url('settings/switchActivatePD') ?>" method="POST">
+                      <?php } elseif ($is_active == "1") { ?>
+                        <form id="switchActivatePDForm<?= $id_user ?>" action="<?= base_url('settings/switchActivatePD') ?>" method="POST">
                           <div class="form-switch">
-                            <input type="checkbox" class="form-check-input" id="switchActivatePD" checked onclick="document.getElementById('switchActivatePDForm<?= $id ?>').submit();" />
-                            <input type="text" name="username" value="<?= $username ?>" hidden />
+                            <input type="checkbox" class="form-check-input" id="switchActivatePD" checked onclick="document.getElementById('switchActivatePDForm<?= $id_user; ?>').submit();" />
+                            <input type="text" name="nisn" value="<?= $nisn ?>" hidden />
                             <input type="text" name="is_aktif" id="statusActivatePD" value="1" hidden />
                             <sub id="LabelswitchActivatePD">Aktif</sub>
                           </div>
@@ -218,11 +256,11 @@
                       <?php } ?>
                     </div>
                     <!-- Modal -->
-                    <div class="modal fade" id="updateDataModal<?= $id; ?>" tabindex="-1" aria-labelledby="updateDataModal" aria-hidden="true">
+                    <div class="modal fade" id="updateDataModal<?= $id_user; ?>" tabindex="-1" aria-labelledby="updateDataModal" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title" id="updateDataModal">Edit Akun <?= $gelarDepan . ' ' . $namaLengkap . ', ' . $gelarBelakang ?></h5>
+                            <h5 class="modal-title" id="updateDataModal">Edit Akun <?= $nisn ?></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <form class="validate-form" action="<?= base_url('settings/editAkunPD'); ?>" method="POST">
@@ -231,80 +269,73 @@
                                 <div class="alert-body">
                                   <strong>Tips:
                                     <li>
-                                      Username Akun PD dapat berupa Email atau Huruf dan Angka
+                                      Username Akun Peserta Didik hanya NISN
                                     </li>
                                     <li>
-                                      Password Default <u>#MerdekaBelajar!</u>
-                                    </li>
-                                    <li>
-                                      Nama Panggil tidak perlu memasukan "Pak/Bu", sistem otomatis mengenali dari jenis kelamin
-                                    </li>
-                                    <li>
-                                      Penulisan Gelar harap disesuaikan dengan baik dan benar seperti <u>Dr. Nama Guru, S.Pd., M.Pd.</u>
+                                      Password menggunakan Tanggal Lahir
                                     </li>
                                   </strong>
                                 </div>
                               </div>
                               <div class="row">
-                                <div class="col-lg-6 col-12">
-                                  <!-- Nama Lengkap input -->
-                                  <div class="mb-1">
-                                    <label class="form-label" for="namaLengkap">Nama Lengkap</label>
-                                    <input type="text" class="form-control" id="namaLengkap" placeholder="Nama Lengkap" name="namaLengkap" value="<?= $namaLengkap; ?>" required />
-                                  </div>
-                                  <!-- Gelar Depan input -->
-                                  <div class="mb-1">
-                                    <label class="form-label" for="gelarDepan">Gelar Depan</label>
-                                    <input type="text" class="form-control" id="gelarDepan" placeholder="Gelar Depan Contoh : Dr. Ir. H." name="gelarDepan" value="<?= $gelarDepan; ?>" />
-                                  </div>
-                                  <!-- Jenis Kelamin input -->
-                                  <div class="mb-1">
-                                    <label for="Jenis Kelamin">Jenis Kelamin</label>
-                                    <select class="select2 hide-search form-control" id="jenisKelamin" name="jenisKelamin" required data-placeholder="Pilih Jenis Kelamin">
-                                      <optgroup label="Pilih Jenis Kelamin">
-                                        <option value="L">Laki-Laki</option>
-                                        <option value="P">Perempuan</option>
-                                      </optgroup>
-                                    </select>
-                                  </div>
-                                  <!-- Username input -->
-                                  <div class="mb-1">
-                                    <label class="form-label" for="username">Username</label>
-                                    <input type="text" class="form-control" id="username" placeholder="Username" name="username" value="<?= $username; ?>" minlength="5" required readonly />
-                                  </div>
+                                <!-- Nama Lengkap input -->
+                                <div class="mb-1 col-lg-6 col-12">
+                                  <label class="form-label" for="namaLengkap">Nama Lengkap</label>
+                                  <input type="text" class="form-control" id="namaLengkap" placeholder="Nama Lengkap" name="namaLengkap" value="<?= $namaPD ?>" required data-msg="Masukan Nama Lengkap" autocomplete="off" />
                                 </div>
-                                <div class="col-lg-6 col-12">
-                                  <!-- Nama Panggil input -->
-                                  <div class="mb-1">
-                                    <label class="form-label" for="namaPanggil">Nama Panggil</label>
-                                    <input type="text" class="form-control" id="namaPanggil" placeholder="Nama Panggil" name="namaPanggil" value="<?= $namaPanggil; ?>" required />
-                                  </div>
-                                  <!-- Gelar Belakang input -->
-                                  <div class="mb-1">
-                                    <label class="form-label" for="gelarBelakang">Gelar Belakang</label>
-                                    <input type="text" class="form-control" id="gelarBelakang" placeholder="Gelar Belakang Contoh : S.Pd. M.Pd." name="gelarBelakang" value="<?= $gelarBelakang; ?>" />
-                                  </div>
-                                  <!-- Hak Akses input -->
-                                  <div class="mb-1">
-                                    <label for="hakAkses">Hak Akses</label>
-                                    <select class="select2 hide-search form-control" id="hakAkses" name="hakAkses" required data-placeholder="Pilih Hak Akses">
-                                      <optgroup label="Pilih Hak Akses">
-                                        <option value="1">Admin</option>
-                                        <?php if ($sessionUser != $username) { ?>
-                                          <option value="2">Operator</option>
-                                          <option value="3">Kepala Sekolah</option>
-                                          <option value="4">Tenaga Administrasi</option>
-                                          <option value="5">Guru</option>
-                                          <option value="6">Walikelas</option>
-                                        <?php } ?>
-                                      </optgroup>
-                                    </select>
-                                  </div>
-                                  <!-- Peran input -->
-                                  <div class="mb-1">
-                                    <label class="form-label" for="password">Password</label>
-                                    <input type="text" class="form-control" id="password" placeholder="#MerdekaBelajar!" name="password" required readonly disabled />
-                                  </div>
+                                <!-- Nama Panggil input -->
+                                <div class="mb-1 col-lg-6 col-12">
+                                  <label class="form-label" for="namaPanggil">Nama Panggil</label>
+                                  <input type="text" class="form-control" id="namaPanggil" placeholder="Nama Panggil" name="namaPanggil" value="<?= $namaPanggil ?>" required data-msg="Masukan Nama Panggil" autocomplete="off" />
+                                </div>
+                                <!-- Tanggal Lahir input -->
+                                <div class="mb-1 col-lg-6 col-12">
+                                  <label class="form-label" for="tanggalLahir">Tanggal Lahir</label>
+                                  <input type="text" class="form-control flatpickr-basic" id="tanggalLahir" placeholder="Tanggal Lahir" name="tanggalLahir" value="<?= $tanggalLahir ?>" required data-msg="Pilih Tanggal Lahir" autocomplete="off" />
+                                </div>
+                                <!-- Jenis Kelamin input -->
+                                <div class="mb-1 col-lg-3 col-12">
+                                  <label for="jenisKelaminPD">Jenis Kelamin</label>
+                                  <select class="select2 hide-search form-control" id="jenisKelaminPD" name="jenisKelamin" required data-placeholder="Pilih Jenis Kelamin" data-msg="Pilih Tanggal Lahir">
+                                    <option value="<?= $jk ?>"><?= jenisKelamin($jk) ?></option>
+                                    <optgroup label="Pilih Jenis Kelamin">
+                                      <option value="L">Laki-Laki</option>
+                                      <option value="P">Perempuan</option>
+                                    </optgroup>
+                                  </select>
+                                </div>
+                                <!-- NISN input -->
+                                <div class="mb-1 col-lg-3 col-12">
+                                  <label class="form-label" for="nisn">NISN</label>
+                                  <input type="number" class="form-control" id="nisn" placeholder="NISN" name="nisn" value="<?= $nisn ?>" required data-msg="Masukan NISN" autocomplete="off" maxlength="10" oninput="javascript:if(this.value.length>this.maxLength)this.value=this.value.slice(0, this.maxLength);">
+                                </div>
+                                <!-- Tahun Pelajaran & Semester input -->
+                                <div class="mb-1 col-lg-6 col-12">
+                                  <label class="form-label" for="tapel">Tahun Pelajaran & Semester</label>
+                                  <input type="text" class="form-control" id="tapel" placeholder="<?= 'Tahun Pelajaran ' . $tapelAktif['tapel'] . ' Semester ' . $tapelAktif['semester'] ?>" value="<?= 'Tahun Pelajaran ' . $tapelAktif['tapel'] . ' Semester ' .  $tapelAktif['semester'] ?>" name="tapel" required readonly disabled data-msg="Masukan Tahun Pelajaran & Semester" autocomplete="off" />
+                                </div>
+                                <!-- Kelas input -->
+                                <div class="mb-1 col-lg-6 col-12">
+                                  <label for="kelas">Pilih Kelas</label>
+                                  <select class="select2 form-control" id="selectKelas" name="kelas" data-placeholder="Pilih Kelas" required data-msg="Pilih Kelas">
+                                    <option value="<?= $id_kelas ?>"><?= $kelas ?></option>
+                                    <optgroup label="Pilih Kelas">
+                                      <?php
+                                      $query = getSelect('setting_kelas', '*', 'LENGTH(level), level, LENGTH(kelas), kelas', 'asc');
+                                      if ($query->num_rows() >= 1) {
+                                        $data = $query->result_array();
+                                        foreach ($data as $data) {
+                                          $id          = $data['id'];
+                                          $level       = $data['level'];
+                                          $kelas       = $data['kelas'];
+                                      ?>
+                                          <option value="<?= $id ?>"><?= $kelas ?></option>
+                                        <?php }
+                                      } else { ?>
+                                        <option value="">Tidak ada Kelas</option>
+                                      <?php }; ?>
+                                    </optgroup>
+                                  </select>
                                 </div>
                               </div>
                               <div class="modal-footer">
@@ -320,6 +351,8 @@
                                     <label class="form-check-label" for="aktif0">Tidak</label>
                                   </div>
                                 </div>
+                                <input type="text" class="form-control" id="id_user" value="<?= $id_user ?>" name="id_user" required readonly hidden autocomplete="off" />
+                                <input type="text" class="form-control" id="id_profil" value="<?= $id_profil ?>" name="id_profil" required readonly hidden autocomplete="off" />
                                 <button type="submit" class="btn btn-sm btn-primary">Update Data</button>
                                 <button type="reset" class="btn btn-sm btn-outline-secondary">Reset</button>
                               </div>
@@ -342,6 +375,7 @@
     </div>
   </div>
 </div>
+<script src="<?= base_url('assets/'); ?>assets/js/scripts.js"></script>
 <script>
   if (feather) {
     feather.replace({
@@ -364,6 +398,22 @@
       "url": "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Indonesian.json"
     }
   });
+
+  var basicPickr = $('.flatpickr-basic');
+  if (basicPickr.length) {
+    basicPickr.flatpickr({
+      // minDate: 'today',
+      altInput: true,
+      altFormat: 'l, j F Y',
+      dateFormat: 'Y-m-d',
+      locale: 'id'
+    });
+  }
+
+  $(basicPickr).on('change', function() {
+    console.log(basicPickr.val());
+  });
+
 
   var select2 = $('.select2');
   if (select2.length) {

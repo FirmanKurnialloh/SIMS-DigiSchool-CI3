@@ -110,7 +110,7 @@
                     <!-- Kelas input -->
                     <div class="mb-1 col-12" id="divKelas" style="display: none;">
                       <label for="kelas">Pilih Kelas</label>
-                      <select class="select2 hide-search form-control" id="selectKelas" name="kelas" data-placeholder="Pilih Kelas" data-msg="Pilih Kelas">
+                      <select class="select2 form-control" id="selectKelas" name="kelas" data-placeholder="Pilih Kelas" data-msg="Pilih Kelas">
                         <option></option>
                         <optgroup label="Pilih Kelas">
                           <?php
@@ -133,7 +133,7 @@
                     <!-- Ekstrakurikuler input -->
                     <div class="mb-1 col-12" id="divEkskul" style="display: none;">
                       <label for="ekskul">Pilih Ekstrakurikuler</label>
-                      <select class="select2 hide-search form-control" id="selectEkskul" name="ekskul" data-placeholder="Pilih Ekstrakurikuler" data-msg="Pilih Ekstrakurikuler">
+                      <select class="select2 form-control" id="selectEkskul" name="ekskul" data-placeholder="Pilih Ekstrakurikuler" data-msg="Pilih Ekstrakurikuler">
                         <option></option>
                         <optgroup label="Pilih Ekstrakurikuler">
                           <?php
@@ -175,7 +175,7 @@
                     <!-- Pilih Kelas input -->
                     <div class="mb-1 col-12" id="divKelas2" style="display: none;">
                       <label for="kelas2">Pilih Kelas</label>
-                      <select class="select2 hide-search form-control" id="selectKelas2" name="kelas2" data-placeholder="Pilih Kelas" data-msg="Pilih Kelas">
+                      <select class="select2 form-control" id="selectKelas2" name="kelas2" data-placeholder="Pilih Kelas" data-msg="Pilih Kelas">
                         <option></option>
                         <optgroup label="Pilih Kelas">
                           <?php
@@ -198,7 +198,7 @@
                     <!-- Ekstrakurikuler input -->
                     <div class="mb-1 col-12" id="divEkskul2" style="display: none;">
                       <label for="ekskul2">Pilih Ekstrakurikuler</label>
-                      <select class="select2 hide-search form-control" id="selectEkskul2" name="ekskul2" data-placeholder="Pilih Ekstrakurikuler" data-msg="Pilih Ekstrakurikuler">
+                      <select class="select2 form-control" id="selectEkskul2" name="ekskul2" data-placeholder="Pilih Ekstrakurikuler" data-msg="Pilih Ekstrakurikuler">
                         <option></option>
                         <optgroup label="Pilih Ekstrakurikuler">
                           <?php
@@ -297,7 +297,7 @@
                   }
                 }
 
-                $profilGTK     = getProfilGTK($username);
+                $profilGTK       = getProfilGTK($username);
                 if ($profilGTK) {
                   $namaLengkap   = $profilGTK['namaLengkap'];
                   $namaPanggil   = $profilGTK['namaPanggil'];
@@ -311,7 +311,7 @@
                   $namaGelar     = $gelarDepan . ' ' . $namaLengkap . $gelarBelakang;
                   $foto          = $profilGTK['foto'];
                 } else {
-                  $namaGTK        = $i['namaLengkap'];
+                  $namaGTK       = $i['namaLengkap'];
                   $namaPanggil   = "";
                   $gelarDepan    = "";
                   $gelarBelakang = "";
@@ -334,7 +334,7 @@
                         <?php } ?>
                       </div>
                       <div class="d-flex flex-column">
-                        <a href="<?= base_url('profil/gtk/') . $id; ?>" class="user_name text-body text-truncate">
+                        <a href="<?= base_url('profil/gtk/') . $id_user; ?>" class="user_name text-body text-truncate">
                           <?php if ($profilGTK) { ?>
                             <span class="fw-bolder"><?= $namaGelar ?></span>
                           <?php } else { ?>
@@ -381,7 +381,7 @@
                         </button>
                       <?php } ?>
                       <?php if ($sessionUser != $username && $is_active == "0") { ?>
-                        <form id="switchActivateGTKForm<?= $id ?>" action="<?= base_url('settings/switchActivateGTK') ?>" method="POST">
+                        <form id="switchActivateGTKForm<?= $id_user ?>" action="<?= base_url('settings/switchActivateGTK') ?>" method="POST">
                           <div class="form-switch">
                             <input type="checkbox" class="form-check-input" id="switchActivateGTK" onclick="document.getElementById('switchActivateGTKForm<?= $id_user; ?>').submit();" />
                             <input type="text" name="username" value="<?= $username ?>" hidden />
@@ -390,7 +390,7 @@
                           </div>
                         </form>
                       <?php } elseif ($sessionUser != $username && $is_active == "1") { ?>
-                        <form id="switchActivateGTKForm<?= $id ?>" action="<?= base_url('settings/switchActivateGTK') ?>" method="POST">
+                        <form id="switchActivateGTKForm<?= $id_user ?>" action="<?= base_url('settings/switchActivateGTK') ?>" method="POST">
                           <div class="form-switch">
                             <input type="checkbox" class="form-check-input" id="switchActivateGTK" checked onclick="document.getElementById('switchActivateGTKForm<?= $id_user; ?>').submit();" />
                             <input type="text" name="username" value="<?= $username ?>" hidden />
@@ -494,7 +494,7 @@
                                   <!-- Kelas input -->
                                   <div class="mb-1 col-12" id="divKelasEdit<?= $id_user ?>" style="display: none;">
                                     <label for="selectKelasEdit<?= $id_user ?>">Pilih Kelas</label>
-                                    <select class="select2 hide-search form-control" id="selectKelasEdit<?= $id_user ?>" name="kelas" data-placeholder="Pilih Kelas" data-msg="Pilih Kelas">
+                                    <select class="select2 form-control" id="selectKelasEdit<?= $id_user ?>" name="kelas" data-placeholder="Pilih Kelas" data-msg="Pilih Kelas">
                                       <option></option>
                                       <optgroup label="Pilih Kelas">
                                         <?php
@@ -517,7 +517,7 @@
                                   <!-- Ekstrakurikuler input -->
                                   <div class="mb-1 col-12" id="divEkskulEdit<?= $id_user ?>" style="display: none;">
                                     <label for="selectEkskulEdit<?= $id_user ?>">Pilih Ekstrakurikuler</label>
-                                    <select class="select2 hide-search form-control" id="selectEkskulEdit<?= $id_user ?>" name="ekskul" data-placeholder="Pilih Ekstrakurikuler" data-msg="Pilih Ekstrakurikuler">
+                                    <select class="select2 form-control" id="selectEkskulEdit<?= $id_user ?>" name="ekskul" data-placeholder="Pilih Ekstrakurikuler" data-msg="Pilih Ekstrakurikuler">
                                       <option></option>
                                       <optgroup label="Pilih Ekstrakurikuler">
                                         <?php
@@ -559,7 +559,7 @@
                                   <!-- Pilih Kelas input -->
                                   <div class="mb-1 col-12" id="divKelas2Edit<?= $id_user ?>" style="display: none;">
                                     <label for="selectKelas2Edit<?= $id_user ?>">Pilih Kelas</label>
-                                    <select class="select2 hide-search form-control" id="selectKelas2Edit<?= $id_user ?>" name="kelas2" data-placeholder="Pilih Kelas" data-msg="Pilih Kelas">
+                                    <select class="select2 form-control" id="selectKelas2Edit<?= $id_user ?>" name="kelas2" data-placeholder="Pilih Kelas" data-msg="Pilih Kelas">
                                       <option></option>
                                       <optgroup label="Pilih Kelas">
                                         <?php
@@ -582,7 +582,7 @@
                                   <!-- Ekstrakurikuler input -->
                                   <div class="mb-1 col-12" id="divEkskul2Edit<?= $id_user ?>" style="display: none;">
                                     <label for="selectEkskul2Edit<?= $id_user ?>">Pilih Ekstrakurikuler</label>
-                                    <select class="select2 hide-search form-control" id="selectEkskul2Edit<?= $id_user ?>" name="ekskul2" data-placeholder="Pilih Ekstrakurikuler" data-msg="Pilih Ekstrakurikuler">
+                                    <select class="select2 form-control" id="selectEkskul2Edit<?= $id_user ?>" name="ekskul2" data-placeholder="Pilih Ekstrakurikuler" data-msg="Pilih Ekstrakurikuler">
                                       <option></option>
                                       <optgroup label="Pilih Ekstrakurikuler">
                                         <?php

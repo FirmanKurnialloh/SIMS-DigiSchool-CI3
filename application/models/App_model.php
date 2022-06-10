@@ -23,6 +23,21 @@ class App_model extends CI_Model
     return $this->db->get_where('setting_tapel', ['is_aktif' => '1'])->row_array();
   }
 
+  public function getMapel()
+  {
+    return $this->db->get('setting_mapel')->row_array();
+  }
+
+  public function getEkskul()
+  {
+    return $this->db->get('setting_ekskul')->row_array();
+  }
+
+  public function getKelas()
+  {
+    return $this->db->get('setting_kelas')->row_array();
+  }
+
   public function getUserGTK($username)
   {
     return $this->db->get_where('user_gtk', ['username' => $username])->row_array();

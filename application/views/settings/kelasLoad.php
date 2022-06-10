@@ -70,7 +70,7 @@
       </div>
       <!-- Modal -->
       <?php
-      $query = getSelect('setting_kelas', '*', 'id', 'desc');
+      $query = getSelect('setting_kelas', '*', 'LENGTH(level),level', 'ASC');
       if ($query->num_rows() <= 0) { ?>
         <div class="text-center">
           <h3 class="text-danger">Tidak Ada Data <br> </h3>
@@ -101,14 +101,11 @@
                 $jurusan          = $i['jurusan'];
                 $kelas            = $i['kelas'];
                 $walikelas        = $i['walikelas'];
-                $query            = getWhere('profil_gtk', '*', ['username' => $walikelas]);
+                $query            = getWhere('user_gtk', '*', ['username' => $walikelas]);
                 if ($query->num_rows()) {
                   $namaLengkap    = $query->row('namaLengkap');
-                  $gelarDepan     = $query->row('gelarDepan');
-                  $gelarBelakang  = ',' . $query->row('gelarBelakang');
-                  $namaWalikelas  = $gelarDepan . ' ' . $namaLengkap . ' ' . $gelarBelakang;
                 } else {
-                  $namaWalikelas  = "Walikelas Belum Di Pilih";
+                  $namaLengkap  = "Walikelas Belum Di Pilih";
                 }
               ?>
                 <tr>
@@ -127,7 +124,7 @@
                     <span class="font-weight-bold"><?= $kelas ?></span>
                   </td>
                   <td>
-                    <span class="font-weight-bold"><?= $namaWalikelas ?></span>
+                    <span class="font-weight-bold"><?= $namaLengkap ?></span>
                   </td>
                   <td>
                     <button type="button" class="btn btn-danger btn-sm" aria-expanded="false" data-id="<?= $id; ?>" data-kelas="<?= $kelas; ?>" id="hapusKelas">

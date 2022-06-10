@@ -27,6 +27,7 @@ class Gtk extends CI_Controller
     $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
     $data['tapelAktif']    = $this->modelApp->getTapelAktif();
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
+    $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('gtk/dashboard', $data);
@@ -44,6 +45,7 @@ class Gtk extends CI_Controller
     $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
     $data['tapelAktif']    = $this->modelApp->getTapelAktif();
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
+    $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('gtk/profil', $data);
@@ -61,6 +63,7 @@ class Gtk extends CI_Controller
     $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
     $data['tapelAktif']    = $this->modelApp->getTapelAktif();
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
+    $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('gtk/akun', $data);
@@ -101,9 +104,6 @@ class Gtk extends CI_Controller
         unlink(FCPATH . 'assets/files/images/fotoGuru/' . $new_filename);
       }
 
-      var_dump($old_image);
-      var_dump($new_filename);
-
       $this->load->library('upload', $config);
 
       if ($this->upload->do_upload('fotoGTK')) {
@@ -124,13 +124,42 @@ class Gtk extends CI_Controller
           'nik'             => $nik,
           'nukg'            => $nukg,
           'nuptk'           => $nuptk,
-          'nip'             => $nip
+          'nip'             => $nip,
+          'date_updated'    => time(),
         ]
       );
     }
 
     $this->db->where('username', $username);
     $this->db->update('profil_gtk');
+
+    if ($gelarDepan) {
+      $gelarDepan = $gelarDepan . ' ';
+    } else {
+      $gelarDepan = "";
+    }
+
+    if ($gelarBelakang) {
+      $gelarBelakang = ', ' . $gelarBelakang;
+    } else {
+      $gelarBelakang = "";
+    }
+
+    $namaGelar = $gelarDepan . $namaLengkap . $gelarBelakang;
+
+    if ($namaGelar) {
+      $this->db->set(
+        [
+          'namaLengkap'     => $namaGelar,
+          'date_updated'    => time(),
+        ]
+      );
+    }
+
+    $this->db->where('username', $username);
+    $this->db->update('user_gtk');
+
+
     $this->session->set_flashdata('toastr', "
     <script>
     $(window).on('load', function() {

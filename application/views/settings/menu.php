@@ -3,7 +3,7 @@
   <div class="navbar-header mb-0">
     <ul class="nav navbar-nav flex-row">
       <li class="nav-item nav-toggle me-auto">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="<?= base_url('settings'); ?>">
           <span class="brand-logos">
             <img class="round" src="<?= base_url('assets/'); ?>files/images/logo/<?= $profilSekolah['logoSekolah']; ?>" alt="logo" height="40" width="40">
           </span>
@@ -89,7 +89,7 @@
           </li>
 
           <li>
-            <a class="d-flex align-items-center" href="#">
+            <a class="d-flex align-items-center" href="<?= base_url('settings'); ?>">
               <i data-feather="circle"></i>
               <span class="menu-item text-truncate" data-i18n="Akun">Akun</span>
             </a>
@@ -125,7 +125,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="d-flex align-items-center" href="app-settings">
+        <a class="d-flex align-items-center" href="<?= base_url('settings'); ?>">
           <i data-feather="airplay"></i>
           <span class="menu-title text-truncate" data-i18n="Pengaturan Add-On">Pengaturan Add-On</span>
         </a>

@@ -33,9 +33,6 @@
     </div>
 
     <div class="content-body">
-
-
-      <!-- Data Akun GTK Start -->
       <section id="gtkPage">
         <div class='card card-body'>
           <div class='text-center'>
@@ -49,7 +46,6 @@
           </div>
         </div>
       </section>
-      <!-- Data Akun GTK end -->
 
     </div>
 

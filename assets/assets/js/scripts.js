@@ -114,5 +114,20 @@
       accountUserImage2.attr('src', resetImage2);
     });
   }
+  
+  i18next.init({
+    lng: 'id',
+    debug: true,
+    resources: {
+      en: {
+        translation: {
+          "key": "hello world"
+        }
+      }
+    }
+  }, function(err, t) {
+    // initialized and ready to go!
+    // document.getElementById('output').innerHTML = i18next.t('key');
+  });
 
 })(window);

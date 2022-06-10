@@ -86,11 +86,8 @@
                 $query          = getWhere('profil_gtk', '*', ['username' => $pelatih]);
                 if ($query->num_rows()) {
                   $namaLengkap    = $query->row('namaLengkap');
-                  $gelarDepan     = $query->row('gelarDepan');
-                  $gelarBelakang  = ',' . $query->row('gelarBelakang');
-                  $namaPelatih    = $gelarDepan . ' ' . $namaLengkap . ' ' . $gelarBelakang;
                 } else {
-                  $namaPelatih    = "Pelatih Belum Di Pilih";
+                  $namaLengkap    = "Pelatih Belum Di Pilih";
                 }
               ?>
                 <tr>
@@ -98,7 +95,7 @@
                     <span class="font-weight-bold"><?= $ekskul ?></span>
                   </td>
                   <td>
-                    <span class="font-weight-bold"><?= $namaPelatih ?></span>
+                    <span class="font-weight-bold"><?= $namaLengkap ?></span>
                   </td>
                   <td>
                     <button type="button" class="btn btn-danger btn-sm" aria-expanded="false" data-id="<?= $id; ?>" data-ekskul="<?= $ekskul; ?>" id="hapusEkskul">

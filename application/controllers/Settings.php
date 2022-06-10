@@ -22,6 +22,7 @@ class Settings extends CI_Controller
     $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
     $data['tapelAktif']    = $this->modelApp->getTapelAktif();
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
+    $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $data['page']          = "Pengaturan Aplikasi";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
@@ -81,6 +82,7 @@ class Settings extends CI_Controller
     $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
     $data['tapelAktif']    = $this->modelApp->getTapelAktif();
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
+    $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $data['page']          = "Profil Sekolah";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
@@ -300,6 +302,7 @@ class Settings extends CI_Controller
     $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
     $data['tapelAktif']    = $this->modelApp->getTapelAktif();
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
+    $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $data['page']          = "Tahun Pelajaran";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
@@ -472,6 +475,7 @@ class Settings extends CI_Controller
     $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
     $data['tapelAktif']    = $this->modelApp->getTapelAktif();
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
+    $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $data['page']          = "Mata Pelajaran";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
@@ -569,6 +573,7 @@ class Settings extends CI_Controller
     $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
     $data['tapelAktif']    = $this->modelApp->getTapelAktif();
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
+    $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $data['page']          = "Ekstrakurikuler";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
@@ -665,6 +670,7 @@ class Settings extends CI_Controller
     $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
     $data['tapelAktif']    = $this->modelApp->getTapelAktif();
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
+    $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $data['page']          = "Kelas";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
@@ -762,6 +768,7 @@ class Settings extends CI_Controller
     $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
     $data['tapelAktif']    = $this->modelApp->getTapelAktif();
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
+    $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $data['page']          = "Akun GTK";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
@@ -902,6 +909,20 @@ class Settings extends CI_Controller
       </script>");
     }
     redirect(base_url('settings/gtk'));
+  }
+
+  public function resetDataGTK()
+  {
+    $query      = "SELECT `username` FROM `user_gtk` WHERE `role_id` != '1'";
+    $queryUser  = $this->db->query($query)->result_array();
+    foreach ($queryUser as $rowUsername) {
+      $this->db->delete('profil_gtk', ['username' => $rowUsername['username']]);
+      $this->db->delete('user_gtk', ['username' => $rowUsername['username']]);
+    }
+    $response['status']   = 'success';
+    $response['judul']    = 'Berhasil !';
+    $response['pesan']    = 'Database Telah Direset!';
+    echo json_encode($response);
   }
 
   public function editAkunGTK()
@@ -1047,20 +1068,6 @@ class Settings extends CI_Controller
     redirect(base_url('settings/gtk'));
   }
 
-  public function resetDataGTK()
-  {
-    $query      = "SELECT `username` FROM `user_gtk` WHERE `role_id` != '1'";
-    $queryUser  = $this->db->query($query)->result_array();
-    foreach ($queryUser as $rowUsername) {
-      $this->db->delete('profil_gtk', ['username' => $rowUsername['username']]);
-      $this->db->delete('user_gtk', ['username' => $rowUsername['username']]);
-    }
-    $response['status']   = 'success';
-    $response['judul']    = 'Berhasil !';
-    $response['pesan']    = 'Database Telah Direset!';
-    echo json_encode($response);
-  }
-
   public function deleteAkunGTK()
   {
     $data = [
@@ -1204,6 +1211,7 @@ class Settings extends CI_Controller
     $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
     $data['tapelAktif']    = $this->modelApp->getTapelAktif();
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
+    $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $data['page']          = "Akun Peserta Didik";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
@@ -1228,6 +1236,262 @@ class Settings extends CI_Controller
     $this->load->view($page, $data);
   }
 
+  public function tambahAkunPD()
+  {
+    $dataTapel          = $this->modelApp->getTapelAktif();
+    $tapel              = $dataTapel['id'];
+
+    $dataProfile = [
+      'id_tapel'        => $tapel,
+      'id_kelas'        => htmlspecialchars($this->input->post('kelas', true)),
+      'nisn'            => htmlspecialchars($this->input->post('nisn', true)),
+      'namaLengkap'     => htmlspecialchars($this->input->post('namaLengkap', true)),
+      'namaPanggil'     => htmlspecialchars($this->input->post('namaPanggil', true)),
+      'jk'              => htmlspecialchars($this->input->post('jenisKelamin', true)),
+      'tanggalLahir'    => htmlspecialchars($this->input->post('tanggalLahir', true)),
+      'date_created'    => time(),
+    ];
+
+    $dataUser = [
+      'nisn'            => htmlspecialchars($this->input->post('nisn', true)),
+      'tanggalLahir'    => htmlspecialchars($this->input->post('tanggalLahir', true)),
+      'namaLengkap'     => htmlspecialchars($this->input->post('namaLengkap', true)),
+      'role_id'         => "12",
+      'is_active'       => htmlspecialchars($this->input->post('is_aktif', true)),
+      'date_created'    => time(),
+    ];
+
+    $checkDataUser       = $this->db->get_where('user_pd', ['nisn' => $dataUser['nisn']]);
+    $checkDataProfile    = $this->db->get_where('profil_pd', ['nisn' => $dataProfile['nisn']]);
+    if ($checkDataUser->num_rows() == "0" && $checkDataProfile->num_rows() == "0") {
+      $this->db->insert('user_pd', $dataUser);
+      $this->db->insert('profil_pd', $dataProfile);
+
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['success'](
+            'Akun " .  $dataUser['nisn'] . " Di Tambahkan !',
+            'Berhasil !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+    } elseif ($checkDataProfile->num_rows() == "1" && $checkDataProfile->num_rows() == "1") {
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['error'](
+            'Akun " .  $dataUser['nisn'] . " Sudah Tersedia !',
+            'Gagal !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+    }
+    redirect(base_url('settings/pd'));
+  }
+
+  public function resetDataPD()
+  {
+    $query      = "SELECT `nisn` FROM `user_pd`";
+    $queryUser  = $this->db->query($query)->result_array();
+    foreach ($queryUser as $rowUsername) {
+      $this->db->delete('profil_pd', ['nisn' => $rowUsername['nisn']]);
+      $this->db->delete('user_pd', ['nisn' => $rowUsername['nisn']]);
+    }
+    $response['status']   = 'success';
+    $response['judul']    = 'Berhasil !';
+    $response['pesan']    = 'Database Telah Direset!';
+    echo json_encode($response);
+  }
+
+  public function editAkunPD()
+  {
+    $dataTapel          = $this->modelApp->getTapelAktif();
+    $tapel              = $dataTapel['id'];
+
+    $dataProfile = [
+      'id_profil'       => htmlspecialchars($this->input->post('id_profil', true)),
+      'id_tapel'        => $tapel,
+      'id_kelas'        => htmlspecialchars($this->input->post('kelas', true)),
+      'nisn'            => htmlspecialchars($this->input->post('nisn', true)),
+      'namaLengkap'     => htmlspecialchars($this->input->post('namaLengkap', true)),
+      'namaPanggil'     => htmlspecialchars($this->input->post('namaPanggil', true)),
+      'jk'              => htmlspecialchars($this->input->post('jenisKelamin', true)),
+      'tanggalLahir'    => htmlspecialchars($this->input->post('tanggalLahir', true)),
+      'date_updated'    => time(),
+    ];
+
+    $dataUser = [
+      'id_user'         => htmlspecialchars($this->input->post('id_user', true)),
+      'id_kelas'        => htmlspecialchars($this->input->post('kelas', true)),
+      'nisn'            => htmlspecialchars($this->input->post('nisn', true)),
+      'tanggalLahir'    => htmlspecialchars($this->input->post('tanggalLahir', true)),
+      'namaLengkap'     => htmlspecialchars($this->input->post('namaLengkap', true)),
+      'role_id'         => "12",
+      'is_active'       => htmlspecialchars($this->input->post('is_aktif', true)),
+      'date_updated'    => time(),
+    ];
+
+    $checkDataUser       = $this->db->get_where('user_pd', ['id' => $dataUser['id_user']]);
+    $checkDataProfile    = $this->db->get_where('profil_pd', ['id' => $dataProfile['id_profil']]);
+
+    if ($checkDataUser->num_rows() == "1" && $checkDataProfile->num_rows() == "1") {
+      $this->db->set(
+        [
+          'id_tapel'      => $dataProfile['id_tapel'],
+          'id_kelas'      => $dataProfile['id_kelas'],
+          'nisn'          => $dataProfile['nisn'],
+          'namaLengkap'   => $dataProfile['namaLengkap'],
+          'namaPanggil'   => $dataProfile['namaPanggil'],
+          'jk'            => $dataProfile['jk'],
+          'tanggalLahir'  => $dataProfile['tanggalLahir'],
+          'date_updated'  => time(),
+        ]
+      );
+      $this->db->where('id', $dataProfile['id_profil']);
+      $this->db->update('profil_pd');
+
+      $this->db->set(
+        [
+          'nisn'            => $dataUser['nisn'],
+          'tanggalLahir'    => $dataUser['tanggalLahir'],
+          'namaLengkap'     => $dataUser['namaLengkap'],
+          'role_id'         => $dataUser['role_id'],
+          'is_active'       => $dataUser['is_active'],
+          'date_updated'    => time(),
+        ]
+      );
+      $this->db->where('id', $dataUser['id_user']);
+      $this->db->update('user_pd');
+
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['success'](
+            'Akun " .  $dataUser['nisn'] . " Di Perbarui !',
+            'Berhasil !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+    } else {
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['error'](
+            'Akun " .  $dataUser['nisn'] . " Tidak Ditemukan !',
+            'Gagal !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+    }
+    redirect(base_url('settings/pd'));
+  }
+
+  public function deleteAkunPD()
+  {
+    $data = [
+      'nisn'   => htmlspecialchars($this->input->post('nisn', true)),
+    ];
+    $checkSession        = $this->session->userdata('nisn');
+    if ($checkSession != $data['nisn']) {
+      $this->db->delete('user_pd', ['nisn' => $data['nisn']]);
+      $this->db->delete('profil_pd', ['nisn' => $data['nisn']]);
+      $response['status']   = 'success';
+      $response['judul']    = 'Berhasil !';
+      $response['pesan']    = 'Akun ' . $data['nisn'] . ' Telah Dihapus!';
+    } else {
+      $response['status']   = 'error';
+      $response['judul']    = 'Gagal !';
+      $response['pesan']    = 'Akun ' . $data['nisn'] . ' Sedang Aktif!';
+    }
+    echo json_encode($response);
+  }
+
+  public function switchActivatePD()
+  {
+    $data = [
+      'nisn'        => htmlspecialchars($this->input->post('nisn', true)),
+      'is_active'   => htmlspecialchars($this->input->post('is_aktif', true)),
+    ];
+    $checkData     = $this->db->get_where('user_pd', ['nisn' => $data['nisn']]);
+    $row           = $checkData->row_array();
+    if ($checkData->num_rows() == "1") {
+      if ($row['is_active'] == "1") {
+        $this->db->set('is_active', '0');
+        $this->db->where('nisn', $data['nisn']);
+        $this->db->update('user_pd');
+        $this->session->set_flashdata('toastr', "
+          <script>
+          $(window).on('load', function() {
+            setTimeout(function() {
+              toastr['success'](
+                'Akun " .  $row['nisn'] . " Di Non-Aktifkan !',
+                'Berhasil !', {
+                  closeButton: true,
+                  tapToDismiss: true
+                }
+              );
+            }, 0);
+          })
+          </script>");
+      } else {
+        $this->db->set('is_active', '1');
+        $this->db->where('nisn', $data['nisn']);
+        $this->db->update('user_pd');
+        $this->session->set_flashdata('toastr', "
+          <script>
+          $(window).on('load', function() {
+            setTimeout(function() {
+              toastr['success'](
+                'Akun " .  $row['nisn'] . " Di Aktifkan !',
+                'Berhasil !', {
+                  closeButton: true,
+                  tapToDismiss: true
+                }
+              );
+            }, 0);
+          })
+          </script>");
+      }
+    } elseif ($checkData->num_rows() == "0") {
+      $this->session->set_flashdata('toastr', "
+        <script>
+        $(window).on('load', function() {
+          setTimeout(function() {
+            toastr['error'](
+              'Akun " .  $row['nisn'] . " Tidak Tersedia !',
+              'Gagal !', {
+                closeButton: true,
+                tapToDismiss: true
+              }
+            );
+          }, 0);
+        })
+        </script>");
+    }
+    redirect(base_url('settings/pd'));
+  }
+
   public function db()
   {
     $data['sessionUser']   = $this->session->userdata('username');
@@ -1238,6 +1502,7 @@ class Settings extends CI_Controller
     $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
     $data['tapelAktif']    = $this->modelApp->getTapelAktif();
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
+    $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $data['page']          = "Database";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
