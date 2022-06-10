@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+// require 'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Settings extends CI_Controller
 {
@@ -1295,6 +1299,255 @@ class Settings extends CI_Controller
         }, 0);
       })
       </script>");
+    }
+    redirect(base_url('settings/pd'));
+  }
+
+  public function exportTemplateAkunPD()
+  {
+    $dataServer         = $this->modelApp->getServerSetting();
+    $namaAplikasi       = $dataServer['namaAplikasi'];
+    $dataTapel          = $this->modelApp->getTapelAktif();
+    $id_tapel           = $dataTapel['id'];
+    $tapel              = $dataTapel['tapel'];
+    $semester           = $dataTapel['semester'];
+    $fileName           = "Template Import Akun Peserta Didik Tahun Pelajaran " . $tapel . " Semester " . $semester;
+
+    header("Content-type: application/vnd.ms-excel");
+    header('Content-Disposition: attachment; filename="' . $fileName . '.xlsx"');
+
+    $spreadsheet = new Spreadsheet();
+    $spreadsheet
+      ->getProperties()
+      ->setCreator($namaAplikasi)
+      ->setLastModifiedBy($namaAplikasi)
+      ->setTitle($fileName)
+      ->setSubject($namaAplikasi)
+      ->setDescription($namaAplikasi)
+      ->setKeywords($namaAplikasi);
+
+    $style_col = array(
+      'font' => array('bold' => true),
+      'alignment' => array(
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+        'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
+      ),
+      'borders' => array(
+        'top' => array('style'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN),
+        'right' => array('style'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN),
+        'bottom' => array('style'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN),
+        'left' => array('style'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN)
+      )
+    );
+
+    $sheet0 = $spreadsheet->getActiveSheet(0)->setTitle('PETUNJUK');
+    $sheet0->mergeCells('A1:L2');
+    $sheet0->getStyle('A1')->getFont()->setBold(TRUE);
+    $sheet0->getStyle('A1')->getFont()->setSize(15);
+    $sheet0->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet0->getStyle('A1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    $sheet0->setCellValue('A1', $fileName);
+
+    $sheet0->mergeCells('A4:L4');
+    $sheet0->getStyle('A4')->getFont()->setBold(TRUE);
+    $sheet0->getStyle('A4')->getFont()->setSize(12);
+    $sheet0->getStyle('A4')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet0->getStyle('A4')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    $sheet0->setCellValue('A4', "Petunjuk Pengisian");
+
+    $sheet0->setCellValue('B6', "1. Sistem hanya akan memproses data pada SHEET DATA SISWA");
+    $sheet0->setCellValue('B7', "2. Jangan ubah format dan isian tabel, anda hanya dapat mengisi pada cell berikut: ");
+    $sheet0->setCellValue('C8', "a. CELL F4:F5 - ID KELAS");
+    $sheet0->setCellValue('C9', "b. CELL A7 dst. - NISN");
+    $sheet0->setCellValue('C10', "c. CELL B7 dst. - NIS");
+    $sheet0->setCellValue('C11', "d. CELL C7 dst. - NAMA LENGKAP");
+    $sheet0->setCellValue('C12', "e. CELL D7 dst. - NAMA PANGGIL");
+    $sheet0->setCellValue('C13', "f. CELL E7 dst. - JENIS KELAMIN");
+    $sheet0->setCellValue('C14', "g. CELL F7 dst. - TANGGAL LAHIR");
+    $sheet0->setCellValue('B16', "3. Pengisian ID KELAS silahkan salin dari SHEET DATA KELAS");
+    $sheet0->setCellValue('B17', "4. Pengisian JENIS KELAMIN hanya dapat menggunakan huruf L atau P");
+    $sheet0->setCellValue('B18', "5. Pengisian TANGGAL LAHIR silahkan gunakan format (YYYY-MM-DD) Contoh 31 Desember 2022 maka isiannya 2022-12-31");
+    $sheet0->setCellValue('B19', "6. Untuk mengurangi beban kerja server maka disarankan melakukan 1x import untuk 1 kelas");
+
+    $sheet0->mergeCells('A21:L21');
+    $sheet0->getStyle('A21')->getFont()->setBold(TRUE);
+    $sheet0->getStyle('A21')->getFont()->setSize(12);
+    $sheet0->getStyle('A21')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet0->getStyle('A21')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    $sheet0->setCellValue('A21', "Terimakasih telah menggunakan SIMS DigiSchool");
+
+    $sheet1 = new \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet($spreadsheet, 'DATA KELAS');
+    $spreadsheet->addSheet($sheet1, 1);
+    $sheet1->mergeCells('A1:E2');
+    $sheet1->getStyle('A1')->getFont()->setBold(TRUE);
+    $sheet1->getStyle('A1')->getFont()->setSize(15);
+    $sheet1->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet1->getStyle('A1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    $sheet1->setCellValue('A1', $fileName);
+
+    $sheet1->mergeCells('A4:E4');
+    $sheet1->getStyle('A4')->getFont()->setBold(TRUE);
+    $sheet1->getStyle('A4')->getFont()->setSize(12);
+    $sheet1->getStyle('A4')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet1->getStyle('A4')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    $sheet1->setCellValue('A4', "DATA KELAS");
+
+    $sheet1->setCellValue('A5', 'ID_KELAS');
+    $sheet1->setCellValue('B5', 'LEVEL');
+    $sheet1->setCellValue('C5', 'JURUSAN');
+    $sheet1->setCellValue('D5', 'KELAS');
+    $sheet1->setCellValue('E5', 'WALIKELAS');
+
+    $sheet1->getStyle('A4')->applyFromArray($style_col);
+    $sheet1->getStyle('A5')->applyFromArray($style_col);
+    $sheet1->getStyle('B5')->applyFromArray($style_col);
+    $sheet1->getStyle('C5')->applyFromArray($style_col);
+    $sheet1->getStyle('D5')->applyFromArray($style_col);
+    $sheet1->getStyle('E5')->applyFromArray($style_col);
+
+    $sheet1->getColumnDimension('A')->setWidth(10);
+    $sheet1->getColumnDimension('B')->setWidth(10);
+    $sheet1->getColumnDimension('C')->setWidth(20);
+    $sheet1->getColumnDimension('D')->setWidth(30);
+    $sheet1->getColumnDimension('E')->setWidth(50);
+
+    $dataKelas = $this->db->get('setting_kelas')->result_array();
+    $no = 1;
+    $numrow = 6;
+    foreach ($dataKelas as $kelasData) {
+      $id_kelas   = $kelasData['id'];
+      $level      = $kelasData['level'];
+      $jurusan    = $kelasData['jurusan'];
+      $kelas      = $kelasData['kelas'];
+      $walikelas  = $kelasData['walikelas'];
+      if ($walikelas) {
+        $dataUser      = $this->modelApp->getUserGTK($walikelas);
+        $namaWalikelas = $dataUser['namaLengkap'];
+      } else {
+        $namaWalikelas = "";
+      }
+      $sheet1->setCellValueExplicit('A' . $numrow, $id_kelas, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+      $sheet1->setCellValue('B' . $numrow, $level);
+      $sheet1->setCellValue('C' . $numrow, $jurusan);
+      $sheet1->setCellValue('D' . $numrow, $kelas);
+      $sheet1->setCellValue('E' . $numrow, htmlspecialchars_decode($namaWalikelas, ENT_QUOTES));
+
+      $no++;
+      $numrow++;
+    }
+
+    $sheet2 = new \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet($spreadsheet, 'DATA SISWA');
+    $spreadsheet->addSheet($sheet2, 2);
+    $sheet2->mergeCells('A1:F2');
+    $sheet2->getStyle('A1')->getFont()->setBold(TRUE);
+    $sheet2->getStyle('A1')->getFont()->setSize(15);
+    $sheet2->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet2->getStyle('A1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    $sheet2->setCellValue('A1', $fileName);
+
+    $sheet2->setCellValue('A3', 'Tahun Pelajaran');
+    $sheet2->setCellValue('A4', 'Semester');
+    $sheet2->setCellValue('A5', 'ID');
+
+    $sheet2->setCellValue('C3', $tapel);
+    $sheet2->setCellValueExplicit('C4', $semester, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+    $sheet2->setCellValueExplicit('C5', $id_tapel, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+
+    $sheet2->setCellValue('F3', 'ID_KELAS');
+    $sheet2->mergeCells('F4:F5');
+    $sheet2->getStyle('F4:F5')->getFill()
+      ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+      ->getStartColor()->setARGB('FFFF0000');
+
+    $sheet2->setCellValue('A6', 'NISN');
+    $sheet2->setCellValue('B6', 'NIS');
+    $sheet2->setCellValue('C6', 'NAMA LENGKAP');
+    $sheet2->setCellValue('D6', 'NAMA PANGGIL');
+    $sheet2->setCellValue('E6', 'L/P');
+    $sheet2->setCellValue('F6', 'TANGGAL LAHIR');
+
+    $sheet2->getStyle('F3')->applyFromArray($style_col);
+    $sheet2->getStyle('F4')->applyFromArray($style_col);
+    $sheet2->getStyle('A6')->applyFromArray($style_col);
+    $sheet2->getStyle('B6')->applyFromArray($style_col);
+    $sheet2->getStyle('C6')->applyFromArray($style_col);
+    $sheet2->getStyle('D6')->applyFromArray($style_col);
+    $sheet2->getStyle('E6')->applyFromArray($style_col);
+    $sheet2->getStyle('F6')->applyFromArray($style_col);
+
+    $sheet2->getColumnDimension('A')->setWidth(20);
+    $sheet2->getColumnDimension('B')->setWidth(20);
+    $sheet2->getColumnDimension('C')->setWidth(50);
+    $sheet2->getColumnDimension('D')->setWidth(25);
+    $sheet2->getColumnDimension('E')->setWidth(5);
+    $sheet2->getColumnDimension('F')->setWidth(20);
+
+    $spreadsheet->setActiveSheetIndex(0);
+
+    $writer = new Xlsx($spreadsheet);
+    $writer->save('php://output');
+  }
+
+  public function importAkunPD()
+  {
+    $fileExcel                = $_FILES['fileExcelAkunPD']['name'];
+    $config['file_name']      = $fileExcel;
+    $config['allowed_types']  = 'xls|xlsx';
+    $config['upload_path']    = './assets/files/temp/';
+
+    $this->load->library('upload', $config);
+    $this->upload->do_upload('fileExcelAkunPD');
+    $file_data   = $this->upload->data();
+    $file_name   = $config['upload_path'] . $file_data['file_name'];
+
+    $extFile   = pathinfo($file_name, PATHINFO_EXTENSION);
+    if ($extFile == 'xls') {
+      $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+    } elseif ($extFile == 'xlsx') {
+      $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+    }
+
+    $spreadsheet  = $reader->load($file_name);
+    $sheetData    = $spreadsheet->getSheet(2)->toArray();
+
+    if (file_exists($file_name))
+      unlink($file_name);
+
+    $sheetCount   = count($sheetData);
+
+    if ($sheetCount > 1) {
+      for ($i = 6; $i < $sheetCount; $i++) {
+        $id_tapel       = $sheetData[4][2];
+        $id_kelas       = $sheetData[3][5];
+        $nisn           = $sheetData[$i][0];
+        $nis            = $sheetData[$i][1];
+        $namaLengkap    = $sheetData[$i][2];
+        $namaPanggil    = $sheetData[$i][3];
+        $jk             = $sheetData[$i][4];
+        $tanggalLahir   = $sheetData[$i][5];
+        $dataProfile[] = [
+          'id_tapel'     => $id_tapel,
+          'id_kelas'     => $id_kelas,
+          'nisn'         => $nisn,
+          'nis'          => $nis,
+          'namaLengkap'  => $namaLengkap,
+          'namaPanggil'  => $namaPanggil,
+          'jk'           => $jk,
+          'tanggalLahir' => $tanggalLahir,
+          'date_created' => time(),
+        ];
+        $dataUser[] = [
+          'nisn'         => $nisn,
+          'tanggalLahir' => $tanggalLahir,
+          'namaLengkap'  => $namaLengkap,
+          'role_id'      => "12",
+          'is_active'    => "1",
+          'date_created' => time(),
+        ];
+      }
+
+      $this->db->insert_batch('profil_pd', $dataProfile);
+      $this->db->insert_batch('user_pd', $dataUser);
     }
     redirect(base_url('settings/pd'));
   }
