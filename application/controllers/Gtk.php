@@ -27,6 +27,7 @@ class Gtk extends CI_Controller
     $data['tapelAktif']    = $this->modelApp->getTapelAktif();
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
     $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
+    $data['pageCollumn']   = "1-column";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('gtk/dashboard', $data);
@@ -45,6 +46,7 @@ class Gtk extends CI_Controller
     $data['tapelAktif']    = $this->modelApp->getTapelAktif();
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
     $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
+    $data['pageCollumn']   = "1-column";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('gtk/profil', $data);
@@ -63,6 +65,7 @@ class Gtk extends CI_Controller
     $data['tapelAktif']    = $this->modelApp->getTapelAktif();
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
     $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
+    $data['pageCollumn']   = "1-column";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('gtk/akun', $data);

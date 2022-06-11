@@ -13,6 +13,9 @@
                 <li class="breadcrumb-item">
                   <a href="<?= base_url('gtk/dashboard'); ?>">Dashboard</a>
                 </li>
+                <li class="breadcrumb-item">
+                  <a href="<?= base_url('settings'); ?>">Pengaturan Aplikasi</a>
+                </li>
                 <li class="breadcrumb-item active"><?= $page ?></li>
               </ol>
             </div>
@@ -21,7 +24,7 @@
       </div>
       <div class="content-header-right text-md-end col-md-3 col-4">
         <div class="mb-1 breadcrumb-right">
-          <a href="<?= base_url('gtk/dashboard'); ?>" type="button" class="btn btn-sm btn-primary">
+          <a href="<?= base_url('settings'); ?>" type="button" class="btn btn-sm btn-primary">
             <i data-feather='chevrons-left'></i>
             <span>Kembali</span>
           </a>
@@ -31,7 +34,7 @@
 
     <div class="content-body">
 
-      <section id="dbPage">
+      <section id="ppdbSettingsPage">
         <div class='card card-body'>
           <div class='text-center'>
             <img src='<?= base_url('assets/'); ?>files/images/logo/page-loader-2.gif' width='300px' />
@@ -40,8 +43,6 @@
           </div>
         </div>
       </section>
-
-
     </div>
 
   </div>

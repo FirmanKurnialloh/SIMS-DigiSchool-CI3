@@ -374,6 +374,11 @@ function getProfilPdFromTapel($username, $tapelAktif)
 }
 
 // Check Add-On PPDB
+function is_ppdb_installed()
+{
+  return file_exists(APPPATH . "views/gtk/ppdb/dashboard.php");
+}
+
 function is_ppdb_active()
 {
   $ci = get_instance();

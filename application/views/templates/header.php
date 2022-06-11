@@ -55,13 +55,4 @@
 
 <!-- BEGIN: Body-->
 
-<?php
-$page = $this->uri->segment(2);
-if ($page == "dashboard" || $page == "profil" || $page == "akun") {
-  $pageCollumn = "1-column";
-} else {
-  $pageCollumn = "";
-}
-?>
-
 <body class="vertical-layout vertical-menu-modern navbar-floating footer-static menu-fixed <?= $pageCollumn ?>" data-open="click" data-menu="vertical-menu-modern" data-col="<?= $pageCollumn ?>">

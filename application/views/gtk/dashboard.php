@@ -46,7 +46,7 @@
       <section id="knowledge-base-content">
         <div class="row kb-search-content-info match-height">
           <!-- Add-On PPDB -->
-          <?php if (file_exists(APPPATH . "views/gtk/ppdb/dashboard.php")) { ?>
+          <?php if (is_ppdb_installed()) { ?>
             <div class="col-md-4 col-sm-6 col-12 kb-search-content">
               <div class="card">
                 <a href="<?= base_url('LayananPPDB'); ?>">

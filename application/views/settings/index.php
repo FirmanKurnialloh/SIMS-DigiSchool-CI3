@@ -145,7 +145,7 @@
                         Modul PPDB
                       </strong>
                     </h5>
-                    <?php if (file_exists(APPPATH . "views/gtk/ppdb/dashboard.php") && $serverSetting['modulPPDB'] == "0") { ?>
+                    <?php if (is_ppdb_installed() && $serverSetting['modulPPDB'] == "0") { ?>
                       <form id="formSwitchModulPPDB" method="post">
                         <div class="form-switch">
                           <input type="checkbox" class="form-check-input" id="switchModulPPDB" />
@@ -153,7 +153,7 @@
                           <sub id="LabelswitchModulPPDB">Tidak Aktif</sub>
                         </div>
                       </form>
-                    <?php } elseif (file_exists(APPPATH . "views/gtk/ppdb/dashboard.php") && $serverSetting['modulPPDB']  == "1") { ?>
+                    <?php } elseif (is_ppdb_installed() && $serverSetting['modulPPDB']  == "1") { ?>
                       <form id="formSwitchModulPPDB" method="post">
                         <div class="form-switch">
                           <input type="checkbox" class="form-check-input" id="switchModulPPDB" checked />
@@ -161,7 +161,7 @@
                           <sub id="LabelswitchModulPPDB">Aktif</sub>
                         </div>
                       </form>
-                    <?php } elseif (!file_exists(APPPATH . "views/gtk/ppdb/dashboard.php")) { ?>
+                    <?php } elseif (!is_ppdb_installed()) { ?>
                       <sup>Add-On Tidak Ditemukan !</sup>
                       <a href="http://www.jayvyn-host.com/#contact" type="button" class="btn btn-md btn-flat-success">
                         <i data-feather="cpu" class="me-25"></i>
