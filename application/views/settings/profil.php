@@ -17,7 +17,7 @@
                   <a href="<?= base_url('settings'); ?>">Pengaturan Aplikasi</a>
                 </li>
                 <li class="breadcrumb-item">
-                  <a href="<?= base_url('settings/' . $this->uri->segment('2')); ?>">Pengaturan Akun <?= strtoupper($this->uri->segment('2')); ?></a>
+                  <a href="<?= base_url('settings/' . $this->uri->segment('2')); ?>">Akun <?= strtoupper($this->uri->segment('2')); ?></a>
                 </li>
                 <li class="breadcrumb-item active"><?= $profil['namaLengkap']; ?></li>
               </ol>
