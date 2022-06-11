@@ -62,19 +62,6 @@ class Settings extends CI_Controller
     }
   }
 
-  public function switchModulPPDB()
-  {
-    $checkModulPPDB = $this->modelApp->getServerSetting();
-    $modulPPDB = $checkModulPPDB['modulPPDB'];
-    if ($modulPPDB == "0") {
-      $this->db->set('modulPPDB', '1');
-      $this->db->update('setting_server');
-    } elseif ($modulPPDB == "1") {
-      $this->db->set('modulPPDB', '0');
-      $this->db->update('setting_server');
-    }
-  }
-
   public function sekolah()
   {
     $data['sessionUser']   = $this->session->userdata('username');

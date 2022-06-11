@@ -220,7 +220,7 @@
     var statusModulPPDB = document.getElementById("statusModulPPDB").value;
     $.ajax({
       type: 'POST',
-      url: "<?= base_url('settings/switchModulPPDB'); ?>",
+      url: "<?= base_url('layananPPDB/switchModulPPDB'); ?>",
       data: formSwitchModulPPDB,
       cache: false,
       success: function(data) {

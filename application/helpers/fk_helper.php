@@ -402,4 +402,5 @@ function is_ppdb_active()
             </script>");
     redirect(base_url('gtk/dashboard'));
   }
+  return $checkModul;
 }
