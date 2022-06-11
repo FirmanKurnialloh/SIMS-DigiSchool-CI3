@@ -913,9 +913,416 @@ class Settings extends CI_Controller
     redirect(base_url('settings/gtk'));
   }
 
+  public function exportTemplateAkunGTK()
+  {
+    $dataServer         = $this->modelApp->getServerSetting();
+    $namaAplikasi       = $dataServer['namaAplikasi'];
+    $dataTapel          = $this->modelApp->getTapelAktif();
+    $id_tapel           = $dataTapel['id'];
+    $tapel              = $dataTapel['tapel'];
+    $semester           = $dataTapel['semester'];
+    $fileName           = "Template Import Akun GTK Tahun Pelajaran " . $tapel . " Semester " . $semester;
+
+    header("Content-type: application/vnd.ms-excel");
+    header('Content-Disposition: attachment; filename="' . $fileName . '.xlsx"');
+
+    $spreadsheet = new Spreadsheet();
+    $spreadsheet
+      ->getProperties()
+      ->setCreator($namaAplikasi)
+      ->setLastModifiedBy($namaAplikasi)
+      ->setTitle($fileName)
+      ->setSubject($namaAplikasi)
+      ->setDescription($namaAplikasi)
+      ->setKeywords($namaAplikasi);
+
+    $style_col = array(
+      'font' => array('bold' => true),
+      'alignment' => array(
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+        'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
+      ),
+      'borders' => array(
+        'top' => array('style'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN),
+        'right' => array('style'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN),
+        'bottom' => array('style'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN),
+        'left' => array('style'  => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN)
+      )
+    );
+
+    $sheet0 = $spreadsheet->getActiveSheet(0)->setTitle('PETUNJUK');
+    $sheet0->mergeCells('A1:L2');
+    $sheet0->getStyle('A1')->getFont()->setBold(TRUE);
+    $sheet0->getStyle('A1')->getFont()->setSize(15);
+    $sheet0->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet0->getStyle('A1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    $sheet0->setCellValue('A1', $fileName);
+
+    $sheet0->mergeCells('A4:L4');
+    $sheet0->getStyle('A4')->getFont()->setBold(TRUE);
+    $sheet0->getStyle('A4')->getFont()->setSize(12);
+    $sheet0->getStyle('A4')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet0->getStyle('A4')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    $sheet0->setCellValue('A4', "Petunjuk Pengisian");
+
+    $sheet0->setCellValue('B6', "1. Sistem hanya akan memproses data pada SHEET DATA GTK");
+    $sheet0->setCellValue('B7', "2. Jangan ubah format dan isian tabel, anda hanya dapat mengisi pada cell berikut: ");
+    $sheet0->setCellValue('C8', "a. CELL A5 dst. - EMAIL/USERNAME");
+    $sheet0->setCellValue('C9', "b. CELL B5 dst. - NAMA LENGKAP");
+    $sheet0->setCellValue('C10', "c. CELL C5 dst. - NAMA PANGGIL");
+    $sheet0->setCellValue('C11', "d. CELL D5 dst. - GELAR DEPAN");
+    $sheet0->setCellValue('C12', "e. CELL E5 dst. - GELAR BELAKANG");
+    $sheet0->setCellValue('C13', "f. CELL F5 dst. - JENIS KELAMIN");
+    $sheet0->setCellValue('C14', "g. CELL G5 dst. - ID ROLE 1");
+    $sheet0->setCellValue('C15', "h. CELL H5 dst. - ID KELAS");
+    $sheet0->setCellValue('C16', "i. CELL I5 dst. - ID ROLE 2");
+    $sheet0->setCellValue('C17', "j. CELL J5 dst. - ID EKSKUL");
+    $sheet0->setCellValue('B19', "3. Pengisian NAMA LENGKAP tidak perlu ditulis beserta gelarnya, tulis gelar pada kolom yang telah di sediakan");
+    $sheet0->setCellValue('B20', "4. Pengisian JENIS KELAMIN hanya dapat menggunakan huruf L atau P");
+    $sheet0->setCellValue('B21', "5. Pengisian ID ROLE silahkan salin dari SHEET DATA ROLE");
+    $sheet0->setCellValue('B22', "6. Jika ID ROLE diisi sebagai walikelas, maka kolom ID_KELAS harus diisi");
+    $sheet0->setCellValue('B23', "7. Jika ID ROLE diisi sebagai pembina ekstrakurikuler, maka kolom ID_EKSKUL harus diisi");
+    $sheet0->setCellValue('B24', "8. Untuk mengurangi beban kerja server maka disarankan melakukan 1x import untuk 50 orang");
+
+    $sheet0->mergeCells('A25:L25');
+    $sheet0->getStyle('A25')->getFont()->setBold(TRUE);
+    $sheet0->getStyle('A25')->getFont()->setSize(12);
+    $sheet0->getStyle('A25')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet0->getStyle('A25')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    $sheet0->setCellValue('A25', "Terimakasih telah menggunakan SIMS DigiSchool");
+
+    $sheet1 = new \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet($spreadsheet, 'DATA ROLE');
+    $spreadsheet->addSheet($sheet1, 1);
+    $sheet1->mergeCells('A1:J2');
+    $sheet1->getStyle('A1')->getFont()->setBold(TRUE);
+    $sheet1->getStyle('A1')->getFont()->setSize(15);
+    $sheet1->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet1->getStyle('A1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    $sheet1->setCellValue('A1', $fileName);
+
+    $sheet1->mergeCells('A4:B4');
+    $sheet1->getStyle('A4')->getFont()->setBold(TRUE);
+    $sheet1->getStyle('A4')->getFont()->setSize(12);
+    $sheet1->getStyle('A4')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet1->getStyle('A4')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    $sheet1->setCellValue('A4', "DATA ROLE");
+
+    $sheet1->setCellValue('A5', 'ID_ROLE');
+    $sheet1->setCellValue('B5', 'ROLE');
+
+    $sheet1->getStyle('A5')->applyFromArray($style_col);
+    $sheet1->getStyle('B5')->applyFromArray($style_col);
+
+    $sheet1->getColumnDimension('A')->setWidth(10);
+    $sheet1->getColumnDimension('B')->setWidth(30);
+
+    $dataRole = $this->db->get('user_role')->result_array();
+    $no = 1;
+    $numrow = 6;
+    foreach ($dataRole as $RoleData) {
+      $id_role   = $RoleData['id'];
+      $role      = $RoleData['role'];
+      $sheet1->setCellValueExplicit('A' . $numrow, $id_role, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+      $sheet1->setCellValue('B' . $numrow, $role);
+      $no++;
+      $numrow++;
+    }
+
+    $sheet1->mergeCells('C4:G4');
+    $sheet1->getStyle('C4')->getFont()->setBold(TRUE);
+    $sheet1->getStyle('C4')->getFont()->setSize(12);
+    $sheet1->getStyle('C4')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet1->getStyle('C4')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    $sheet1->setCellValue('C4', "DATA KELAS");
+
+    $sheet1->setCellValue('C5', 'ID_KELAS');
+    $sheet1->setCellValue('D5', 'LEVEL');
+    $sheet1->setCellValue('E5', 'JURUSAN');
+    $sheet1->setCellValue('F5', 'KELAS');
+    $sheet1->setCellValue('G5', 'WALIKELAS');
+
+    $sheet1->getStyle('C5')->applyFromArray($style_col);
+    $sheet1->getStyle('D5')->applyFromArray($style_col);
+    $sheet1->getStyle('E5')->applyFromArray($style_col);
+    $sheet1->getStyle('F5')->applyFromArray($style_col);
+    $sheet1->getStyle('G5')->applyFromArray($style_col);
+
+    $sheet1->getColumnDimension('C')->setWidth(10);
+    $sheet1->getColumnDimension('D')->setWidth(10);
+    $sheet1->getColumnDimension('E')->setWidth(20);
+    $sheet1->getColumnDimension('F')->setWidth(30);
+    $sheet1->getColumnDimension('G')->setWidth(50);
+
+    $dataKelas = $this->db->get('setting_kelas')->result_array();
+    $no = 1;
+    $numrow = 6;
+    foreach ($dataKelas as $kelasData) {
+      $id_kelas   = $kelasData['id'];
+      $level      = $kelasData['level'];
+      $jurusan    = $kelasData['jurusan'];
+      $kelas      = $kelasData['kelas'];
+      $walikelas  = $kelasData['walikelas'];
+      if ($walikelas) {
+        $dataUser      = $this->modelApp->getUserGTK($walikelas);
+        $namaWalikelas = $dataUser['namaLengkap'];
+      } else {
+        $namaWalikelas = "";
+      }
+      $sheet1->setCellValueExplicit('C' . $numrow, $id_kelas, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+      $sheet1->setCellValue('D' . $numrow, $level);
+      $sheet1->setCellValue('E' . $numrow, $jurusan);
+      $sheet1->setCellValue('F' . $numrow, $kelas);
+      $sheet1->setCellValue('G' . $numrow, htmlspecialchars_decode($namaWalikelas, ENT_QUOTES));
+      $no++;
+      $numrow++;
+    }
+
+    $sheet1->mergeCells('H4:J4');
+    $sheet1->getStyle('H4')->getFont()->setBold(TRUE);
+    $sheet1->getStyle('H4')->getFont()->setSize(12);
+    $sheet1->getStyle('H4')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet1->getStyle('H4')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    $sheet1->setCellValue('H4', "DATA EKSKUL");
+
+    $sheet1->setCellValue('H5', 'ID_EKSKUL');
+    $sheet1->setCellValue('I5', 'EKSKUL');
+    $sheet1->setCellValue('J5', 'PELATIH');
+
+    $sheet1->getStyle('H5')->applyFromArray($style_col);
+    $sheet1->getStyle('I5')->applyFromArray($style_col);
+    $sheet1->getStyle('J5')->applyFromArray($style_col);
+
+    $sheet1->getColumnDimension('H')->setWidth(10);
+    $sheet1->getColumnDimension('I')->setWidth(30);
+    $sheet1->getColumnDimension('J')->setWidth(50);
+
+    $dataEkskul = $this->db->get('setting_ekskul')->result_array();
+    $no = 1;
+    $numrow = 6;
+    foreach ($dataEkskul as $ekskulData) {
+      $id_ekskul   = $ekskulData['id'];
+      $ekskul      = $ekskulData['namaEkskul'];
+      $pelatih     = $ekskulData['pelatih'];
+      if ($pelatih) {
+        $dataUser  = $this->modelApp->getUserGTK($pelatih);
+        $pelatih   = $dataUser['namaLengkap'];
+      } else {
+        $pelatih = "";
+      }
+      $sheet1->setCellValueExplicit('H' . $numrow, $id_ekskul, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+      $sheet1->setCellValue('I' . $numrow, $ekskul);
+      $sheet1->setCellValue('J' . $numrow, htmlspecialchars_decode($pelatih, ENT_QUOTES));
+      $no++;
+      $numrow++;
+    }
+
+    $sheet2 = new \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet($spreadsheet, 'DATA GTK');
+    $spreadsheet->addSheet($sheet2, 2);
+    $sheet2->mergeCells('A1:J2');
+    $sheet2->getStyle('A1')->getFont()->setBold(TRUE);
+    $sheet2->getStyle('A1')->getFont()->setSize(15);
+    $sheet2->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    $sheet2->getStyle('A1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+    $sheet2->setCellValue('A1', $fileName);
+
+    $sheet2->setCellValue('A4', 'EMAIL/USERNAME');
+    $sheet2->setCellValue('B4', 'NAMA LENGKAP');
+    $sheet2->setCellValue('C4', 'NAMA PANGGIL');
+    $sheet2->setCellValue('D4', 'GELAR DEPAN');
+    $sheet2->setCellValue('E4', 'GELAR BELAKANG');
+    $sheet2->setCellValue('F4', 'L/P');
+    $sheet2->setCellValue('G4', 'ID_ROLE 1');
+    $sheet2->setCellValue('H4', 'ID_KELAS');
+    $sheet2->setCellValue('I4', 'ID_ROLE 2');
+    $sheet2->setCellValue('J4', 'ID_EKSKUL');
+
+    $sheet2->getStyle('A4')->applyFromArray($style_col);
+    $sheet2->getStyle('B4')->applyFromArray($style_col);
+    $sheet2->getStyle('C4')->applyFromArray($style_col);
+    $sheet2->getStyle('D4')->applyFromArray($style_col);
+    $sheet2->getStyle('E4')->applyFromArray($style_col);
+    $sheet2->getStyle('F4')->applyFromArray($style_col);
+    $sheet2->getStyle('G4')->applyFromArray($style_col);
+    $sheet2->getStyle('H4')->applyFromArray($style_col);
+    $sheet2->getStyle('I4')->applyFromArray($style_col);
+    $sheet2->getStyle('J4')->applyFromArray($style_col);
+
+    $sheet2->getColumnDimension('A')->setWidth(30);
+    $sheet2->getColumnDimension('B')->setWidth(50);
+    $sheet2->getColumnDimension('C')->setWidth(25);
+    $sheet2->getColumnDimension('D')->setWidth(20);
+    $sheet2->getColumnDimension('E')->setWidth(20);
+    $sheet2->getColumnDimension('F')->setWidth(5);
+    $sheet2->getColumnDimension('G')->setWidth(10);
+    $sheet2->getColumnDimension('H')->setWidth(10);
+    $sheet2->getColumnDimension('I')->setWidth(10);
+    $sheet2->getColumnDimension('J')->setWidth(10);
+
+    $spreadsheet->setActiveSheetIndex(0);
+
+    $writer = new Xlsx($spreadsheet);
+    $writer->save('php://output');
+  }
+
+  public function importAkunGTK()
+  {
+    $fileExcel                = $_FILES['fileExcelAkunGTK']['name'];
+    $config['file_name']      = $fileExcel;
+    $config['allowed_types']  = 'xls|xlsx';
+    $config['upload_path']    = './assets/files/temp/';
+
+    $this->load->library('upload', $config);
+    $this->upload->do_upload('fileExcelAkunGTK');
+    $file_data   = $this->upload->data();
+    $file_name   = $config['upload_path'] . $file_data['file_name'];
+
+    $extFile   = pathinfo($file_name, PATHINFO_EXTENSION);
+    if ($extFile == 'xls') {
+      $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+    } elseif ($extFile == 'xlsx') {
+      $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+    }
+
+    $spreadsheet  = $reader->load($file_name);
+    $sheetData    = $spreadsheet->getSheet(2)->toArray();
+
+    if (file_exists($file_name))
+      unlink($file_name);
+
+    $sheetCount   = count($sheetData);
+
+    if ($sheetCount > 1) {
+      for ($i = 5; $i < $sheetCount; $i++) {
+        $username         = $sheetData[$i][0];
+        $namaLengkap      = $sheetData[$i][1];
+        $namaPanggil      = $sheetData[$i][2];
+        $gelarDepan       = $sheetData[$i][3];
+        $gelarBelakang    = $sheetData[$i][4];
+        $jk               = $sheetData[$i][5];
+        $id_role_1        = $sheetData[$i][6];
+        $id_kelas         = $sheetData[$i][7];
+        $id_role_2        = $sheetData[$i][8];
+        $id_ekskul        = $sheetData[$i][9];
+
+        if ($gelarDepan) {
+          $gelarDepanGabung = $gelarDepan . ' ';
+        } else {
+          $gelarDepanGabung = "";
+        }
+
+        if ($gelarBelakang) {
+          $gelarBelakangGabung = ', ' . $gelarBelakang;
+        } else {
+          $gelarBelakangGabung = "";
+        }
+
+        $namaGelar = $gelarDepanGabung . $namaLengkap . $gelarBelakangGabung;
+
+        $dataProfile[] = [
+          'username'      => $username,
+          'namaLengkap'   => $namaLengkap,
+          'namaPanggil'   => $namaPanggil,
+          'gelarDepan'    => $gelarDepan,
+          'gelarBelakang' => $gelarBelakang,
+          'jk'            => $jk,
+          'date_created'  => time(),
+        ];
+        $dataUser[] = [
+          'username'     => $username,
+          'password'     => password_hash('#MerdekaBelajar!', PASSWORD_DEFAULT),
+          'namaLengkap'  => $namaGelar,
+          'role_id_1'    => $id_role_1,
+          'role_id_2'    => $id_role_2,
+          'is_active'    => "1",
+          'date_created' => time(),
+        ];
+
+        if ($id_role_1 == 6) {
+          $dataKelasRole = [
+            'id'              => $id_kelas,
+            'walikelas'       => $username,
+          ];
+        } elseif ($id_role_1 == 7) {
+          $dataEkskulRole = [
+            'id'              => $id_kelas,
+            'pelatih'         => $username,
+          ];
+        }
+
+        if ($id_role_2 == 6) {
+          $dataKelasRole = [
+            'id'              => $id_ekskul,
+            'walikelas'       => $username,
+          ];
+        } elseif ($id_role_2 == 7) {
+          $dataEkskulRole = [
+            'id'              => $id_ekskul,
+            'pelatih'         => $username,
+          ];
+        }
+      }
+
+      $queryProfil  = $this->db->insert_batch('profil_gtk', $dataProfile);
+      $queryUser    = $this->db->insert_batch('user_gtk', $dataUser);
+
+      if ($dataKelasRole) {
+        $this->db->set(
+          [
+            'walikelas'     => $dataKelasRole['walikelas'],
+          ]
+        );
+        $this->db->where('id', $dataKelasRole['id']);
+        $this->db->update('setting_kelas');
+      }
+
+      if ($dataEkskulRole) {
+        $this->db->set(
+          [
+            'pelatih'     => $dataEkskulRole['pelatih'],
+          ]
+        );
+        $this->db->where('id', $dataEkskulRole['id']);
+        $this->db->update('setting_ekskul');
+      }
+
+      if ($queryProfil && $queryUser) {
+        $this->session->set_flashdata('toastr', "
+          <script>
+          $(window).on('load', function() {
+            setTimeout(function() {
+              toastr['success'](
+                'Akun GTK Di Import !',
+                'Berhasil !', {
+                  closeButton: true,
+                  tapToDismiss: true
+                }
+              );
+            }, 0);
+          })
+          </script>");
+      } else {
+        $this->session->set_flashdata('toastr', "
+        <script>
+        $(window).on('load', function() {
+          setTimeout(function() {
+            toastr['success'](
+              'Terdapat Duplikasi Data !',
+              'Gagal !', {
+                closeButton: true,
+                tapToDismiss: true
+              }
+            );
+          }, 0);
+        })
+        </script>");
+      }
+    }
+    redirect(base_url('settings/pd'));
+  }
+
   public function resetDataGTK()
   {
-    $query      = "SELECT `username` FROM `user_gtk` WHERE `role_id` != '1'";
+    $query      = "SELECT `username` FROM `user_gtk` WHERE `role_id_1` != '1'";
     $queryUser  = $this->db->query($query)->result_array();
     foreach ($queryUser as $rowUsername) {
       $this->db->delete('profil_gtk', ['username' => $rowUsername['username']]);
@@ -1545,8 +1952,39 @@ class Settings extends CI_Controller
         ];
       }
 
-      $this->db->insert_batch('profil_pd', $dataProfile);
-      $this->db->insert_batch('user_pd', $dataUser);
+      $queryProfil  = $this->db->insert_batch('profil_pd', $dataProfile);
+      $queryUser    = $this->db->insert_batch('user_pd', $dataUser);
+      if ($queryProfil && $queryUser) {
+        $this->session->set_flashdata('toastr', "
+          <script>
+          $(window).on('load', function() {
+            setTimeout(function() {
+              toastr['success'](
+                'Akun Peserta Didik Di Import !',
+                'Berhasil !', {
+                  closeButton: true,
+                  tapToDismiss: true
+                }
+              );
+            }, 0);
+          })
+          </script>");
+      } else {
+        $this->session->set_flashdata('toastr', "
+        <script>
+        $(window).on('load', function() {
+          setTimeout(function() {
+            toastr['success'](
+              'Terdapat Duplikasi Data !',
+              'Gagal !', {
+                closeButton: true,
+                tapToDismiss: true
+              }
+            );
+          }, 0);
+        })
+        </script>");
+      }
     }
     redirect(base_url('settings/pd'));
   }

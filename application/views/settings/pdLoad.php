@@ -64,8 +64,8 @@
                   </div>
                   <!-- Jenis Kelamin input -->
                   <div class="mb-1 col-lg-3 col-12">
-                    <label for="jenisKelaminPD">Jenis Kelamin</label>
-                    <select class="select2 hide-search form-control" id="jenisKelaminPD" name="jenisKelamin" required data-placeholder="Pilih Jenis Kelamin" data-msg="Pilih Tanggal Lahir">
+                    <label for="jenisKelaminPDAdd">Jenis Kelamin</label>
+                    <select class="select2 hide-search form-control" id="jenisKelaminPDAdd" name="jenisKelamin" required data-placeholder="Pilih Jenis Kelamin" data-msg="Pilih Jenis Kelamin">
                       <option></option>
                       <optgroup label="Pilih Jenis Kelamin">
                         <option value="L">Laki-Laki</option>
@@ -85,8 +85,8 @@
                   </div>
                   <!-- Kelas input -->
                   <div class="mb-1 col-lg-6 col-12">
-                    <label for="kelas">Pilih Kelas</label>
-                    <select class="select2 form-control" id="selectKelas" name="kelas" data-placeholder="Pilih Kelas" required data-msg="Pilih Kelas">
+                    <label for="selectKelasAdd">Pilih Kelas</label>
+                    <select class="select2 form-control" id="selectKelasAdd" name="kelas" data-placeholder="Pilih Kelas" required data-msg="Pilih Kelas">
                       <option></option>
                       <optgroup label="Pilih Kelas">
                         <?php
@@ -414,13 +414,13 @@
                                 </div>
                                 <!-- Tanggal Lahir input -->
                                 <div class="mb-1 col-lg-6 col-12">
-                                  <label class="form-label" for="tanggalLahir">Tanggal Lahir</label>
-                                  <input type="text" class="form-control flatpickr-basic" id="tanggalLahir" placeholder="Tanggal Lahir" name="tanggalLahir" value="<?= $tanggalLahir ?>" required data-msg="Pilih Tanggal Lahir" autocomplete="off" />
+                                  <label class="form-label" for="tanggalLahirEdit">Tanggal Lahir</label>
+                                  <input type="text" class="form-control flatpickr-basic" id="tanggalLahirEdit" placeholder="Tanggal Lahir" name="tanggalLahir" value="<?= $tanggalLahir ?>" required data-msg="Pilih Tanggal Lahir" autocomplete="off" />
                                 </div>
                                 <!-- Jenis Kelamin input -->
                                 <div class="mb-1 col-lg-3 col-12">
-                                  <label for="jenisKelaminPD">Jenis Kelamin</label>
-                                  <select class="select2 hide-search form-control" id="jenisKelaminPD" name="jenisKelamin" required data-placeholder="Pilih Jenis Kelamin" data-msg="Pilih Tanggal Lahir">
+                                  <label for="jenisKelaminPDEdit<?= $id_user ?>">Jenis Kelamin</label>
+                                  <select class="select2 hide-search form-control" id="jenisKelaminPDEdit<?= $id_user ?>" name="jenisKelamin" required data-placeholder="Pilih Jenis Kelamin" data-msg="Pilih Jenis Kelamin">
                                     <option value="<?= $jk ?>"><?= jenisKelamin($jk) ?></option>
                                     <optgroup label="Pilih Jenis Kelamin">
                                       <option value="L">Laki-Laki</option>
@@ -440,8 +440,8 @@
                                 </div>
                                 <!-- Kelas input -->
                                 <div class="mb-1 col-lg-6 col-12">
-                                  <label for="kelas">Pilih Kelas</label>
-                                  <select class="select2 form-control" id="selectKelas" name="kelas" data-placeholder="Pilih Kelas" required data-msg="Pilih Kelas">
+                                  <label for="selectKelasPDEdit<?= $id_user ?>">Pilih Kelas</label>
+                                  <select class="select2 form-control" id="selectKelasPDEdit<?= $id_user ?>" name="kelas" data-placeholder="Pilih Kelas" required data-msg="Pilih Kelas">
                                     <option value="<?= $id_kelas ?>"><?= $kelas ?></option>
                                     <optgroup label="Pilih Kelas">
                                       <?php

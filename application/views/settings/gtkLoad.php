@@ -8,7 +8,7 @@
           <a href=" javascript:void(0)" type="button" class="btn btn-sm btn-primary ms-1" data-bs-id="tambahData" id="tambahDataButton" data-bs-toggle="modal" data-bs-target="#tambahDataModal">
             Tambah Data Akun GTK
           </a>
-          <a href="javascript:void(0)" type="button" class="btn btn-sm btn-success ms-1" data-bs-id="importData" id="importDataButton" data-bs-toggle="modal" data-bs-target="#soonFeature">
+          <a href="javascript:void(0)" type="button" class="btn btn-sm btn-success ms-1" data-bs-id="importData" id="importDataButton" data-bs-toggle="modal" data-bs-target="#ImportDataModal">
             Import Data Akun GTK
           </a>
           <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger ms-1" id="resetDataGTK">
@@ -16,7 +16,7 @@
           </a>
         </span>
       </div>
-      <!-- Modal -->
+      <!-- Modal Tambah -->
       <div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="tambahDataModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
           <div class="modal-content">
@@ -242,7 +242,131 @@
           </div>
         </div>
       </div>
-      <!-- Modal -->
+      <!-- Modal Tambah -->
+      <!-- Modal Import -->
+      <div class="modal fade" id="ImportDataModal" tabindex="-1" aria-labelledby="ImportDataModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="ImportDataModal">Import Data Akun GTK</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="validate-form" action="<?= base_url('settings/importAkunGTK'); ?>" method="POST" enctype="multipart/form-data">
+              <div class="modal-body mb-2">
+                <ul class="timeline">
+                  <li class="timeline-item">
+                    <span class="timeline-point">
+                      <i data-feather="download"></i>
+                    </span>
+                    <div class="timeline-event">
+                      <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
+                        <h6>Unduh File Template</h6>
+                        <span class="timeline-event-time" hidden>12 min ago</span>
+                      </div>
+                      <p>Unduh File Template</p>
+                      <div class="d-flex flex-row align-items-center">
+                        <img class="me-1" src="<?= base_url('assets/') ?>app-assets/images/icons/xls.png" alt="xls" height="50" />
+                        <span>
+                          <a href="<?= base_url('settings/exportTemplateAkunGTK') ?>" target="blank" id="btnExportExcelAkunGTK" class="btn btn-sm btn-success mt-1">Unduh File Template</a>
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="timeline-item">
+                    <span class="timeline-point timeline-point-primary">
+                      <i data-feather="edit"></i>
+                    </span>
+                    <div class="timeline-event">
+                      <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
+                        <h6>Edit File</h6>
+                        <span class="timeline-event-time" hidden>2 hours ago</span>
+                      </div>
+                      <p class="mb-50">Edit file template dan isilah sesuai kebutuhan data lalu unggah kembali disini.</p>
+                      <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample2" aria-expanded="true" aria-controls="collapseExample2">
+                        Lihat Kebutuhan Data
+                      </button>
+                      <div class="collapse" id="collapseExample2">
+                        <ul class="list-group list-group-flush mt-1">
+                          <li class="list-group-item d-flex justify-content-between flex-wrap">
+                            <span>Email/Username</span>
+                            <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between flex-wrap">
+                            <span>Nama Lengkap</span>
+                            <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between flex-wrap">
+                            <span>Nama Panggil</span>
+                            <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between flex-wrap">
+                            <span>Gelar Depan</span>
+                            <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between flex-wrap">
+                            <span>Gelar Belakang</span>
+                            <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between flex-wrap">
+                            <span>Jenis Kelamin</span>
+                            <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between flex-wrap">
+                            <span>Peran 1 & 2</span>
+                            <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="timeline-item">
+                    <span class="timeline-point">
+                      <i data-feather="download"></i>
+                    </span>
+                    <div class="timeline-event">
+                      <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
+                        <h6>Pilih File</h6>
+                        <span class="timeline-event-time" hidden>12 min ago</span>
+                      </div>
+                      <p>Pilih file yang telah di edit untuk di unggah kedalam sistem.</p>
+                      <div class="d-flex flex-row align-items-center">
+                        <img id="iconfileimportAkunGTK" class="me-1" src="<?= base_url('assets/') ?>app-assets/images/icons/unknown.png" alt="xls" height="50" />
+                        <span>
+                          <label for="inputImportFileExcelAkunGTK" id="lblinputImportFileExcelAkunGTK" class="btn btn-sm btn-success mt-1">Pilih File</label>
+                          <input type="file" id="inputImportFileExcelAkunGTK" name="fileExcelAkunGTK" hidden accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="timeline-item">
+                    <span class="timeline-point">
+                      <i data-feather="download"></i>
+                    </span>
+                    <div class="timeline-event">
+                      <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
+                        <h6>Unggah File</h6>
+                        <span class="timeline-event-time" hidden>12 min ago</span>
+                      </div>
+                      <p>Unggah file yang sudah dipilih untuk diproses sistem.</p>
+                      <div class="d-flex flex-row align-items-center">
+                        <img id="iconfileimportAkunGTKUp" class="me-1" src="<?= base_url('assets/') ?>app-assets/images/icons/unknown.png" alt="xls" height="50" />
+                        <span>
+                          <button type="submit" id="btnImportDataAkunGTK" class="btn btn-sm btn-danger mt-1" disabled>Unggah File</button>
+                          <button class="btn btn-sm btn-outline-success mt-1" id="btnProsesImportDataAkunGTK" type="button" disabled hidden>
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span class="ml-25 align-middle">Memproses Data, Silahkan Tunggu . . .</span>
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Modal Import -->
       <?php
       if (getUserGTK()->num_rows() <= 0) { ?>
         <div class="text-center">
@@ -770,4 +894,28 @@
       $("#selectEkskul2").attr("required", false);
     }
   });
+
+  $('#inputImportFileExcelAkunGTK').change(function() {
+    $('#filenameImportAkunGTK').html('');
+    $('#iconfileimportAkunGTK').attr('src', '<?= base_url('assets/') ?>app-assets/images/icons/xls.png');
+    $('#iconfileimportAkunGTKUp').attr('src', '<?= base_url('assets/') ?>app-assets/images/icons/xls.png');
+    $('#lblinputImportFileExcelAkunGTK').html('Ubah File');
+    $('#lblinputImportFileExcelAkunGTK').attr('class', 'btn btn-sm btn-primary mb-75 mr-75');
+    $('#btnImportDataAkunGTK').removeAttr("disabled");
+    $('#btnImportDataAkunGTK').attr('class', 'btn btn-success btn-sm mt-2 mb-2');
+    $.each(this.files, function() {
+      readURLAkunGTK(this);
+    })
+  });
+
+  function readURLAkunGTK(file) {
+
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      $('#filenameImportAkunGTK').append('<p><b class="text-success">' + file.name + '</b> terpilih, siap diunggah kedalam sistem!</p>');
+      $('#btnImportDataAkunGTK').html('Unggah File ' + file.name);
+    }
+
+    reader.readAsDataURL(file);
+  }
 </script>

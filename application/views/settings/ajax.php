@@ -563,7 +563,7 @@
             .fail(function(response) {
               Swal.fire({
                 icon: 'error',
-                title: 'Terdapat Kesalahan Sistem!',
+                title: 'Terdapat Kesalahan Sistems!',
                 text: 'Database Gagal Direset !',
                 allowOutsideClick: false,
                 customClass: {
