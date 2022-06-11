@@ -458,7 +458,12 @@
                         <?php } ?>
                       </div>
                       <div class="d-flex flex-column">
-                        <a href="<?= base_url('profil/gtk/') . $id_user; ?>" class="user_name text-body text-truncate">
+                        <?php
+                        $base_64      = base64_encode($username);
+                        $url_param    = rtrim($base_64, '=');
+                        $data         = array("username" => "$username");
+                        $url_details  = base64_encode(serialize($data)); ?>
+                        <a href="<?= base_url('settings/gtk/') . $url_param; ?>" class="user_name text-body text-truncate">
                           <?php if ($profilGTK) { ?>
                             <span class="fw-bolder"><?= $namaGelar ?></span>
                           <?php } else { ?>

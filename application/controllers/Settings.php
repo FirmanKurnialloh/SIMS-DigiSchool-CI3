@@ -771,14 +771,33 @@ class Settings extends CI_Controller
     $data['tapelAktif']    = $this->modelApp->getTapelAktif();
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
     $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
-    $data['page']          = "Akun GTK";
-    $this->load->view('templates/header', $data);
-    $this->load->view('templates/navbar', $data);
-    $this->load->view('settings/menu', $data);
-    $this->load->view('settings/gtk', $data);
-    $this->load->view('templates/modal', $data);
-    $this->load->view('templates/footer', $data);
-    $this->load->view('settings/ajax', $data);
+
+    $url_param             = $this->uri->segment('3');
+    if ($url_param) {
+      $base_64               = $url_param . str_repeat('=', strlen($url_param) % 4);
+      $decoded               = base64_decode($base_64);
+      $dataGTK               = $this->db->get_where('user_gtk', ['username' => $decoded]);
+      $username              = $dataGTK->row('username');
+      $data['profil']        = $this->modelApp->getProfilGtk($username);
+      $data['user']          = $this->modelApp->getUserGTK($username);
+      $data['page']          = "Profil GTK";
+      $this->load->view('templates/header', $data);
+      $this->load->view('templates/navbar', $data);
+      $this->load->view('settings/menu', $data);
+      $this->load->view('settings/profil', $data);
+      $this->load->view('templates/modal', $data);
+      $this->load->view('templates/footer', $data);
+      $this->load->view('settings/ajax', $data);
+    } else {
+      $data['page']          = "Akun GTK";
+      $this->load->view('templates/header', $data);
+      $this->load->view('templates/navbar', $data);
+      $this->load->view('settings/menu', $data);
+      $this->load->view('settings/gtk', $data);
+      $this->load->view('templates/modal', $data);
+      $this->load->view('templates/footer', $data);
+      $this->load->view('settings/ajax', $data);
+    }
   }
 
   function gtkLoad()
@@ -1317,7 +1336,7 @@ class Settings extends CI_Controller
         </script>");
       }
     }
-    redirect(base_url('settings/pd'));
+    redirect(base_url('settings/gtk'));
   }
 
   public function resetDataGTK()
@@ -1621,14 +1640,33 @@ class Settings extends CI_Controller
     $data['tapelAktif']    = $this->modelApp->getTapelAktif();
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
     $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
-    $data['page']          = "Akun Peserta Didik";
-    $this->load->view('templates/header', $data);
-    $this->load->view('templates/navbar', $data);
-    $this->load->view('settings/menu', $data);
-    $this->load->view('settings/pd', $data);
-    $this->load->view('templates/modal', $data);
-    $this->load->view('templates/footer', $data);
-    $this->load->view('settings/ajax', $data);
+
+    $url_param             = $this->uri->segment('3');
+    if ($url_param) {
+      $base_64               = $url_param . str_repeat('=', strlen($url_param) % 4);
+      $decoded               = base64_decode($base_64);
+      $dataPD               = $this->db->get_where('user_pd', ['nisn' => $decoded]);
+      $nisn                 = $dataPD->row('nisn');
+      $data['profil']       = $this->modelApp->getProfilPd($nisn);
+      $data['user']         = $this->modelApp->getUserPD($nisn);
+      $data['page']         = "Profil Peserta Didik";
+      $this->load->view('templates/header', $data);
+      $this->load->view('templates/navbar', $data);
+      $this->load->view('settings/menu', $data);
+      $this->load->view('settings/profil', $data);
+      $this->load->view('templates/modal', $data);
+      $this->load->view('templates/footer', $data);
+      $this->load->view('settings/ajax', $data);
+    } else {
+      $data['page']          = "Akun Peserta Didik";
+      $this->load->view('templates/header', $data);
+      $this->load->view('templates/navbar', $data);
+      $this->load->view('settings/menu', $data);
+      $this->load->view('settings/pd', $data);
+      $this->load->view('templates/modal', $data);
+      $this->load->view('templates/footer', $data);
+      $this->load->view('settings/ajax', $data);
+    }
   }
 
   function pdLoad()
@@ -2180,6 +2218,32 @@ class Settings extends CI_Controller
     }
     redirect(base_url('settings/pd'));
   }
+
+  function profilLoad()
+  {
+    $data['sessionUser']   = $this->session->userdata('username');
+    $data['sessionRole1']  = $this->session->userdata('role_id_1');
+    $data['sessionRole2']  = $this->session->userdata('role_id_2');
+    $data['is_change']     = $this->session->userdata('is_change');
+    $data['serverSetting'] = $this->modelApp->getServerSetting();
+    $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
+    $data['tapelAktif']    = $this->modelApp->getTapelAktif();
+    $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
+
+    $url_param = $this->uri->segment('3');
+    $base_64 = $url_param . str_repeat('=', strlen($url_param) % 4);
+    $username = base64_decode($base_64);
+
+    if ($this->uri->segment('2') == "gtk") {
+      $data['dataProfil'] = $this->modelApp->getUserGTK($username);
+    } elseif ($this->uri->segment('2') == "pd") {
+      $data['dataProfil'] = $this->modelApp->getUserPD($username);
+    }
+
+    $page = $this->input->post("page");
+    $this->load->view($page, $username);
+  }
+
 
   public function db()
   {

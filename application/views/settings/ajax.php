@@ -8,6 +8,7 @@
     gtkLoad();
     pdLoad();
     dbLoad();
+    profilLoad();
 
     function sekolahLoad() {
       $.ajax({
@@ -117,6 +118,21 @@
         },
         success: function(data) {
           $("#dbPage").html(data);
+        }
+      });
+    }
+
+    function profilLoad() {
+      $.ajax({
+        cache: false,
+        url: "<?= base_url('settings/profilLoad') ?>",
+        type: "POST",
+        data: {
+          page: "errors/custom/soon"
+          // page: "settings/profilLoad"
+        },
+        success: function(data) {
+          $("#profilPage").html(data);
         }
       });
     }
