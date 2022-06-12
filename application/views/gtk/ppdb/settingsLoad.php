@@ -126,7 +126,7 @@
                     </td>
                     <td class="text-center">
                       <?php if ($is_active == "1") { ?>
-                        <form id="switchAccessPPDBForm<?= $id ?>" action="<?= base_url('layananPPDB/switchAccess') ?>" method="POST">
+                        <form id="switchAccessPPDBForm<?= $id ?>" action="<?= base_url('LayananPPDB/switchAccess') ?>" method="POST">
                           <div class="form-switch">
                             <input type="checkbox" class="form-check-input" id="switchAccessPPDBButton" checked onclick="document.getElementById('switchAccessPPDBForm<?= $id ?>').submit();" />
                             <input type="text" name="id" value="<?= $id ?>" hidden />
@@ -135,7 +135,7 @@
                           </div>
                         </form>
                       <?php } elseif ($is_active == "0") { ?>
-                        <form id="switchAccessPPDBForm<?= $id ?>" action="<?= base_url('layananPPDB/switchAccess') ?>" method="POST">
+                        <form id="switchAccessPPDBForm<?= $id ?>" action="<?= base_url('LayananPPDB/switchAccess') ?>" method="POST">
                           <div class="form-switch">
                             <input type="checkbox" class="form-check-input" id="switchAccessPPDBButton" onclick="document.getElementById('switchAccessPPDBForm<?= $id ?>').submit();" />
                             <input type="text" name="id" value="<?= $id ?>" hidden />
@@ -147,7 +147,7 @@
                     </td>
                     <td class="text-center">
                       <?php if ($is_active_reg1 == "1") { ?>
-                        <form id="switchReg1PPDBForm<?= $id ?>" action="<?= base_url('layananPPDB/switchRegistrasi1') ?>" method="POST">
+                        <form id="switchReg1PPDBForm<?= $id ?>" action="<?= base_url('LayananPPDB/switchRegistrasi1') ?>" method="POST">
                           <div class="form-switch">
                             <input type="checkbox" class="form-check-input" id="switchReg1PPDBButton" checked onclick="document.getElementById('switchReg1PPDBForm<?= $id ?>').submit();" />
                             <input type="text" name="id" value="<?= $id ?>" hidden />
@@ -156,7 +156,7 @@
                           </div>
                         </form>
                       <?php } elseif ($is_active_reg1 == "0") { ?>
-                        <form id="switchReg1PPDBForm<?= $id ?>" action="<?= base_url('layananPPDB/switchRegistrasi1') ?>" method="POST">
+                        <form id="switchReg1PPDBForm<?= $id ?>" action="<?= base_url('LayananPPDB/switchRegistrasi1') ?>" method="POST">
                           <div class="form-switch">
                             <input type="checkbox" class="form-check-input" id="switchReg1PPDBButton" onclick="document.getElementById('switchReg1PPDBForm<?= $id ?>').submit();" />
                             <input type="text" name="id" value="<?= $id ?>" hidden />
@@ -168,7 +168,7 @@
                     </td>
                     <td class="text-center">
                       <?php if ($is_active_reg2 == "1") { ?>
-                        <form id="switchReg2PPDBForm<?= $id ?>" action="<?= base_url('layananPPDB/switchRegistrasi2') ?>" method="POST">
+                        <form id="switchReg2PPDBForm<?= $id ?>" action="<?= base_url('LayananPPDB/switchRegistrasi2') ?>" method="POST">
                           <div class="form-switch">
                             <input type="checkbox" class="form-check-input" id="switchReg2PPDBButton" checked onclick="document.getElementById('switchReg2PPDBForm<?= $id ?>').submit();" />
                             <input type="text" name="id" value="<?= $id ?>" hidden />
@@ -177,7 +177,7 @@
                           </div>
                         </form>
                       <?php } elseif ($is_active_reg2 == "0") { ?>
-                        <form id="switchReg2PPDBForm<?= $id ?>" action="<?= base_url('layananPPDB/switchRegistrasi2') ?>" method="POST">
+                        <form id="switchReg2PPDBForm<?= $id ?>" action="<?= base_url('LayananPPDB/switchRegistrasi2') ?>" method="POST">
                           <div class="form-switch">
                             <input type="checkbox" class="form-check-input" id="switchReg2PPDBButton" onclick="document.getElementById('switchReg2PPDBForm<?= $id ?>').submit();" />
                             <input type="text" name="id" value="<?= $id ?>" hidden />
