@@ -14,7 +14,10 @@
                   <a href="<?= base_url('gtk/dashboard'); ?>">Dashboard</a>
                 </li>
                 <li class="breadcrumb-item">
-                  <a href="<?= base_url('layananppdb/settings'); ?>">Pengaturan Aplikasi</a>
+                  <a href="<?= base_url('settings'); ?>">Pengaturan Aplikasi</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a href="<?= base_url('LayananPPDB/settings'); ?>">PPDB</a>
                 </li>
                 <li class="breadcrumb-item active"><?= $page ?></li>
               </ol>
@@ -24,7 +27,7 @@
       </div>
       <div class="content-header-right text-md-end col-md-3 col-4">
         <div class="mb-1 breadcrumb-right">
-          <a href="<?= base_url('layananppdb/settings'); ?>" type="button" class="btn btn-sm btn-primary">
+          <a href="<?= base_url('LayananPPDB/settings'); ?>" type="button" class="btn btn-sm btn-primary">
             <i data-feather='chevrons-left'></i>
             <span>Kembali</span>
           </a>

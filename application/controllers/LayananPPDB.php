@@ -128,7 +128,7 @@ class LayananPPDB extends CI_Controller
       })
       </script>");
     }
-    redirect(base_url('layananPPDB/settings'));
+    redirect(base_url('LayananPPDB/settings'));
   }
 
   public function switchRegistrasi1()
@@ -197,7 +197,7 @@ class LayananPPDB extends CI_Controller
       })
       </script>");
     }
-    redirect(base_url('layananPPDB/settings'));
+    redirect(base_url('LayananPPDB/settings'));
   }
 
   public function switchRegistrasi2()
@@ -266,7 +266,7 @@ class LayananPPDB extends CI_Controller
       })
       </script>");
     }
-    redirect(base_url('layananPPDB/settings'));
+    redirect(base_url('LayananPPDB/settings'));
   }
 
   // PAGE SETTING
@@ -481,6 +481,6 @@ class LayananPPDB extends CI_Controller
       }, 0);
     })
     </script>");
-    redirect(base_url('layananppdb/setup/'));
+    redirect(base_url('LayananPPDB/SetUp/'));
   }
 }
