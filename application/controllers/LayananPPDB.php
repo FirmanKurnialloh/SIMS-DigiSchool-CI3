@@ -458,7 +458,9 @@ class LayananPPDB extends CI_Controller
       'ttd'                   => htmlspecialchars($this->input->post('ttd', true)),
     ];
 
-    $tapel = htmlspecialchars($this->input->post('tapel', true));
+    $tapel                    = htmlspecialchars($this->input->post('tapel', true));
+    $base_64                  = base64_encode($tapel);
+    $url_param                = rtrim($base_64, '=');
 
     $this->db->set($dataProfile);
     $this->db->where('username', $ppdbPersuratan['kepalaSekolah']);
@@ -472,7 +474,7 @@ class LayananPPDB extends CI_Controller
     $(window).on('load', function() {
       setTimeout(function() {
         toastr['success'](
-          'Persuratan PPDB Tahun Pelajaran" . $tapel . " telah diperbarui !',
+          'Persuratan PPDB Tahun Pelajaran " . $tapel . " telah diperbarui !',
           'Berhasil !', {
             closeButton: true,
             tapToDismiss: true
@@ -481,6 +483,6 @@ class LayananPPDB extends CI_Controller
       }, 0);
     })
     </script>");
-    redirect(base_url('LayananPPDB/SetUp/'));
+    redirect(base_url('LayananPPDB/SetUp/') . $url_param);
   }
 }
