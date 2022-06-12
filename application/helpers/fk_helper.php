@@ -437,7 +437,7 @@ function is_ppdb_exist($tapel)
               }, 0);
             })
             </script>");
-    redirect(base_url('layananppdb/settings'));
+    redirect(base_url('LayananPPDB/settings'));
   }
   return $checkData;
 }
