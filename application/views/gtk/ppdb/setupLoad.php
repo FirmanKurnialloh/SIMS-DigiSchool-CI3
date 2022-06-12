@@ -46,7 +46,7 @@
 
           <!-- Panel 1 -->
           <div role="tabpanel" class="tab-pane active" id="tab-1" aria-labelledby="pill-1" aria-expanded="true">
-            <form class="validate-form" action="<?= base_url("layananPPDB/editPersuratan") ?>" method="POST" enctype="multipart/form-data">
+            <form class="validate-form" action="<?= base_url("layananppdb/editPersuratan") ?>" method="POST" enctype="multipart/form-data">
               <!-- icon and header -->
               <div class="d-flex align-items-center">
                 <div class="avatar avatar-tag bg-light-primary me-1">
