@@ -8,57 +8,16 @@
           Tambah Data Mata Pelajaran
         </a>
       </div>
-      <!-- Modal -->
-      <div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="tambahDataModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="tambahDataModal">Tambah Data Mata Pelajaran</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form class="validate-form" action="<?= base_url('settings/tambahMapel'); ?>" method="POST">
-              <div class="modal-body">
-                <div class="alert alert-primary" role="alert">
-                  <div class="alert-body"><strong>Tips: Penulisan Mata Pelajaran Tidak Boleh Di Singkat !</strong></div>
-                </div>
-                <!-- Mata Pelajaran input -->
-                <div class="mb-1">
-                  <label class="form-label" for="namaMapel">Mata Pelajaran</label>
-                  <input type="text" class="form-control" id="namaMapel" placeholder="Mata Pelajaran" name="namaMapel" minlength="5" data-msg="Masukan Nama Mata Pelajaran" required />
-                </div>
-                <!-- Kelompok Mapel input -->
-                <div class="mb-1">
-                  <label for="kelompokMapel">Kelompok</label>
-                  <select class="select2 hide-search form-control" placeholder="Pilih" id="kelompokMapel" name="kelompokMapel" data-placeholder="Pilih Kelompok" data-msg="Pilih Kelompok Mata Pelajaran" required>
-                    <option></option>
-                    <optgroup label="Pilih Kelompok">
-                      <option value="Kelompok A">Kelompok A</option>
-                      <option value="Kelompok B">Kelompok B</option>
-                      <option value="Kelompok C">Kelompok C</option>
-                      <option value="Muatan Lokal">Muatan Lokal</option>
-                    </optgroup>
-                  </select>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="submit" class="btn btn-sm btn-primary">Tambah Data</button>
-                <button type="reset" class="btn btn-sm btn-outline-secondary">Reset</button>
-              </div>
-            </form>
+      <div class="card-body">
+        <?php
+        $query = getSelect('setting_mapel', '*', 'id', 'asc');
+        if ($query->num_rows() <= 0) { ?>
+          <div class="text-center">
+            <h3 class="text-danger">Tidak Ada Data <br> </h3>
+            <h3 class="text-danger myicon"><i data-feather='x-circle' style="width: 100;"></i></h3>
+            <h4 class="mb-3 mt-2">Silahkan Tambah Data Mata Pelajaran</h4>
           </div>
-        </div>
-      </div>
-      <!-- Modal -->
-      <?php
-      $query = getSelect('setting_mapel', '*', 'id', 'asc');
-      if ($query->num_rows() <= 0) { ?>
-        <div class="text-center">
-          <h3 class="text-danger">Tidak Ada Data <br> </h3>
-          <h3 class="text-danger myicon"><i data-feather='x-circle' style="width: 100;"></i></h3>
-          <h4 class="mb-3 mt-2">Silahkan Tambah Data Mata Pelajaran</h4>
-        </div>
-      <?php } else { ?>
-        <div class="card-body">
+        <?php } else { ?>
           <table class="dataTabel table table-hover table-responsive compact text-center" style="height: 450px;">
             <thead>
               <tr>
@@ -91,14 +50,53 @@
               <?php } ?>
             </tbody>
           </table>
-
+        <?php } ?>
+      </div>
+    </div>
+  </div>
+  <!--/ Data Mata Pelajaran  Card -->
+</div>
+<!-- Modal Tambah -->
+<div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="tambahDataModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tambahDataModal">Tambah Data Mata Pelajaran</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form class="validate-form" action="<?= base_url('settings/tambahMapel'); ?>" method="POST">
+        <div class="modal-body">
+          <div class="alert alert-primary" role="alert">
+            <div class="alert-body"><strong>Tips: Penulisan Mata Pelajaran Tidak Boleh Di Singkat !</strong></div>
+          </div>
+          <!-- Mata Pelajaran input -->
+          <div class="mb-1">
+            <label class="form-label" for="namaMapel">Mata Pelajaran</label>
+            <input type="text" class="form-control" id="namaMapel" placeholder="Mata Pelajaran" name="namaMapel" minlength="5" data-msg="Masukan Nama Mata Pelajaran" required autocomplete="off" />
+          </div>
+          <!-- Kelompok Mapel input -->
+          <div class="mb-1">
+            <label class="form-label" for="kelompokMapel">Kelompok</label>
+            <select class="select2 hide-search form-control" placeholder="Pilih" id="kelompokMapel" name="kelompokMapel" data-placeholder="Pilih Kelompok" data-msg="Pilih Kelompok Mata Pelajaran" required>
+              <option></option>
+              <optgroup label="Pilih Kelompok">
+                <option value="Kelompok A">Kelompok A</option>
+                <option value="Kelompok B">Kelompok B</option>
+                <option value="Kelompok C">Kelompok C</option>
+                <option value="Muatan Lokal">Muatan Lokal</option>
+              </optgroup>
+            </select>
+          </div>
         </div>
-      <?php } ?>
-      <!--/ Data Mata Pelajaran  Card -->
-
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-sm btn-primary">Tambah Data</button>
+          <button type="reset" class="btn btn-sm btn-outline-secondary">Reset</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
+<!-- Modal Tambah -->
 <script src="<?= base_url('assets/'); ?>assets/js/scripts.js"></script>
 <script>
   if (feather) {

@@ -129,7 +129,7 @@ function is_logged_in_as_pd()
     $ci->session->unset_userdata('role_id');
     redirect(base_url('/'));
   } else {
-    if ($role_id < '12' || $role_id > '12') {
+    if ($role_id != '12') {
       $ci->session->set_flashdata('toastr', "
               <script>
               $(window).on('load', function() {
@@ -371,6 +371,13 @@ function getProfilPdFromTapel($username, $tapelAktif)
 {
   $ci = get_instance();
   return $ci->db->get_where('profil_pd', ['nisn' => $username, 'id_tapel' => $tapelAktif])->row_array();
+}
+
+// Kelas
+function getKelas($id)
+{
+  $ci = get_instance();
+  return $ci->db->get_where('setting_kelas', ['id' => $id])->row_array();
 }
 
 // Check Add-On PPDB

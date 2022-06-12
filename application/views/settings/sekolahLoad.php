@@ -87,31 +87,31 @@
 
               <div class="row mt-2">
                 <!-- Nama Sekolah input -->
-                <div class="col-12 col-sm-4">
+                <div class="col-12 col-sm-4 mb-1">
                   <div class="form-group">
-                    <label for="nama-sekolah">Nama Sekolah</label>
-                    <input type="text" class="form-control" id="nama-sekolah" name="namaSekolah" placeholder="Nama Sekolah" value="<?= $profilSekolah['namaSekolah'] ?>" />
+                    <label class="form-label" for="nama-sekolah">Nama Sekolah</label>
+                    <input type="text" class="form-control" id="nama-sekolah" name="namaSekolah" placeholder="Nama Sekolah" value="<?= $profilSekolah['namaSekolah'] ?>" required autocomplete="off" data-msg="Masukan Nama Sekolah" />
                   </div>
                 </div>
                 <!-- NPSN input -->
-                <div class="col-12 col-sm-2">
+                <div class="col-12 col-sm-2 mb-1">
                   <div class="form-group">
-                    <label for="npsn">NPSN</label>
-                    <input type="text" class="form-control" id="npsn" name="npsn" placeholder="NPSN" value="<?= $profilSekolah['npsn'] ?>" />
+                    <label class="form-label" for="npsn">NPSN</label>
+                    <input type="text" class="form-control" id="npsn" name="npsn" placeholder="NPSN" value="<?= $profilSekolah['npsn'] ?>" required autocomplete="off" data-msg="Masukan NPSN" maxlength="8" oninput="javascript:if(this.value.length>this.maxLength)this.value=this.value.slice(0, this.maxLength);" />
                   </div>
                 </div>
                 <!-- NSS input -->
-                <div class="col-12 col-sm-2">
+                <div class="col-12 col-sm-2 mb-1">
                   <div class="form-group">
-                    <label for="nss">NSS</label>
-                    <input type="text" class="form-control" id="nss" name="nss" placeholder="NSS" value="<?= $profilSekolah['nss'] ?>" />
+                    <label class="form-label" for="nss">NSS</label>
+                    <input type="text" class="form-control" id="nss" name="nss" placeholder="NSS" value="<?= $profilSekolah['nss'] ?>" required autocomplete="off" data-msg="Masukan NSS" maxlength="12" oninput="javascript:if(this.value.length>this.maxLength)this.value=this.value.slice(0, this.maxLength);" />
                   </div>
                 </div>
                 <!-- Bentuk Pendidikan input -->
-                <div class="col-12 col-sm-2">
+                <div class="col-12 col-sm-2 mb-1">
                   <div class="form-group">
-                    <label for="bentukPendidikan">Bentuk Pendidikan</label>
-                    <select class="select2 hide-search form-control" id="bentukPendidikan" name="bentukPendidikan">
+                    <label class="form-label" for="bentukPendidikan">Bentuk Pendidikan</label>
+                    <select class="select2 hide-search form-control" id="bentukPendidikan" name="bentukPendidikan" required autocomplete="off" data-msg="Pilih Bentuk Pendidikan">
                       <optgroup label="Terpilih">
                         <option value="<?= $profilSekolah['bentukPendidikan'] ?>" selected><?= $profilSekolah['bentukPendidikan'] ?></option>
                       </optgroup>
@@ -129,10 +129,10 @@
                   </div>
                 </div>
                 <!-- Status Sekolah input -->
-                <div class="col-12 col-sm-2">
+                <div class="col-12 col-sm-2 mb-1">
                   <div class="form-group">
-                    <label for="statusSekolah">Status Sekolah</label>
-                    <select class="select2 hide-search form-control" id="statusSekolah" name="statusSekolah">
+                    <label class="form-label" for="statusSekolah">Status Sekolah</label>
+                    <select class="select2 hide-search form-control" id="statusSekolah" name="statusSekolah" required autocomplete="off" data-msg="Pilih Status Sekolah">
                       <optgroup label="Terpilih">
                         <option value="<?= $profilSekolah['statusSekolah'] ?>" selected><?= $profilSekolah['statusSekolah'] ?></option>
                       </optgroup>
@@ -198,17 +198,17 @@
 
               <div class="row mt-2">
                 <!-- Nama Pemerintah input -->
-                <div class="col-12 col-sm-6">
+                <div class="col-12 col-sm-6 mb-1">
                   <div class="form-group">
-                    <label for="namaPemerintah">Nama Pemerintah</label>
-                    <input type="text" class="form-control" id="namaPemerintah" name="namaPemerintah" placeholder="Nama Pemerintah" value="<?= $profilSekolah['namaPemerintah'] ?>" />
+                    <label class="form-label" for="namaPemerintah">Nama Pemerintah</label>
+                    <input type="text" class="form-control" id="namaPemerintah" name="namaPemerintah" placeholder="Nama Pemerintah" value="<?= $profilSekolah['namaPemerintah'] ?>" required autocomplete="off" data-msg="Masukan Nama Pemerintah" />
                   </div>
                 </div>
                 <!-- Bentuk Pemerintah input -->
-                <div class="col-12 col-sm-6">
+                <div class="col-12 col-sm-6 mb-1">
                   <div class="form-group">
-                    <label for="bentukPemerintah">Bentuk Pemerintah</label>
-                    <select class="select2 hide-search form-control" id="bentukPemerintah" name="bentukPemerintah">
+                    <label class="form-label" for="bentukPemerintah">Bentuk Pemerintah</label>
+                    <select class="select2 hide-search form-control" id="bentukPemerintah" name="bentukPemerintah" required autocomplete="off" data-msg="Pilih Bentuk Pemerintah">
                       <optgroup label="Terpilih">
                         <option value="<?= $profilSekolah['bentukPemerintah'] ?>" selected><?= $profilSekolah['bentukPemerintah'] ?></option>
                       </optgroup>
@@ -224,80 +224,80 @@
                   </div>
                 </div>
                 <!-- Telepon input -->
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-3 mb-1">
                   <div class="form-group">
-                    <label for="alamat">Alamat</label>
-                    <input type="text" class="form-control" id="alamat" name="jl" placeholder="Alamat" value="<?= $profilSekolah['jl'] ?>" />
+                    <label class="form-label" for="alamat">Alamat / Nama Jalan</label>
+                    <input type="text" class="form-control" id="alamat" name="jl" placeholder="Alamat / Nama Jalan" value="<?= $profilSekolah['jl'] ?>" required autocomplete="off" data-msg="Masukan Alamat" />
                   </div>
                 </div>
                 <!-- Kampung input -->
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-3 mb-1">
                   <div class="form-group">
-                    <label for="kampung">Kampung/Dusun</label>
-                    <input type="text" class="form-control" id="kampung" name="kp" placeholder="Kampung/Dusun" value="<?= $profilSekolah['kp'] ?>" />
+                    <label class="form-label" for="kampung">Kampung/Dusun</label>
+                    <input type="text" class="form-control" id="kampung" name="kp" placeholder="Kampung/Dusun" value="<?= $profilSekolah['kp'] ?>" required autocomplete="off" data-msg="Masukan Kampung/Dusun" />
                   </div>
                 </div>
                 <!-- RT input -->
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-3 mb-1">
                   <div class="form-group">
-                    <label for="rt">RT</label>
-                    <input type="number" class="form-control" id="rt" name="rt" placeholder="RT" value="<?= $profilSekolah['rt'] ?>" />
+                    <label class="form-label" for="rt">RT</label>
+                    <input type="number" class="form-control" id="rt" name="rt" placeholder="RT" value="<?= $profilSekolah['rt'] ?>" required autocomplete="off" data-msg="Masukan RT" />
                   </div>
                 </div>
                 <!-- RW input -->
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-3 mb-1">
                   <div class="form-group">
-                    <label for="rw">RW</label>
-                    <input type="number" class="form-control" id="rw" name="rw" placeholder="RW" value="<?= $profilSekolah['rw'] ?>" />
+                    <label class="form-label" for="rw">RW</label>
+                    <input type="number" class="form-control" id="rw" name="rw" placeholder="RW" value="<?= $profilSekolah['rw'] ?>" required autocomplete="off" data-msg="Masukan RW" />
                   </div>
                 </div>
                 <!-- Desa input -->
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-3 mb-1">
                   <div class="form-group">
-                    <label for="desa">Desa/Kelurahan</label>
-                    <input type="text" class="form-control" id="desa" name="desa" placeholder="Desa/Kelurahan" value="<?= $profilSekolah['desa'] ?>" />
+                    <label class="form-label" for="desa">Desa/Kelurahan</label>
+                    <input type="text" class="form-control" id="desa" name="desa" placeholder="Desa/Kelurahan" value="<?= $profilSekolah['desa'] ?>" required autocomplete="off" data-msg="Masukan Desa/Kelurahan" />
                   </div>
                 </div>
                 <!-- Kecamatan input -->
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-3 mb-1">
                   <div class="form-group">
-                    <label for="kecamatan">Kecamatan</label>
-                    <input type="text" class="form-control" id="kecamatan" name="kecamatan" placeholder="Kecamatan" value="<?= $profilSekolah['kecamatan'] ?>" />
+                    <label class="form-label" for="kecamatan">Kecamatan</label>
+                    <input type="text" class="form-control" id="kecamatan" name="kecamatan" placeholder="Kecamatan" value="<?= $profilSekolah['kecamatan'] ?>" required autocomplete="off" data-msg="Masukan Kecamatan" />
                   </div>
                 </div>
                 <!-- Kabupaten input -->
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-3 mb-1">
                   <div class="form-group">
-                    <label for="kabupaten">Kabupaten/Kota</label>
-                    <input type="text" class="form-control" id="kabupaten" name="kabupaten" placeholder="Kabupaten/Kota" value="<?= $profilSekolah['kabupaten'] ?>" />
+                    <label class="form-label" for="kabupaten">Kabupaten/Kota</label>
+                    <input type="text" class="form-control" id="kabupaten" name="kabupaten" placeholder="Kabupaten/Kota" value="<?= $profilSekolah['kabupaten'] ?>" required autocomplete="off" data-msg="Masukan Kabupaten/Kota" />
                   </div>
                 </div>
                 <!-- Provinsi input -->
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-3 mb-1">
                   <div class="form-group">
-                    <label for="provinsi">Provinsi</label>
-                    <input type="text" class="form-control" id="provinsi" name="provinsi" placeholder="provinsi" value="<?= $profilSekolah['provinsi'] ?>" />
+                    <label class="form-label" for="provinsi">Provinsi</label>
+                    <input type="text" class="form-control" id="provinsi" name="provinsi" placeholder="Provinsi" value="<?= $profilSekolah['provinsi'] ?>" required autocomplete="off" data-msg="Masukan Provinsi" />
                   </div>
                 </div>
                 <!-- Kode input -->
-                <div class="col-12 col-sm-4">
+                <div class="col-12 col-sm-4 mb-1">
                   <div class="form-group">
-                    <label for="pos">Kode Pos</label>
-                    <input type="number" class="form-control" id="pos" name="pos" placeholder="Kode Pos" value="<?= $profilSekolah['pos'] ?>" />
+                    <label class="form-label" for="pos">Kode Pos</label>
+                    <input type="number" class="form-control" id="pos" name="pos" placeholder="Kode Pos" value="<?= $profilSekolah['pos'] ?>" required autocomplete="off" data-msg="Masukan Kode Pos" maxlength="5" oninput="javascript:if(this.value.length>this.maxLength)this.value=this.value.slice(0, this.maxLength);" />
                   </div>
                 </div>
                 <!-- Latitude input -->
-                <div class="col-12 col-sm-4">
+                <div class="col-12 col-sm-4 mb-1">
                   <div class="form-group">
-                    <label for="lat">Latitude</label>
-                    <input type="text" class="form-control" id="lat" name="lat" placeholder="Latitude" value="<?= $profilSekolah['lat'] ?>" />
+                    <label class="form-label" for="lat">Latitude</label>
+                    <input type="text" class="form-control" id="lat" name="lat" placeholder="Latitude" value="<?= $profilSekolah['lat'] ?>" required autocomplete="off" data-msg="Masukan Latitude" />
                   </div>
                 </div>
                 <!-- Longitude input -->
-                <div class="col-12 col-sm-4">
+                <div class="col-12 col-sm-4 mb-1">
                   <div class="form-group">
-                    <label for="long">Longitude</label>
-                    <input type="text" class="form-control" id="long" name="long" placeholder="Longitude" value="<?= $profilSekolah['long'] ?>" />
+                    <label class="form-label" for="long">Longitude</label>
+                    <input type="text" class="form-control" id="long" name="long" placeholder="Longitude" value="<?= $profilSekolah['long'] ?>" required autocomplete="off" data-msg="Masukan Longitude" />
                   </div>
                 </div>
 
@@ -347,104 +347,100 @@
                   <!-- Website input -->
                   <div class="col-12 col-sm-3">
                     <div class="form-group">
-                      <label for="account-web">Website</label>
+                      <label class="form-label" for="account-web">Website</label>
                       <div class="input-group input-group-merge mb-2">
                         <span class="input-group-text">
                           <i data-feather="globe" class="font-medium-2"></i>
                         </span>
-                        <input type="text" id="account-web" name="web" class="form-control" placeholder="Alamat Website" value="<?= $profilSekolah['web'] ?>" />
+                        <input type="text" id="account-web" name="web" class="form-control" placeholder="Alamat Website" value="<?= $profilSekolah['web'] ?>" autocomplete="off" data-msg="Masukan Alamat Website" />
                       </div>
                     </div>
                   </div>
                   <!-- Email input -->
                   <div class="col-12 col-sm-3">
                     <div class="form-group">
-                      <label for="account-email">Email</label>
+                      <label class="form-label" for="account-email">Email</label>
                       <div class="input-group input-group-merge">
                         <span class="input-group-text">
                           <i data-feather="mail" class="font-medium-2"></i>
                         </span>
-                        <input type="text" id="account-email" name="email" class="form-control" placeholder="Alamat Email" value="<?= $profilSekolah['email'] ?>" />
+                        <input type="text" id="account-email" name="email" class="form-control" placeholder="Alamat Email" value="<?= $profilSekolah['email'] ?>" autocomplete="off" data-msg="Masukan Alamat Email" />
                       </div>
                     </div>
                   </div>
                   <!-- Telepon input -->
                   <div class="col-12 col-sm-3">
                     <div class="form-group">
-                      <label for="account-tel">Telepon</label>
+                      <label class="form-label" for="account-tel">Telepon</label>
                       <div class="input-group input-group-merge">
                         <span class="input-group-text">
                           <i data-feather="phone" class="font-medium-2"></i>
                         </span>
-                        <input type="text" id="account-tel" name="tel" class="form-control" placeholder="Nomor Telepon" value="<?= $profilSekolah['telepon'] ?>" />
+                        <input type="text" id="account-tel" name="tel" class="form-control" placeholder="Nomor Telepon" value="<?= $profilSekolah['telepon'] ?>" autocomplete="off" data-msg="Masukan Nomor Telepon" />
                       </div>
                     </div>
                   </div>
                   <!-- Fax input -->
                   <div class="col-12 col-sm-3">
                     <div class="form-group">
-                      <label for="account-fax">Fax</label>
+                      <label class="form-label" for="account-fax">Fax</label>
                       <div class="input-group input-group-merge">
                         <span class="input-group-text">
                           <i data-feather="printer" class="font-medium-2"></i>
                         </span>
-                        <input type="text" id="account-fax" name="fax" class="form-control" placeholder="Nomor Fax" value="<?= $profilSekolah['fax'] ?>" />
+                        <input type="text" id="account-fax" name="fax" class="form-control" placeholder="Nomor Fax" value="<?= $profilSekolah['fax'] ?>" autocomplete="off" data-msg="Masukan Nomor Fax" />
                       </div>
                     </div>
                   </div><!-- facebook link input -->
                   <div class="col-12 col-sm-3">
                     <div class="form-group">
-                      <label for="account-facebook">Facebook</label>
+                      <label class="form-label" for="account-facebook">Facebook</label>
                       <div class="input-group input-group-merge">
                         <span class="input-group-text">
                           <i data-feather="facebook" class="font-medium-2"></i>
                         </span>
-                        <input type="text" id="account-facebook" name="facebook" class="form-control" placeholder="Link Facebook" value="<?= $profilSekolah['facebook'] ?>" />
+                        <input type="text" id="account-facebook" name="facebook" class="form-control" placeholder="Link Facebook" value="<?= $profilSekolah['facebook'] ?>" autocomplete="off" data-msg="Masukan Link Facebook" />
                       </div>
                     </div>
                   </div>
                   <!-- instagram link input -->
                   <div class="col-12 col-sm-3">
                     <div class="form-group">
-                      <label for="account-instagram">Instagram</label>
+                      <label class="form-label" for="account-instagram">Instagram</label>
                       <div class="input-group input-group-merge">
                         <span class="input-group-text">
                           <i data-feather="instagram" class="font-medium-2"></i>
                         </span>
-                        <input type="text" id="account-instagram" name="instagram" class="form-control" placeholder="Link Instagram" value="<?= $profilSekolah['instagram'] ?>" />
+                        <input type="text" id="account-instagram" name="instagram" class="form-control" placeholder="Link Instagram" value="<?= $profilSekolah['instagram'] ?>" autocomplete="off" data-msg="Masukan Link Instagram" />
                       </div>
                     </div>
                   </div>
                   <!-- instagram link input -->
                   <div class="col-12 col-sm-3">
                     <div class="form-group">
-                      <label for="account-youtube">YouTube</label>
+                      <label class="form-label" for="account-youtube">YouTube</label>
                       <div class="input-group input-group-merge">
                         <span class="input-group-text">
                           <i data-feather="youtube" class="font-medium-2"></i>
                         </span>
-                        <input type="text" id="account-youtube" name="youtube" class="form-control" placeholder="Link YouTube" value="<?= $profilSekolah['youtube'] ?>" />
+                        <input type="text" id="account-youtube" name="youtube" class="form-control" placeholder="Link YouTube" value="<?= $profilSekolah['youtube'] ?>" autocomplete="off" data-msg="Masukan Link YouTube" />
                       </div>
                     </div>
                   </div>
                   <!-- instagram link input -->
                   <div class="col-12 col-sm-3">
                     <div class="form-group">
-                      <label for="account-whatsapp">WhatsApp</label>
+                      <label class="form-label" for="account-whatsapp">WhatsApp</label>
                       <div class="input-group input-group-merge">
                         <span class="input-group-text">
                           <i data-feather="message-circle" class="font-medium-2"></i>
                         </span>
-                        <input type="text" id="account-whatsapp" name="whatsapp" class="form-control" placeholder="Link WhatsApp" value="<?= $profilSekolah['whatsapp'] ?>" />
+                        <input type="text" id="account-whatsapp" name="whatsapp" class="form-control" placeholder="Link WhatsApp" value="<?= $profilSekolah['whatsapp'] ?>" autocomplete="off" data-msg="Masukan Link WhatsApp" />
                       </div>
                     </div>
                   </div>
-
-
                 </div>
               </div>
-
-
               <div class="row mt-0">
                 <div class="col-12">
                   <button type="submit" name="btnLokasiSekolah" class="btn btn-primary mt-2 mr-1">Simpan Perubahan</button>

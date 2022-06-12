@@ -17,7 +17,7 @@
                   <a href="<?= base_url('settings'); ?>">Pengaturan Aplikasi</a>
                 </li>
                 <li class="breadcrumb-item">
-                  <a href="<?= base_url('LayananPPDB/settings'); ?>">PPDB</a>
+                  <a href="<?= base_url('LayananPPDB/settings'); ?>">Modul PPDB</a>
                 </li>
                 <li class="breadcrumb-item active"><?= $page ?></li>
               </ol>
@@ -27,9 +27,13 @@
       </div>
       <div class="content-header-right text-md-end col-md-3 col-4">
         <div class="mb-1 breadcrumb-right">
-          <a href="<?= base_url('LayananPPDB/settings'); ?>" type="button" class="btn btn-sm btn-primary">
+          <a href="#" type="button" class="btn btn-sm btn-primary" onclick="history.go(-1)">
             <i data-feather='chevrons-left'></i>
             <span>Kembali</span>
+          </a>
+          <a href="<?= base_url('LayananPPDB'); ?>" type="button" class="btn btn-sm btn-primary">
+            <i data-feather='pie-chart'></i>
+            <span>Dashboard</span>
           </a>
         </div>
       </div>

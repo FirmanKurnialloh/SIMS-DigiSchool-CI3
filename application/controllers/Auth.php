@@ -250,7 +250,7 @@ class Auth extends CI_Controller
 
   public function pd()
   {
-    if ($this->session->userdata('username')) {
+    if ($this->session->userdata('nisn') && $this->session->userdata('role_id')) {
       redirect(base_url('pd'));
     }
     $data['serverSetting'] = $this->modelApp->getServerSetting();
@@ -265,22 +265,19 @@ class Auth extends CI_Controller
   public function pdLoginNISN()
   {
     is_server_pd_active();
-    $nisn        = $this->input->post('nisn');
-    $profilePD   = $this->modelApp->getProfilPd($nisn);
-    if ($profilePD) {
+    $nisn     = $this->input->post('nisn');
+    $userPD   = $this->modelApp->getUserPD($nisn);
+    if ($userPD) {
       $dataUser = [
-        'nisn'      => $profilePD['nisn'],
-        'role_id'   => $profilePD['role_id']
+        'nisn'      => $userPD['nisn'],
       ];
       $this->session->set_userdata($dataUser);
 
       $dataProfil   = $this->modelApp->getProfilPd($nisn);
       if ($dataProfil) {
-        if ($dataProfil['jk'] == "L") {
-          $jkPanjang = "Laki - Laki";
-        } else {
-          $jkPanjang = "Perempuan";
-        }
+        $jk    = jenisKelamin($dataProfil['jk']);
+        $kelas = getKelas($dataProfil['id_kelas']);
+        $kelas = $kelas['kelas'];
         echo "
           <div class='card card-profile shadow-none bg-transparent border-primary'>
             <img src='" . base_url('assets/') . "files/images/logo/banner-login.png' class='img-fluid card-img-top' alt='Profile Cover Photo' />
@@ -293,8 +290,8 @@ class Auth extends CI_Controller
                 </div>
               </div>
               <h5>" . $dataProfil['namaLengkap'] . "</h5>
-              <h6>" . $jkPanjang . "</h6>
-              <div class='badge badge-light-primary profile-badge'>" . $dataProfil['kelas'] . "</div>
+              <h6>" . $jk . "</h6>
+              <div class='badge badge-light-primary profile-badge'>" . $kelas . "</div>
               <hr class='mb-0' />
               <h5>Apakah Data Sudah Benar ?</h5>
               <div class='d-flex justify-content-between'>
@@ -364,21 +361,21 @@ class Auth extends CI_Controller
   public function pdLoginConfirm()
   {
     $postNISN       = $this->input->post('loginNISN');
-    $sessionNISN    = $this->session->userdata('username');
-    $sessionROLE    = $this->session->userdata('role_id');
+    $sessionNISN    = $this->session->userdata('nisn');
     if ($postNISN == $sessionNISN) {
-      $dataUser     = $this->db->get_where('user', ['username' => $sessionNISN, 'role_id' => $sessionROLE])->row_array();
+      $dataUser     = $this->db->get_where('user_pd', ['nisn' => $sessionNISN])->row_array();
       if ($dataUser) {
         $data['serverSetting'] = $this->modelApp->getServerSetting();
         $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
         $data['profilPD']      = $this->modelApp->getProfilPd($sessionNISN);
+        $data['kelas']         = $this->modelApp->getKelas($data['profilPD']['id_kelas']);
         $this->load->view('templates/auth_header', $data);
         $this->load->view('auth/login-pd-confirm', $data);
         $this->load->view('templates/modal', $data);
         $this->load->view('templates/auth_footer', $data);
         $this->load->view('auth/login-pd-ajax', $data);
       } else {
-        $this->session->unset_userdata('username');
+        $this->session->unset_userdata('nisn');
         $this->session->unset_userdata('role_id');
         $this->session->set_flashdata('toastr', "
                 <script>
@@ -397,7 +394,7 @@ class Auth extends CI_Controller
         redirect(base_url('/'));
       }
     } else {
-      $this->session->unset_userdata('username');
+      $this->session->unset_userdata('nisn');
       $this->session->unset_userdata('role_id');
       $this->session->set_flashdata('toastr', "
               <script>
@@ -420,14 +417,18 @@ class Auth extends CI_Controller
   public function pdLoginConfirmVerify()
   {
     $postTanggalLahir = $this->input->post('data');
-    $sessionNISN      = $this->session->userdata('username');
-    $sessionROLE      = $this->session->userdata('role_id');
-    $dataUser         = $this->db->get_where('user', ['username' => $sessionNISN, 'role_id' => $sessionROLE])->row_array();
+    $sessionNISN      = $this->session->userdata('nisn');
+    $dataUser         = $this->db->get_where('user_pd', ['nisn' => $sessionNISN])->row_array();
     if ($dataUser) {
+      $this->session->set_userdata($dataUser);
       $data['serverSetting'] = $this->modelApp->getServerSetting();
       $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
       $dataProfil            = $this->db->get_where('profil_pd', ['nisn' => $sessionNISN, 'tanggalLahir' => $postTanggalLahir])->row_array();
       if ($dataProfil) {
+        $dataUser = [
+          'nisn'      => $dataUser['nisn'],
+          'role_id'   => $dataUser['role_id'],
+        ];
         $this->session->set_flashdata('toastr', "
         <script>
         $(window).on('load', function() {
@@ -476,7 +477,7 @@ class Auth extends CI_Controller
           ";
       }
     } else {
-      $this->session->unset_userdata('username');
+      $this->session->unset_userdata('nisn');
       $this->session->unset_userdata('role_id');
       $this->session->set_flashdata('toastr', "
               <script>
@@ -499,7 +500,10 @@ class Auth extends CI_Controller
   public function logout()
   {
     $this->session->unset_userdata('username');
+    $this->session->unset_userdata('nisn');
     $this->session->unset_userdata('role_id');
+    $this->session->unset_userdata('role_id_1');
+    $this->session->unset_userdata('role_id_2');
     $this->session->unset_userdata('is_change');
     $this->session->set_flashdata('toastr', "
     <script>

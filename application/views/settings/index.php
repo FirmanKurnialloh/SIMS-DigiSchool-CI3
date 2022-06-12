@@ -21,7 +21,7 @@
       </div>
       <div class="content-header-right text-md-end col-md-3 col-4">
         <div class="mb-1 breadcrumb-right">
-          <a href="<?= base_url('gtk/dashboard'); ?>" type="button" class="btn btn-sm btn-primary">
+          <a href="#" type="button" class="btn btn-sm btn-primary" onclick="history.go(-1)">
             <i data-feather='chevrons-left'></i>
             <span>Kembali</span>
           </a>

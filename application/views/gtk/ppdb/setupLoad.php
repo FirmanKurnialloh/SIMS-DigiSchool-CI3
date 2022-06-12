@@ -67,7 +67,7 @@
                 <!-- Kepala Sekolah input -->
                 <div class="mb-1 col-lg-6 col-12">
                   <div class="form-group">
-                    <label for="kepalaSekolah">Kepala Sekolah</label>
+                    <label class="form-label" for="kepalaSekolah">Kepala Sekolah</label>
                     <select class="select2 form-control" id="kepalaSekolah" name="kepalaSekolah" required data-placeholder="Pilih Kepala Sekolah" data-msg="Pilih Kepala Sekolah" autocomplete="off">
                       <?php
                       $query = getWhere('user_gtk', 'username, namaLengkap', ['username' => $persuratan['kepalaSekolah']]);
@@ -118,7 +118,7 @@
                 <!-- NIP input -->
                 <div class="mb-1 col-lg-6 col-12">
                   <div class="form-group">
-                    <label for="nip">NIP Kepala Sekolah</label>
+                    <label class="form-label" for="nip">NIP Kepala Sekolah</label>
                     <input type="number" class="form-control" id="nip" name="nip" placeholder="NIP Kepala Sekolah" value="<?= $kepalaSekolah['nip']; ?>" required data-msg="Masukan NIP" autocomplete="off" maxlength="18" oninput="javascript:if(this.value.length>this.maxLength)this.value=this.value.slice(0, this.maxLength);" />
                   </div>
                 </div>
@@ -126,7 +126,7 @@
                 <!-- SK Panitia input -->
                 <div class="mb-1 col-lg-3 col-12">
                   <div class="form-group">
-                    <label for="SKPanitia">Nomor SK Panitia PPDB</label>
+                    <label class="form-label" for="SKPanitia">Nomor SK Panitia PPDB</label>
                     <input type="text" class="form-control" id="SKPanitia" name="SKPanitia" placeholder="SK Panitia" value="<?= $persuratan['SKPanitia'] ?>" required data-msg="Masukan Nomor SK Panitia PPDB" autocomplete="off" />
                   </div>
                 </div>
@@ -134,7 +134,7 @@
                 <!-- Tanggal SK Panitia input -->
                 <div class="mb-1 col-lg-3 col-12">
                   <div class="form-group">
-                    <label for="tanggalSKPanitia">Tanggal Penetapan SK Panitia</label>
+                    <label class="form-label" for="tanggalSKPanitia">Tanggal Penetapan SK Panitia</label>
                     <input type="text" class="form-control" id="tanggalSKPanitia" name="tanggalSKPanitia" placeholder="tanggal SK Panitia" value="<?= $persuratan['tanggalSKPanitia'] ?>" required data-msg="Masukan Tanggal Penetapan SK Panitia" autocomplete="off" />
                   </div>
                 </div>
@@ -142,7 +142,7 @@
                 <!-- SK Penerimaan input -->
                 <div class="mb-1 col-lg-3 col-12">
                   <div class="form-group">
-                    <label for="SKPenerimaan">Nomor SK Penerimaan</label>
+                    <label class="form-label" for="SKPenerimaan">Nomor SK Penerimaan</label>
                     <input type="text" class="form-control" id="SKPenerimaan" name="SKPenerimaan" placeholder="SKPenerimaan" value="<?= $persuratan['SKPenerimaan'] ?>" required data-msg="Masukan Nomor SK Penerimaan" autocomplete="off" />
                   </div>
                 </div>
@@ -150,7 +150,7 @@
                 <!-- Tanggal SK Penerimaan input -->
                 <div class="mb-1 col-lg-3 col-12">
                   <div class="form-group">
-                    <label for="tanggalSKPenerimaan">Tanggal Penetapan SK Penerimaan</label>
+                    <label class="form-label" for="tanggalSKPenerimaan">Tanggal Penetapan SK Penerimaan</label>
                     <input type="text" class="form-control" id="tanggalSKPenerimaan" name="tanggalSKPenerimaan" placeholder="Tanggal SK Penerimaan" value="<?= $persuratan['tanggalSKPenerimaan'] ?>" required data-msg="Masukan Tanggal Penetapan SK Penerimaan" autocomplete="off" />
                   </div>
                 </div>
@@ -158,7 +158,7 @@
                 <!-- Tanggal SK Penerimaan input -->
                 <div class="mb-1 col-lg-4 col-12">
                   <div class="form-group">
-                    <label for="tanggalMasuk">Tanggal Masuk Tahun Pelajaran <?= $persuratan['tapel'] ?></label>
+                    <label class="form-label" for="tanggalMasuk">Tanggal Masuk Tahun Pelajaran <?= $persuratan['tapel'] ?></label>
                     <input type="text" class="form-control" id="tanggalMasuk" name="tanggalMasuk" placeholder="Tanggal Masuk Tahun Pelajaran <?= $persuratan['tapel'] ?>" value="<?= $persuratan['tanggalMasuk'] ?>" required data-msg="Masukan Tanggal Masuk Tahun Pelajaran <?= $persuratan['tapel'] ?>" autocomplete="off" />
                   </div>
                 </div>
@@ -166,8 +166,8 @@
                 <!-- Status Sekolah input -->
                 <div class="mb-1 col-lg-3 col-12">
                   <div class="form-group">
-                    <label for="ttd">Tanda Tangan Kepala Sekolah</label>
-                    <select class="select2 hide-search form-control" id="ttd" name="ttd" required data-placeholder="Pilih Tampilan Tanda Tangan" data-msg="Pilih Tampilan Tanda Tangan" autocomplete="off">
+                    <label class="form-label" for="ttd">Tanda Tangan Kepala Sekolah</label>
+                    <select class="select2 hide-search form-control" id="ttd" name="ttd" required data-msg="Pilih Tampilan Tanda Tangan">
                       <optgroup label="Terpilih">
                         <option value="<?= $persuratan['ttd'] ?>" selected><?= $persuratan['ttd'] ?></option>
                       </optgroup>
