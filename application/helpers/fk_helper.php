@@ -382,9 +382,9 @@ function is_ppdb_installed()
 function is_ppdb_active()
 {
   $ci = get_instance();
-  $ci->load->model('App_model');
-  $checkModul = $ci->App_model->getServerSetting('modulPPDB');
-  $checkModul = $checkModul['modulPPDB'];
+  $ci->load->model('PPDB_Model');
+  $checkModul = $ci->PPDB_Model->getActiveTapel();
+  $checkModul = $checkModul['is_active'];
   if ($checkModul != 1) {
     $ci->session->set_flashdata('toastr', "
             <script>
@@ -403,4 +403,41 @@ function is_ppdb_active()
     redirect(base_url('gtk/dashboard'));
   }
   return $checkModul;
+}
+
+function is_ppdb_activated()
+{
+  $ci = get_instance();
+  $ci->load->model('PPDB_Model');
+  $checkModul = $ci->PPDB_Model->getActiveTapel();
+  if ($checkModul) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function is_ppdb_exist($tapel)
+{
+  $ci = get_instance();
+  $ci->load->model('PPDB_Model');
+  $checkData = $ci->PPDB_Model->getPersuratan($tapel);
+  if ($checkData->num_rows() <= 0) {
+    $ci->session->set_flashdata('toastr', "
+            <script>
+            $(window).on('load', function() {
+              setTimeout(function() {
+                toastr['error'](
+                  'Layanan PPDB Tidak Ditemukan !',
+                  'Akses Ditolak !', {
+                    closeButton: true,
+                    tapToDismiss: true
+                  }
+                );
+              }, 0);
+            })
+            </script>");
+    redirect(base_url('layananppdb/settings'));
+  }
+  return $checkData;
 }

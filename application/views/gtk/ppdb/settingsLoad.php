@@ -1,79 +1,5 @@
 <div class="row">
-  <!-- Card Left -->
-  <div class="col-xl-4 col-md-6 col-12" hidden>
-    <div class="card">
-      <div class="card-body">
-        <div class="text-center">
-          <h3>
-            <strong>
-              Sistem Informasi PPDB <br>
-              <?= $profilSekolah['namaSekolah']; ?>
-            </strong>
-            <br>
-            <small>
-              Tahun Pelajaran <?= $tapelAktif['tapel']; ?>
-            </small>
-          </h3>
-        </div>
 
-        <div class="row text-center pt-2 pb-2">
-          <div class="col-xl-6 col-sm-6 col-6 mb-0">
-            <h5>
-              <strong>
-                Registrasi
-              </strong>
-            </h5>
-            <?php if ($serverSetting['loginGuru'] == "1") { ?>
-              <form id="formServerGuru" method="post">
-                <div class="form-switch">
-                  <input type="checkbox" class="form-check-input" id="serverGuruSwitch" checked />
-                  <input type="text" name="statusServerGuru" id="statusServerGuru" value="1" hidden />
-                  <sub id="serverGuruSwitchLabel">Aktif</sub>
-                </div>
-              </form>
-            <?php } else { ?>
-              <form id="formServerGuru" method="post">
-                <div class="form-switch">
-                  <input type="checkbox" class="form-check-input" id="serverGuruSwitch" />
-                  <input type="text" name="statusServerGuru" id="statusServerGuru" value="0" hidden />
-                  <sub id="serverGuruSwitchLabel">Tidak Aktif</sub>
-                </div>
-              </form>
-            <?php } ?>
-          </div>
-
-          <div class="col-xl-6 col-sm-6 col-6 mb-0">
-            <h5>
-              <strong>
-                Daftar Ulang
-              </strong>
-            </h5>
-            <?php if ($serverSetting['loginSiswa'] == "1") { ?>
-              <form id="formSwitchServerGuru" method="post">
-                <div class="form-switch">
-                  <input type="checkbox" class="form-check-input" id="serverSiswaSwitch" checked />
-                  <input type="text" name="statusServerSiswa" id="statusServerSiswa" value="1" hidden />
-                  <sub id="serverSiswaSwitchLabel">Aktif</sub>
-                </div>
-              </form>
-            <?php } else { ?>
-              <form id="formSwitchServerGuru" method="post">
-                <div class="form-switch">
-                  <input type="checkbox" class="form-check-input" id="serverSiswaSwitch" />
-                  <input type="text" name="statusServerSiswa" id="statusServerSiswa" value="0" hidden />
-                  <sub id="serverSiswaSwitchLabel">Tidak Aktif</sub>
-                </div>
-              </form>
-            <?php } ?>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <!-- Card Left -->
-
-  <!-- Card Right -->
   <div class=" col-12">
     <div class="card">
       <div class="card-header d-flex justify-content-between">
@@ -98,7 +24,28 @@
                 <!-- Tahun Pelajaran input -->
                 <div class="mb-1">
                   <label class="form-label" for="tahunInput">Tahun Pelajaran</label>
-                  <input type="text" class="form-control" id="tahunInput" placeholder="2022/2023" name="tapel" minlength="9" data-msg="Masukan Tahun Pelajaran" required />
+                  <input type="text" class="form-control" id="tahunInput" placeholder="2022/2023" name="tapel" minlength="9" data-msg="Masukan Tahun Pelajaran" required autocomplete="off" />
+                </div>
+                <div class="mb-1">
+                  <label class="form-label" for="kepalaSekolah">Kepala Sekolah</label>
+                  <select class="select2 form-control" id="kepalaSekolah" name="kepalaSekolah" required data-placeholder="Pilih Kepala Sekolah" data-msg="Pilih Kepala Sekolah" autocomplete="off">
+                    <option></option>
+                    <optgroup label="Pilih Kepala Sekolah">
+                      <?php
+                      $query = getWhereOrder('user_gtk', '*', ['role_id_1' <= '10' || 'role_id_2' <= '10'], 'id', 'asc');
+                      if ($query->num_rows() >= 1) :
+                        $data = $query->result_array();
+                        foreach ($data as $data) :
+                          $id           = $data['id'];
+                          $username     = $data['username'];
+                          $namaLengkap  = $data['namaLengkap'];
+                      ?>
+                          <option value=<?= $username ?>><?= $namaLengkap ?></option>
+                      <?php
+                        endforeach;
+                      endif; ?>
+                    </optgroup>
+                  </select>
                 </div>
                 <!-- Aktif input -->
                 <div class="mb-1">
@@ -136,9 +83,11 @@
             <table class="dataTabel table table-hover table-responsive compact" style="height: 450px;">
               <thead class="text-center">
                 <tr>
-                  <th style="width: 1%;">No</th>
                   <th style="width: 10%;">Tahun Pelajaran</th>
-                  <th style="width: 1%;">Aksi</th>
+                  <th style="width: 5%;">Status Akses</th>
+                  <th style="width: 5%;">Status Registrasi</th>
+                  <th style="width: 5%;">Status Daftar Ulang</th>
+                  <th style="width: 5%;">Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -147,13 +96,15 @@
                 foreach ($query->result_array() as $i) {
                   $id              = $i['id'];
                   $tapel           = $i['tapel'];
+                  $kepalaSekolah   = $i['kepalaSekolah'];
+                  $is_active       = $i['is_active'];
                   $is_active_reg1  = $i['is_active_reg1'];
                   $is_active_reg2  = $i['is_active_reg2'];
+                  $query  = getWhere('user_gtk', 'username, namaLengkap', ['username' => $kepalaSekolah]);
+                  $userKS = $query->row('username');
+                  $namaKS = $query->row('namaLengkap');
                 ?>
                   <tr>
-                    <td class="text-center">
-                      <?= $no++ ?>
-                    </td>
                     <td class="text-left">
                       <div class="d-flex justify-content-left align-items-center">
                         <div class="avatar-wrapper me-1">
@@ -168,12 +119,75 @@
                           $base_64      = base64_encode($tapel);
                           $url_param    = rtrim($base_64, '='); ?>
                           <a href="<?= base_url('LayananPPDB/SetUp/') . $url_param; ?>" class="user_name text-body text-truncate">
-                            <span class="fw-bolder"><?= $tapel ?></span>
-                          </a><small class="emp_post text-muted"></small>
+                            <span class="fw-bolder">PPDB Tahun Pelajaran <?= $tapel ?></span>
+                          </a><small class="emp_post text-muted"> Kepala Sekolah : <?= $namaKS ?></small>
                         </div>
                       </div>
                     </td>
-                    <td>
+                    <td class="text-center">
+                      <?php if ($is_active == "1") { ?>
+                        <form id="switchAccessPPDBForm<?= $id ?>" action="<?= base_url('layananPPDB/switchAccess') ?>" method="POST">
+                          <div class="form-switch">
+                            <input type="checkbox" class="form-check-input" id="switchAccessPPDBButton" checked onclick="document.getElementById('switchAccessPPDBForm<?= $id ?>').submit();" />
+                            <input type="text" name="id" value="<?= $id ?>" hidden />
+                            <input type="text" name="is_active" id="switchAccessPPDBStatus" value="1" hidden />
+                            <sub id="switchAccessPPDBLabel">Aktif</sub>
+                          </div>
+                        </form>
+                      <?php } elseif ($is_active == "0") { ?>
+                        <form id="switchAccessPPDBForm<?= $id ?>" action="<?= base_url('layananPPDB/switchAccess') ?>" method="POST">
+                          <div class="form-switch">
+                            <input type="checkbox" class="form-check-input" id="switchAccessPPDBButton" onclick="document.getElementById('switchAccessPPDBForm<?= $id ?>').submit();" />
+                            <input type="text" name="id" value="<?= $id ?>" hidden />
+                            <input type="text" name="is_active" id="switchAccessPPDBStatus" value="0" hidden />
+                            <sub id="switchAccessPPDBLabel">Tidak Aktif</sub>
+                          </div>
+                        </form>
+                      <?php } ?>
+                    </td>
+                    <td class="text-center">
+                      <?php if ($is_active_reg1 == "1") { ?>
+                        <form id="switchReg1PPDBForm<?= $id ?>" action="<?= base_url('layananPPDB/switchRegistrasi1') ?>" method="POST">
+                          <div class="form-switch">
+                            <input type="checkbox" class="form-check-input" id="switchReg1PPDBButton" checked onclick="document.getElementById('switchReg1PPDBForm<?= $id ?>').submit();" />
+                            <input type="text" name="id" value="<?= $id ?>" hidden />
+                            <input type="text" name="is_active_reg1" id="switchReg1PPDBStatus" value="1" hidden />
+                            <sub id="switchReg1PPDBLabel">Aktif</sub>
+                          </div>
+                        </form>
+                      <?php } elseif ($is_active_reg1 == "0") { ?>
+                        <form id="switchReg1PPDBForm<?= $id ?>" action="<?= base_url('layananPPDB/switchRegistrasi1') ?>" method="POST">
+                          <div class="form-switch">
+                            <input type="checkbox" class="form-check-input" id="switchReg1PPDBButton" onclick="document.getElementById('switchReg1PPDBForm<?= $id ?>').submit();" />
+                            <input type="text" name="id" value="<?= $id ?>" hidden />
+                            <input type="text" name="is_active_reg1" id="switchReg1PPDBStatus" value="0" hidden />
+                            <sub id="switchReg1PPDBLabel">Tidak Aktif</sub>
+                          </div>
+                        </form>
+                      <?php } ?>
+                    </td>
+                    <td class="text-center">
+                      <?php if ($is_active_reg2 == "1") { ?>
+                        <form id="switchReg2PPDBForm<?= $id ?>" action="<?= base_url('layananPPDB/switchRegistrasi2') ?>" method="POST">
+                          <div class="form-switch">
+                            <input type="checkbox" class="form-check-input" id="switchReg2PPDBButton" checked onclick="document.getElementById('switchReg2PPDBForm<?= $id ?>').submit();" />
+                            <input type="text" name="id" value="<?= $id ?>" hidden />
+                            <input type="text" name="is_active_reg2" id="switchReg2PPDBStatus" value="1" hidden />
+                            <sub id="switchReg2PPDBLabel">Aktif</sub>
+                          </div>
+                        </form>
+                      <?php } elseif ($is_active_reg2 == "0") { ?>
+                        <form id="switchReg2PPDBForm<?= $id ?>" action="<?= base_url('layananPPDB/switchRegistrasi2') ?>" method="POST">
+                          <div class="form-switch">
+                            <input type="checkbox" class="form-check-input" id="switchReg2PPDBButton" onclick="document.getElementById('switchReg2PPDBForm<?= $id ?>').submit();" />
+                            <input type="text" name="id" value="<?= $id ?>" hidden />
+                            <input type="text" name="is_active_reg2" id="switchReg2PPDBStatus" value="0" hidden />
+                            <sub id="switchReg2PPDBLabel">Tidak Aktif</sub>
+                          </div>
+                        </form>
+                      <?php } ?>
+                    </td>
+                    <td class="text-center">
                       <a href="<?= base_url('LayananPPDB/SetUp/') . $url_param; ?>" type="button" class="btn btn-sm btn-icon rounded-circle btn-info me-1" aria-expanded="false">
                         <i data-feather='edit'></i>
                       </a>

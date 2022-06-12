@@ -41,7 +41,7 @@
                   <?php } ?>
 
 
-                  <?php if ($serverSetting['modulPPDB'] == 1) { ?>
+                  <?php if (is_ppdb_activated()) { ?>
                     <p class="text-center mt-2 fw-bolder"><span>PPDB Telah Dibuka ! Yuk Daftar ! </span></p>
                     <a href="auth/registration" class="btn btn-success w-100" tabindex="4">Daftar Gratis Sekarang !</a>
                   <?php } ?>

@@ -14,52 +14,52 @@
       indexLoad();
     });
 
+    function settingsLoad() {
+      $.ajax({
+        cache: false,
+        url: "<?= base_url('layananPPDB/settingsLoad') ?>",
+        type: "POST",
+        data: {
+          page: "gtk/ppdb/settingsLoad"
+        },
+        success: function(data) {
+          $("#ppdbSettingsPage").html(data);
+        }
+      });
+    }
+
+    function setupLoad(tapel) {
+      $.ajax({
+        cache: false,
+        url: "<?= base_url('layananPPDB/setupLoad') ?>",
+        type: "POST",
+        data: {
+          // page: "errors/custom/soon"
+          page: "gtk/ppdb/setupLoad",
+          tapel: tapel
+        },
+        success: function(data) {
+          $("#ppdbSetupPage").html(data);
+        }
+      });
+    }
+
+    function indexLoad() {
+      $.ajax({
+        cache: false,
+        url: "<?= base_url('layananPPDB/indexLoad') ?>",
+        type: "POST",
+        data: {
+          page: "errors/custom/soon"
+          // page: "gtk/ppdb/dashboard"
+        },
+        success: function(data) {
+          $("#ppdbIndexPage").html(data);
+        }
+      });
+    }
+
   })
-
-  function settingsLoad() {
-    $.ajax({
-      cache: false,
-      url: "<?= base_url('layananPPDB/settingsLoad') ?>",
-      type: "POST",
-      data: {
-        page: "gtk/ppdb/settingsLoad"
-      },
-      success: function(data) {
-        $("#ppdbSettingsPage").html(data);
-      }
-    });
-  }
-
-  function setupLoad(tapel) {
-    $.ajax({
-      cache: false,
-      url: "<?= base_url('layananPPDB/setupLoad') ?>",
-      type: "POST",
-      data: {
-        // page: "errors/custom/soon"
-        page: "gtk/ppdb/setupLoad",
-        tapel: tapel
-      },
-      success: function(data) {
-        $("#ppdbSetupPage").html(data);
-      }
-    });
-  }
-
-  function indexLoad() {
-    $.ajax({
-      cache: false,
-      url: "<?= base_url('layananPPDB/indexLoad') ?>",
-      type: "POST",
-      data: {
-        page: "errors/custom/soon"
-        // page: "gtk/ppdb/dashboard"
-      },
-      success: function(data) {
-        $("#ppdbIndexPage").html(data);
-      }
-    });
-  }
 
   $(document).on('click', '#hapusTapelPPDB', function(e) {
     var id = $(this).data('id');

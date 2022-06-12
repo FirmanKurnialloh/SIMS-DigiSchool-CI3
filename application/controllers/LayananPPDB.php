@@ -62,66 +62,27 @@ class LayananPPDB extends CI_Controller
     $this->load->view($page, $data);
   }
 
-  public function switchModulPPDB()
-  {
-    $checkModulPPDB = $this->modelApp->getServerSetting();
-    $modulPPDB      = $checkModulPPDB['modulPPDB'];
-    if ($modulPPDB == "0") {
-      $this->db->set('modulPPDB', '1');
-      $this->db->update('setting_server');
-    } elseif ($modulPPDB == "1") {
-      $this->db->set('modulPPDB', '0');
-      $this->db->update('setting_server');
-    }
-  }
-
-  public function swtichRegister1()
-  {
-    $checkServerGTK = $this->modelApp->getServerSetting();
-    $serverGTK = $checkServerGTK['loginGuru'];
-    if ($serverGTK == "0") {
-      $this->db->set('loginGuru', '1');
-      $this->db->update('setting_server');
-    } elseif ($serverGTK == "1") {
-      $this->db->set('loginGuru', '0');
-      $this->db->update('setting_server');
-    }
-  }
-
-  public function swtichRegister2()
-  {
-    $checkServerSiswa = $this->modelApp->getServerSetting();
-    $serverSiswa = $checkServerSiswa['loginSiswa'];
-    if ($serverSiswa == "0") {
-      $this->db->set('loginSiswa', '1');
-      $this->db->update('setting_server');
-    } elseif ($serverSiswa == "1") {
-      $this->db->set('loginSiswa', '0');
-      $this->db->update('setting_server');
-    }
-  }
-
-  public function switchTapel()
+  public function switchAccess()
   {
     $data = [
       'id'         => htmlspecialchars($this->input->post('id', true)),
-      'is_aktif'   => htmlspecialchars($this->input->post('is_aktif', true)),
+      'is_active'  => htmlspecialchars($this->input->post('is_active', true)),
     ];
-    $checkData     = $this->db->get_where('setting_tapel', ['id' => $data['id']]);
+    $checkData     = $this->db->get_where('ppdb_tapel', ['id' => $data['id']]);
     $row           = $checkData->row_array();
     if ($checkData->num_rows() == "1") {
-      if ($data['is_aktif'] == "0") {
-        $query = "UPDATE `setting_tapel` SET `is_aktif` = '0'";
+      if ($data['is_active'] == "0") {
+        $query = "UPDATE `ppdb_tapel` SET `is_active` = '0'";
         $this->db->query($query);
-        $this->db->set('is_aktif', '1');
+        $this->db->set('is_active', '1');
         $this->db->where('id', $data['id']);
-        $this->db->update('setting_tapel');
+        $this->db->update('ppdb_tapel');
         $this->session->set_flashdata('toastr', "
         <script>
         $(window).on('load', function() {
           setTimeout(function() {
             toastr['success'](
-              'Tahun Pelajaran " .  $row['tapel'] . " Semester " .  $row['semester'] . " Di Aktifkan !',
+              'Hak Akses PPDB Tahun Pelajaran " .  $row['tapel'] . " Di Aktifkan !',
               'Berhasil !', {
                 closeButton: true,
                 tapToDismiss: true
@@ -131,13 +92,18 @@ class LayananPPDB extends CI_Controller
         })
         </script>");
       } else {
+        $query = "UPDATE `ppdb_tapel` SET `is_active` = '0'";
+        $this->db->query($query);
+        $this->db->set('is_active', '0');
+        $this->db->where('id', $data['id']);
+        $this->db->update('ppdb_tapel');
         $this->session->set_flashdata('toastr', "
         <script>
         $(window).on('load', function() {
           setTimeout(function() {
-            toastr['error'](
-              'Tahun Pelajaran " .  $row['tapel'] . " Semester " .  $row['semester'] . " Sedang Aktif !',
-              'Gagal !', {
+            toastr['success'](
+              'Hak Akses PPDB Tahun Pelajaran " .  $row['tapel'] . " Di Non-Aktifkan !',
+              'Berhasil !', {
                 closeButton: true,
                 tapToDismiss: true
               }
@@ -152,7 +118,7 @@ class LayananPPDB extends CI_Controller
       $(window).on('load', function() {
         setTimeout(function() {
           toastr['error'](
-            'Tahun Pelajaran " .  $row['tapel'] . " Semester " .  $row['semester'] . " Tidak Tersedia !',
+            'PPDB Tahun Pelajaran " .  $row['tapel'] . " Tidak Tersedia !',
             'Gagal !', {
               closeButton: true,
               tapToDismiss: true
@@ -162,7 +128,145 @@ class LayananPPDB extends CI_Controller
       })
       </script>");
     }
-    redirect(base_url('settings/tapel'));
+    redirect(base_url('layananPPDB/settings'));
+  }
+
+  public function switchRegistrasi1()
+  {
+    $data = [
+      'id'              => htmlspecialchars($this->input->post('id', true)),
+      'is_active_reg1'  => htmlspecialchars($this->input->post('is_active_reg1', true)),
+    ];
+    $checkData     = $this->db->get_where('ppdb_tapel', ['id' => $data['id']]);
+    $row           = $checkData->row_array();
+    if ($checkData->num_rows() == "1") {
+      if ($data['is_active_reg1'] == "0") {
+        $query = "UPDATE `ppdb_tapel` SET `is_active_reg1` = '0'";
+        $this->db->query($query);
+        $this->db->set('is_active_reg1', '1');
+        $this->db->where('id', $data['id']);
+        $this->db->update('ppdb_tapel');
+        $this->session->set_flashdata('toastr', "
+        <script>
+        $(window).on('load', function() {
+          setTimeout(function() {
+            toastr['success'](
+              'Registrasi PPDB Tahun Pelajaran " .  $row['tapel'] . " Di Aktifkan !',
+              'Berhasil !', {
+                closeButton: true,
+                tapToDismiss: true
+              }
+            );
+          }, 0);
+        })
+        </script>");
+      } else {
+        $query = "UPDATE `ppdb_tapel` SET `is_active_reg1` = '0'";
+        $this->db->query($query);
+        $this->db->set('is_active_reg1', '0');
+        $this->db->where('id', $data['id']);
+        $this->db->update('ppdb_tapel');
+        $this->session->set_flashdata('toastr', "
+        <script>
+        $(window).on('load', function() {
+          setTimeout(function() {
+            toastr['success'](
+              'Registrasi PPDB Tahun Pelajaran " .  $row['tapel'] . " Di Non-Aktifkan !',
+              'Berhasil !', {
+                closeButton: true,
+                tapToDismiss: true
+              }
+            );
+          }, 0);
+        })
+        </script>");
+      }
+    } elseif ($checkData->num_rows() == "0") {
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['error'](
+            'PPDB Tahun Pelajaran " .  $row['tapel'] . " Tidak Tersedia !',
+            'Gagal !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+    }
+    redirect(base_url('layananPPDB/settings'));
+  }
+
+  public function switchRegistrasi2()
+  {
+    $data = [
+      'id'              => htmlspecialchars($this->input->post('id', true)),
+      'is_active_reg2'  => htmlspecialchars($this->input->post('is_active_reg2', true)),
+    ];
+    $checkData     = $this->db->get_where('ppdb_tapel', ['id' => $data['id']]);
+    $row           = $checkData->row_array();
+    if ($checkData->num_rows() == "1") {
+      if ($data['is_active_reg2'] == "0") {
+        $query = "UPDATE `ppdb_tapel` SET `is_active_reg2` = '0'";
+        $this->db->query($query);
+        $this->db->set('is_active_reg2', '1');
+        $this->db->where('id', $data['id']);
+        $this->db->update('ppdb_tapel');
+        $this->session->set_flashdata('toastr', "
+        <script>
+        $(window).on('load', function() {
+          setTimeout(function() {
+            toastr['success'](
+              'Daftar Ulang PPDB Tahun Pelajaran " .  $row['tapel'] . " Di Aktifkan !',
+              'Berhasil !', {
+                closeButton: true,
+                tapToDismiss: true
+              }
+            );
+          }, 0);
+        })
+        </script>");
+      } else {
+        $query = "UPDATE `ppdb_tapel` SET `is_active_reg2` = '0'";
+        $this->db->query($query);
+        $this->db->set('is_active_reg2', '0');
+        $this->db->where('id', $data['id']);
+        $this->db->update('ppdb_tapel');
+        $this->session->set_flashdata('toastr', "
+        <script>
+        $(window).on('load', function() {
+          setTimeout(function() {
+            toastr['success'](
+              'Daftar Ulang PPDB Tahun Pelajaran " .  $row['tapel'] . " Di Non-Aktifkan !',
+              'Berhasil !', {
+                closeButton: true,
+                tapToDismiss: true
+              }
+            );
+          }, 0);
+        })
+        </script>");
+      }
+    } elseif ($checkData->num_rows() == "0") {
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['error'](
+            'PPDB Tahun Pelajaran " .  $row['tapel'] . " Tidak Tersedia !',
+            'Gagal !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+    }
+    redirect(base_url('layananPPDB/settings'));
   }
 
   // PAGE SETTING
@@ -300,9 +404,7 @@ class LayananPPDB extends CI_Controller
     $base_64               = $url_param . str_repeat('=', strlen($url_param) % 4);
     $tapel                 = base64_decode($base_64);
     $data['url_param']     = $tapel;
-    // $data['persuratan']    = $this->ModelPPDB->getPersuratan($tapel)->row_array();
-    // $kepalaSekolah         = $data['persuratan']['kepalaSekolah'];
-    // $data['kepalaSekolah'] = $this->ModelPPDB->getKepalaSekolah($kepalaSekolah)->row_array();
+    is_ppdb_exist($tapel);
 
     $data['pageCollumn']   = "1-column";
     $data['page']          = "PPDB " . $tapel;
@@ -337,5 +439,48 @@ class LayananPPDB extends CI_Controller
     $data['kepalaSekolah'] = $this->ModelPPDB->getKepalaSekolah($kepalaSekolah)->row_array();
 
     $this->load->view($page, $data);
+  }
+
+  function editPersuratan()
+  {
+    $dataProfile = [
+      'nip'                   => htmlspecialchars($this->input->post('nip', true)),
+    ];
+
+    $ppdbPersuratan = [
+      'id'                    => htmlspecialchars($this->input->post('id', true)),
+      'kepalaSekolah'         => htmlspecialchars($this->input->post('kepalaSekolah', true)),
+      'SKPanitia'             => htmlspecialchars($this->input->post('SKPanitia', true)),
+      'tanggalSKPanitia'      => htmlspecialchars($this->input->post('tanggalSKPanitia', true)),
+      'SKPenerimaan'          => htmlspecialchars($this->input->post('SKPenerimaan', true)),
+      'tanggalSKPenerimaan'   => htmlspecialchars($this->input->post('tanggalSKPenerimaan', true)),
+      'tanggalMasuk'          => htmlspecialchars($this->input->post('tanggalMasuk', true)),
+      'ttd'                   => htmlspecialchars($this->input->post('ttd', true)),
+    ];
+
+    $tapel = htmlspecialchars($this->input->post('tapel', true));
+
+    $this->db->set($dataProfile);
+    $this->db->where('username', $ppdbPersuratan['kepalaSekolah']);
+    $this->db->update('profil_gtk');
+
+    $this->db->set($ppdbPersuratan);
+    $this->db->where('id', $ppdbPersuratan['id']);
+    $this->db->update('ppdb_tapel');
+    $this->session->set_flashdata('toastr', "
+    <script>
+    $(window).on('load', function() {
+      setTimeout(function() {
+        toastr['success'](
+          'Persuratan PPDB Tahun Pelajaran" . $tapel . " telah diperbarui !',
+          'Berhasil !', {
+            closeButton: true,
+            tapToDismiss: true
+          }
+        );
+      }, 0);
+    })
+    </script>");
+    redirect(base_url('layananppdb/setup/'));
   }
 }

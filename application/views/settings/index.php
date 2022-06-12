@@ -145,24 +145,20 @@
                         Modul PPDB
                       </strong>
                     </h5>
-                    <?php if (is_ppdb_installed() && $serverSetting['modulPPDB'] == "0") { ?>
-                      <form id="formSwitchModulPPDB" method="post">
-                        <div class="form-switch">
-                          <input type="checkbox" class="form-check-input" id="switchModulPPDB" />
-                          <input type="text" name="statusModulPPDB" id="statusModulPPDB" value="0" hidden />
-                          <sub id="LabelswitchModulPPDB">Tidak Aktif</sub>
-                        </div>
-                      </form>
-                    <?php } elseif (is_ppdb_installed() && $serverSetting['modulPPDB']  == "1") { ?>
-                      <form id="formSwitchModulPPDB" method="post">
-                        <div class="form-switch">
-                          <input type="checkbox" class="form-check-input" id="switchModulPPDB" checked />
-                          <input type="text" name="statusModulPPDB" id="statusModulPPDB" value="1" hidden />
-                          <sub id="LabelswitchModulPPDB">Aktif</sub>
-                        </div>
-                      </form>
+                    <?php if (is_ppdb_installed() && !is_ppdb_activated()) { ?>
+                      <sup>Modul Terpasang Tidak Aktif !</sup>
+                      <a href="<?= base_url('layananPPDB/settings') ?>" type="button" class="btn btn-md btn-flat-success">
+                        <i data-feather="cpu" class="me-25"></i>
+                        <span>Atur Modul</span>
+                      </a>
+                    <?php } elseif (is_ppdb_installed() && is_ppdb_activated()) { ?>
+                      <sup>Modul Terpasang Aktif !</sup>
+                      <a href="<?= base_url('layananPPDB/settings') ?>" type="button" class="btn btn-md btn-flat-success">
+                        <i data-feather="cpu" class="me-25"></i>
+                        <span>Atur Modul</span>
+                      </a>
                     <?php } elseif (!is_ppdb_installed()) { ?>
-                      <sup>Add-On Tidak Ditemukan !</sup>
+                      <sup>Add-On Tidak Terpasang !</sup>
                       <a href="http://www.jayvyn-host.com/#contact" type="button" class="btn btn-md btn-flat-success">
                         <i data-feather="cpu" class="me-25"></i>
                         <span>Pesan Modul</span>
