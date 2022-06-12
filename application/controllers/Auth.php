@@ -272,7 +272,6 @@ class Auth extends CI_Controller
         'nisn'      => $userPD['nisn'],
       ];
       $this->session->set_userdata($dataUser);
-
       $dataProfil   = $this->modelApp->getProfilPd($nisn);
       if ($dataProfil) {
         $jk    = jenisKelamin($dataProfil['jk']);
@@ -418,17 +417,17 @@ class Auth extends CI_Controller
   {
     $postTanggalLahir = $this->input->post('data');
     $sessionNISN      = $this->session->userdata('nisn');
-    $dataUser         = $this->db->get_where('user_pd', ['nisn' => $sessionNISN])->row_array();
+    $dataUser         = $this->db->get_where('user_pd', ['nisn' => $sessionNISN, 'tanggalLahir' => $postTanggalLahir])->row_array();
     if ($dataUser) {
-      $this->session->set_userdata($dataUser);
       $data['serverSetting'] = $this->modelApp->getServerSetting();
       $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
-      $dataProfil            = $this->db->get_where('profil_pd', ['nisn' => $sessionNISN, 'tanggalLahir' => $postTanggalLahir])->row_array();
+      $dataUser = [
+        'nisn'      => $dataUser['nisn'],
+        'role_id'   => $dataUser['role_id'],
+      ];
+      $this->session->set_userdata($dataUser);
+      $dataProfil = $this->db->get_where('profil_pd', ['nisn' => $sessionNISN, 'tanggalLahir' => $postTanggalLahir])->row_array();
       if ($dataProfil) {
-        $dataUser = [
-          'nisn'      => $dataUser['nisn'],
-          'role_id'   => $dataUser['role_id'],
-        ];
         $this->session->set_flashdata('toastr', "
         <script>
         $(window).on('load', function() {
@@ -471,29 +470,29 @@ class Auth extends CI_Controller
                 });
               }
             })
-          </script>
-          <h3 class='display-1 text-danger text-center myicon'><i data-feather='x-circle'></i></h3>
-          <h3 class='display-0 text-danger text-center'>Tanggal Lahir Salah!</h3>
+          </script>           
+          <h3 class='display-1 text-success text-center myicon'><i data-feather='alert-triangle'></i></h3>
+          <h3 class='display-0 text-success text-center'>Tanggal Lahir Benar! <br> Lengkapi Profil !</h3>
+          <div class='d-flex justify-content-center pt-1'>
+            <a href='" . base_url('pd/dashboard') . "' class='btn btn-sm btn-success w-100'>Lanjutkan</a>
+          </div>
           ";
       }
     } else {
-      $this->session->unset_userdata('nisn');
-      $this->session->unset_userdata('role_id');
-      $this->session->set_flashdata('toastr', "
-              <script>
-              $(window).on('load', function() {
-                setTimeout(function() {
-                  toastr['error'](
-                    'Terdapat Kesalahan !',
-                    'Gagal !', {
-                      closeButton: true,
-                      tapToDismiss: true
-                    }
-                  );
-                }, 0);
-              })
-              </script>");
-      redirect(base_url('/'));
+      echo "
+      <script>      
+        $(document).ready(function() {
+          if (feather) {
+            feather.replace({
+              width: 14,
+              height: 14
+            });
+          }
+        })
+      </script>
+      <h3 class='display-1 text-danger text-center myicon'><i data-feather='x-circle'></i></h3>
+      <h3 class='display-0 text-danger text-center'>Tanggal Lahir Salah!</h3>
+      ";
     }
   }
 
