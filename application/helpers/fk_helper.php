@@ -424,6 +424,42 @@ function is_ppdb_activated()
   }
 }
 
+function is_ppdb_register()
+{
+  $ci = get_instance();
+  $ci->load->model('PPDB_Model');
+  $checkModul = $ci->PPDB_Model->getStatusRegister();
+  if ($checkModul) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function is_ppdb_daftarUlang()
+{
+  $ci = get_instance();
+  $ci->load->model('PPDB_Model');
+  $checkModul = $ci->PPDB_Model->getStatusDaftarUlang();
+  if ($checkModul) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function is_ppdb_result()
+{
+  $ci = get_instance();
+  $ci->load->model('PPDB_Model');
+  $checkModul = $ci->PPDB_Model->getStatusPengumuman();
+  if ($checkModul) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function is_ppdb_exist($tapel)
 {
   $ci = get_instance();

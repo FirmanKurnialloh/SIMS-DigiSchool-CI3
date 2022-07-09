@@ -45,23 +45,25 @@
             <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
               <h2 class="card-title fw-bold mb-1">Buat Akun</h2>
               <p class="card-text mb-2">Sebelum Mendaftar, Silahkan buat akun terlebih dahulu!</p>
-              <form class="auth-register-form mt-2" action="<?= base_url('auth/registration'); ?>" method="POST">
-                <div class="mb-1">
-                  <label class="form-label" for="username">Username</label>
-                  <input class="form-control" id="username" type="text" name="username" value="<?= set_value('username'); ?>" placeholder="Username" aria-describedby="username" autofocus="" tabindex="1" />
-                  <?= form_error('username', '<small class="text-danger">', '</small>'); ?>
-                </div>
-                <div class="mb-1">
-                  <label class="form-label" for="password">Password</label>
-                  <div class="input-group input-group-merge form-password-toggle">
-                    <input class="form-control form-control-merge" id="password" type="password" name="password" value="<?= set_value('password'); ?>" placeholder="Password" aria-describedby="password" tabindex="2" />
-                    <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+              <?php if (is_ppdb_activated() && is_ppdb_register()) { ?>
+                <form class="auth-register-form mt-2" action="<?= base_url('auth/registration'); ?>" method="POST">
+                  <div class="mb-1">
+                    <label class="form-label" for="username">Username</label>
+                    <input class="form-control" id="username" type="text" name="username" value="<?= set_value('username'); ?>" placeholder="Username" aria-describedby="username" autofocus="" tabindex="1" />
+                    <?= form_error('username', '<small class="text-danger">', '</small>'); ?>
                   </div>
-                  <?= form_error('password', '<small class="text-danger">', '</small>'); ?>
-                </div>
-                <button class="btn btn-primary w-100" tabindex="5">Buat Akun</button>
-              </form>
-              <p class="text-center mt-2"><span>Sudah memiliki akun?</span><a href="<?= base_url('auth/ppdb'); ?>"><span>&nbsp;Login</span></a></p>
+                  <div class="mb-1">
+                    <label class="form-label" for="password">Password</label>
+                    <div class="input-group input-group-merge form-password-toggle">
+                      <input class="form-control form-control-merge" id="password" type="password" name="password" value="<?= set_value('password'); ?>" placeholder="Password" aria-describedby="password" tabindex="2" />
+                      <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                    </div>
+                    <?= form_error('password', '<small class="text-danger">', '</small>'); ?>
+                  </div>
+                  <button class="btn btn-primary w-100" tabindex="5">Buat Akun</button>
+                </form>
+              <?php } ?>
+              <p class="text-center mt-2"><span>Sudah memiliki akun?</span> Silahkan<a href="<?= base_url('auth/ppdb'); ?>"><span>&nbsp;Login</span></a></p>
             </div>
           </div>
           <!-- /Register-->

@@ -24,6 +24,7 @@
                 <th style="width: 10%;">Tahun Pelajaran</th>
                 <th style="width: 5%;">Status Akses</th>
                 <th style="width: 5%;">Status Registrasi</th>
+                <th style="width: 5%;">Status Pengumuman</th>
                 <th style="width: 5%;">Status Daftar Ulang</th>
                 <th style="width: 5%;">Aksi</th>
               </tr>
@@ -32,15 +33,16 @@
               <?php
               $no = 1;
               foreach ($query->result_array() as $i) {
-                $id              = $i['id'];
-                $tapel           = $i['tapel'];
-                $kepalaSekolah   = $i['kepalaSekolah'];
-                $is_active       = $i['is_active'];
-                $is_active_reg1  = $i['is_active_reg1'];
-                $is_active_reg2  = $i['is_active_reg2'];
-                $query  = getWhere('user_gtk', 'username, namaLengkap', ['username' => $kepalaSekolah]);
-                $userKS = $query->row('username');
-                $namaKS = $query->row('namaLengkap');
+                $id               = $i['id'];
+                $tapel            = $i['tapel'];
+                $kepalaSekolah    = $i['kepalaSekolah'];
+                $is_active        = $i['is_active'];
+                $is_active_reg1   = $i['is_active_reg1'];
+                $is_active_reg2   = $i['is_active_reg2'];
+                $is_active_result = $i['is_active_result'];
+                $query            = getWhere('user_gtk', 'username, namaLengkap', ['username' => $kepalaSekolah]);
+                $userKS           = $query->row('username');
+                $namaKS           = $query->row('namaLengkap');
               ?>
                 <tr>
                   <td class="text-left">
@@ -100,6 +102,27 @@
                           <input type="text" name="id" value="<?= $id ?>" hidden />
                           <input type="text" name="is_active_reg1" id="switchReg1PPDBStatus" value="0" hidden />
                           <sub id="switchReg1PPDBLabel">Tidak Aktif</sub>
+                        </div>
+                      </form>
+                    <?php } ?>
+                  </td>
+                  <td class="text-center">
+                    <?php if ($is_active_result == "1") { ?>
+                      <form id="switchResultPPDBForm<?= $id ?>" action="<?= base_url('LayananPPDB/switchResult') ?>" method="POST">
+                        <div class="form-switch">
+                          <input type="checkbox" class="form-check-input" id="switchResultPPDBButton" checked onclick="document.getElementById('switchResultPPDBForm<?= $id ?>').submit();" />
+                          <input type="text" name="id" value="<?= $id ?>" hidden />
+                          <input type="text" name="is_active_result" id="switchResultPPDBStatus" value="1" hidden />
+                          <sub id="switchResultPPDBLabel">Aktif</sub>
+                        </div>
+                      </form>
+                    <?php } elseif ($is_active_result == "0") { ?>
+                      <form id="switchResultPPDBForm<?= $id ?>" action="<?= base_url('LayananPPDB/switchResult') ?>" method="POST">
+                        <div class="form-switch">
+                          <input type="checkbox" class="form-check-input" id="switchResultPPDBButton" onclick="document.getElementById('switchResultPPDBForm<?= $id ?>').submit();" />
+                          <input type="text" name="id" value="<?= $id ?>" hidden />
+                          <input type="text" name="is_active_result" id="switchResultPPDBStatus" value="0" hidden />
+                          <sub id="switchResultPPDBLabel">Tidak Aktif</sub>
                         </div>
                       </form>
                     <?php } ?>

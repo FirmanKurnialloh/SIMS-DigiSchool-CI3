@@ -13,18 +13,18 @@
         </li>
         <!-- Persuratan -->
 
-        <!-- Lokasi Sekolah -->
+        <!-- Panitia -->
         <li class="nav-item">
-          <a class="nav-link" id="pill-lokasi-sekolah" data-bs-toggle="pill" href="#lokasi-sekolah" aria-expanded="true" role="tab">
-            <i data-feather="map-pin" class="font-medium-3 me-1"></i>
-            <span class="fw-bold">Lokasi Sekolah</span>
+          <a class="nav-link" id="pill-2" data-bs-toggle="pill" href="#tab-2" aria-expanded="true" role="tab">
+            <i data-feather="users" class="font-medium-3 me-1"></i>
+            <span class="fw-bold">Panitia</span>
           </a>
         </li>
-        <!-- Lokasi Sekolah -->
+        <!-- Panitia -->
 
         <!-- Lokasi Sekolah -->
         <li class="nav-item">
-          <a class="nav-link" id="pill-kontak-sekolah" data-bs-toggle="pill" href="#kontak-sekolah" aria-expanded="true" role="tab">
+          <a class="nav-link" id="pill-3" data-bs-toggle="pill" href="#tab-3" aria-expanded="true" role="tab">
             <i data-feather="link" class="font-medium-3 me-1"></i>
             <span class="fw-bold">Kontak Sekolah</span>
           </a>
@@ -34,7 +34,7 @@
       </ul>
 
       <!-- FAQ image -->
-      <img src="<?= base_url('assets/'); ?>app-assets/images/illustration/faq-illustrations.svg" class="img-fluid d-none d-md-block" alt="demand img" />
+      <img src="<?= base_url('assets/'); ?>app-assets/images/illustration/faq-illustrations.svg" class="img-fluid d-none d-md-block hidden" alt="demand img" />
     </div>
   </div>
 
@@ -191,178 +191,31 @@
               </div>
             </form>
           </div>
-          <!-- Identitas Sekolah panel -->
+          <!-- Panel 1 -->
 
-          <!-- Lokasi Sekolah panel -->
-          <div class="tab-pane fade" id="lokasi-sekolah" aria-labelledby="pill-lokasi-sekolah" aria-expanded="true">
-            <form class="validate-form" action="<?= base_url("settings/editLokasiSekolah") ?>" method="POST" enctype="multipart/form-data">
-              <!-- icon and header -->
-              <div class="d-flex align-items-center">
-                <div class="avatar avatar-tag bg-light-primary me-1">
-                  <i data-feather="map-pin" class="font-medium-4"></i>
-                </div>
-                <div>
-                  <h4 class="mb-0">Lokasi Sekolah</h4>
-                  <span>Informasi Lokasi Sekolah</span>
-                </div>
+          <!-- Panel 2 -->
+          <div class="tab-pane fade" id="tab-2" aria-labelledby="pill-2" aria-expanded="true">
+            <!-- icon and header -->
+            <div class="d-flex align-items-center">
+              <div class="avatar avatar-tag bg-light-primary me-1">
+                <i data-feather="users" class="font-medium-4"></i>
               </div>
-
-              <!-- divider -->
-              <div class="col-12">
-                <hr class="my-2" />
+              <div>
+                <h4 class="mb-0">Panitia PPDB</h4>
+                <span>Informasi Panitia PPDB</span>
               </div>
+            </div>
 
-              <!-- header section -->
-              <div class="d-flex">
-                <a href="#" class="me-25">
-                  <?php if ($profilSekolah['logoPemerintah'] && file_exists(FCPATH . "assets/files/images/logo/" . $profilSekolah['logoPemerintah'])) { ?>
-                    <img src="<?= base_url('assets/'); ?>files/images/logo/<?= $profilSekolah['logoPemerintah']; ?>" id="account-upload-img2" class="uploadedAvatar2 rounded me-50" alt="profil image" height="80" width="80" />
-                  <?php  } else { ?>
-                    <img src="<?= base_url('assets/'); ?>files/images/logo/kemendikbud.png" id="account-upload-img2" class="uploadedAvatar2 rounded me-50" alt="profil image" height="80" width="80" />
-                  <?php } ?>
-                </a>
-                <!-- upload and reset button -->
-                <div class="d-flex align-items-end mt-75 ms-1">
-                  <div>
-                    <label for="account-upload2" class="btn btn-sm btn-primary mb-75 me-75">Logo Pemerintah</label>
-                    <input type="file" name="logoPemerintah" id="account-upload2" hidden accept="image/jpeg, image/jpg, image/png" />
-                    <button type="button" id="account-reset2" class="btn btn-sm btn-outline-secondary mb-75">Reset</button>
-                    <p class="mb-0">JPEG, JPG, PNG. Max Filesize 1 MB</p>
-                  </div>
-                </div>
-                <!--/ upload and reset button -->
-              </div>
-              <!--/ header section -->
+            <!-- divider -->
+            <div class="col-12">
+              <hr class="my-2" />
+            </div>
 
-              <div class="row mt-2">
-                <!-- Nama Pemerintah input -->
-                <div class="col-12 col-sm-6">
-                  <div class="form-group">
-                    <label for="namaPemerintah">Nama Pemerintah</label>
-                    <input type="text" class="form-control" id="namaPemerintah" name="namaPemerintah" placeholder="Nama Pemerintah" value="<?= $profilSekolah['namaPemerintah'] ?>" />
-                  </div>
-                </div>
-                <!-- Bentuk Pemerintah input -->
-                <div class="col-12 col-sm-6">
-                  <div class="form-group">
-                    <label for="bentukPemerintah">Bentuk Pemerintah</label>
-                    <select class="select2 hide-search form-control" id="bentukPemerintah" name="bentukPemerintah">
-                      <optgroup label="Terpilih">
-                        <option value="<?= $profilSekolah['bentukPemerintah'] ?>" selected><?= $profilSekolah['bentukPemerintah'] ?></option>
-                      </optgroup>
-                      <optgroup label="Pilih">
-                        <option value="Provinsi">Provinsi</option>
-                        <option value="Kabupaten">Kabupaten</option>
-                        <option value="Kota">Kota</option>
-                        <option value="UPTD">UPTD</option>
-                        <option value="UPT">UPT</option>
-                        <option value="Yayasan">Yayasan</option>
-                      </optgroup>
-                    </select>
-                  </div>
-                </div>
-                <!-- Telepon input -->
-                <div class="col-12 col-sm-3">
-                  <div class="form-group">
-                    <label for="alamat">Alamat</label>
-                    <input type="text" class="form-control" id="alamat" name="jl" placeholder="Alamat" value="<?= $profilSekolah['jl'] ?>" />
-                  </div>
-                </div>
-                <!-- Kampung input -->
-                <div class="col-12 col-sm-3">
-                  <div class="form-group">
-                    <label for="kampung">Kampung/Dusun</label>
-                    <input type="text" class="form-control" id="kampung" name="kp" placeholder="Kampung/Dusun" value="<?= $profilSekolah['kp'] ?>" />
-                  </div>
-                </div>
-                <!-- RT input -->
-                <div class="col-12 col-sm-3">
-                  <div class="form-group">
-                    <label for="rt">RT</label>
-                    <input type="number" class="form-control" id="rt" name="rt" placeholder="RT" value="<?= $profilSekolah['rt'] ?>" />
-                  </div>
-                </div>
-                <!-- RW input -->
-                <div class="col-12 col-sm-3">
-                  <div class="form-group">
-                    <label for="rw">RW</label>
-                    <input type="number" class="form-control" id="rw" name="rw" placeholder="RW" value="<?= $profilSekolah['rw'] ?>" />
-                  </div>
-                </div>
-                <!-- Desa input -->
-                <div class="col-12 col-sm-3">
-                  <div class="form-group">
-                    <label for="desa">Desa/Kelurahan</label>
-                    <input type="text" class="form-control" id="desa" name="desa" placeholder="Desa/Kelurahan" value="<?= $profilSekolah['desa'] ?>" />
-                  </div>
-                </div>
-                <!-- Kecamatan input -->
-                <div class="col-12 col-sm-3">
-                  <div class="form-group">
-                    <label for="kecamatan">Kecamatan</label>
-                    <input type="text" class="form-control" id="kecamatan" name="kecamatan" placeholder="Kecamatan" value="<?= $profilSekolah['kecamatan'] ?>" />
-                  </div>
-                </div>
-                <!-- Kabupaten input -->
-                <div class="col-12 col-sm-3">
-                  <div class="form-group">
-                    <label for="kabupaten">Kabupaten/Kota</label>
-                    <input type="text" class="form-control" id="kabupaten" name="kabupaten" placeholder="Kabupaten/Kota" value="<?= $profilSekolah['kabupaten'] ?>" />
-                  </div>
-                </div>
-                <!-- Provinsi input -->
-                <div class="col-12 col-sm-3">
-                  <div class="form-group">
-                    <label for="provinsi">Provinsi</label>
-                    <input type="text" class="form-control" id="provinsi" name="provinsi" placeholder="provinsi" value="<?= $profilSekolah['provinsi'] ?>" />
-                  </div>
-                </div>
-                <!-- Kode input -->
-                <div class="col-12 col-sm-4">
-                  <div class="form-group">
-                    <label for="pos">Kode Pos</label>
-                    <input type="number" class="form-control" id="pos" name="pos" placeholder="Kode Pos" value="<?= $profilSekolah['pos'] ?>" />
-                  </div>
-                </div>
-                <!-- Latitude input -->
-                <div class="col-12 col-sm-4">
-                  <div class="form-group">
-                    <label for="lat">Latitude</label>
-                    <input type="text" class="form-control" id="lat" name="lat" placeholder="Latitude" value="<?= $profilSekolah['lat'] ?>" />
-                  </div>
-                </div>
-                <!-- Longitude input -->
-                <div class="col-12 col-sm-4">
-                  <div class="form-group">
-                    <label for="long">Longitude</label>
-                    <input type="text" class="form-control" id="long" name="long" placeholder="Longitude" value="<?= $profilSekolah['long'] ?>" />
-                  </div>
-                </div>
-
-                <!-- google maps -->
-                <div class="col-12 col-sm-12 pt-2">
-                  <div class="form-group">
-                    <?php if ($profilSekolah['lat'] == null || $profilSekolah['long'] == null) { ?>
-                      <iframe id="iframe" src="https://maps.google.com/maps?q=<?= $profilSekolah['namaSekolah'] ?>&output=embed&z=15" width="100%" height="400px" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
-                    <?php } else { ?>
-                      <iframe id="iframe" src="https://maps.google.com/maps?q=<?= $profilSekolah['lat'] ?>,<?= $profilSekolah['long'] ?>&output=embed&z=15" width="100%" height="400px" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
-                    <?php } ?>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row mt-0">
-                <div class="col-12">
-                  <button type="submit" name="btnLokasiSekolah" class="btn btn-primary mt-2 mr-1">Simpan Perubahan</button>
-                  <button type="reset" class="btn btn-outline-secondary mt-2">Batal</button>
-                </div>
-              </div>
-            </form>
           </div>
-          <!-- Lokasi Sekolah panel -->
+          <!-- Panel 2 -->
 
-          <!-- Lokasi Sekolah panel -->
-          <div class="tab-pane fade" id="kontak-sekolah" aria-labelledby="pill-kontak-sekolah" aria-expanded="true">
+          <!-- Panel 3 -->
+          <div class="tab-pane fade" id="tab-3" aria-labelledby="pill-3" aria-expanded="true">
             <form class="validate-form" action="<?= base_url("settings/editKontakSekolah") ?>" method="POST" enctype="multipart/form-data">
               <!-- icon and header -->
               <div class="d-flex align-items-center">
@@ -491,7 +344,7 @@
               </div>
             </form>
           </div>
-          <!-- Lokasi Sekolah panel -->
+          <!-- Panel 3 -->
 
         </div>
 

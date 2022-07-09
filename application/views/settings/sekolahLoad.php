@@ -223,11 +223,32 @@
                     </select>
                   </div>
                 </div>
-                <!-- Telepon input -->
+                <!-- Provinsi input -->
                 <div class="col-12 col-sm-3 mb-1">
                   <div class="form-group">
-                    <label class="form-label" for="alamat">Alamat / Nama Jalan</label>
-                    <input type="text" class="form-control" id="alamat" name="jl" placeholder="Alamat / Nama Jalan" value="<?= $profilSekolah['jl'] ?>" required autocomplete="off" data-msg="Masukan Alamat" />
+                    <label class="form-label" for="provinsi">Provinsi</label>
+                    <input type="text" class="form-control" id="provinsi" name="provinsi" placeholder="Provinsi" value="<?= $profilSekolah['provinsi'] ?>" required autocomplete="off" data-msg="Masukan Provinsi" />
+                  </div>
+                </div>
+                <!-- Kabupaten input -->
+                <div class="col-12 col-sm-3 mb-1">
+                  <div class="form-group">
+                    <label class="form-label" for="kabupaten">Kabupaten/Kota</label>
+                    <input type="text" class="form-control" id="kabupaten" name="kabupaten" placeholder="Kabupaten/Kota" value="<?= $profilSekolah['kabupaten'] ?>" required autocomplete="off" data-msg="Masukan Kabupaten/Kota" />
+                  </div>
+                </div>
+                <!-- Kecamatan input -->
+                <div class="col-12 col-sm-3 mb-1">
+                  <div class="form-group">
+                    <label class="form-label" for="kecamatan">Kecamatan</label>
+                    <input type="text" class="form-control" id="kecamatan" name="kecamatan" placeholder="Kecamatan" value="<?= $profilSekolah['kecamatan'] ?>" required autocomplete="off" data-msg="Masukan Kecamatan" />
+                  </div>
+                </div>
+                <!-- Desa input -->
+                <div class="col-12 col-sm-3 mb-1">
+                  <div class="form-group">
+                    <label class="form-label" for="desa">Desa/Kelurahan</label>
+                    <input type="text" class="form-control" id="desa" name="desa" placeholder="Desa/Kelurahan" value="<?= $profilSekolah['desa'] ?>" required autocomplete="off" data-msg="Masukan Desa/Kelurahan" />
                   </div>
                 </div>
                 <!-- Kampung input -->
@@ -235,6 +256,13 @@
                   <div class="form-group">
                     <label class="form-label" for="kampung">Kampung/Dusun</label>
                     <input type="text" class="form-control" id="kampung" name="kp" placeholder="Kampung/Dusun" value="<?= $profilSekolah['kp'] ?>" required autocomplete="off" data-msg="Masukan Kampung/Dusun" />
+                  </div>
+                </div>
+                <!-- Telepon input -->
+                <div class="col-12 col-sm-3 mb-1">
+                  <div class="form-group">
+                    <label class="form-label" for="alamat">Alamat / Nama Jalan</label>
+                    <input type="text" class="form-control" id="alamat" name="jl" placeholder="Alamat / Nama Jalan" value="<?= $profilSekolah['jl'] ?>" required autocomplete="off" data-msg="Masukan Alamat" />
                   </div>
                 </div>
                 <!-- RT input -->
@@ -249,34 +277,6 @@
                   <div class="form-group">
                     <label class="form-label" for="rw">RW</label>
                     <input type="number" class="form-control" id="rw" name="rw" placeholder="RW" value="<?= $profilSekolah['rw'] ?>" required autocomplete="off" data-msg="Masukan RW" />
-                  </div>
-                </div>
-                <!-- Desa input -->
-                <div class="col-12 col-sm-3 mb-1">
-                  <div class="form-group">
-                    <label class="form-label" for="desa">Desa/Kelurahan</label>
-                    <input type="text" class="form-control" id="desa" name="desa" placeholder="Desa/Kelurahan" value="<?= $profilSekolah['desa'] ?>" required autocomplete="off" data-msg="Masukan Desa/Kelurahan" />
-                  </div>
-                </div>
-                <!-- Kecamatan input -->
-                <div class="col-12 col-sm-3 mb-1">
-                  <div class="form-group">
-                    <label class="form-label" for="kecamatan">Kecamatan</label>
-                    <input type="text" class="form-control" id="kecamatan" name="kecamatan" placeholder="Kecamatan" value="<?= $profilSekolah['kecamatan'] ?>" required autocomplete="off" data-msg="Masukan Kecamatan" />
-                  </div>
-                </div>
-                <!-- Kabupaten input -->
-                <div class="col-12 col-sm-3 mb-1">
-                  <div class="form-group">
-                    <label class="form-label" for="kabupaten">Kabupaten/Kota</label>
-                    <input type="text" class="form-control" id="kabupaten" name="kabupaten" placeholder="Kabupaten/Kota" value="<?= $profilSekolah['kabupaten'] ?>" required autocomplete="off" data-msg="Masukan Kabupaten/Kota" />
-                  </div>
-                </div>
-                <!-- Provinsi input -->
-                <div class="col-12 col-sm-3 mb-1">
-                  <div class="form-group">
-                    <label class="form-label" for="provinsi">Provinsi</label>
-                    <input type="text" class="form-control" id="provinsi" name="provinsi" placeholder="Provinsi" value="<?= $profilSekolah['provinsi'] ?>" required autocomplete="off" data-msg="Masukan Provinsi" />
                   </div>
                 </div>
                 <!-- Kode input -->
@@ -499,4 +499,38 @@
     placeholder: 'Select an option',
     minimumResultsForSearch: Infinity
   });
+</script>
+<script>
+  var my_ajax = do_ajax();
+  var ids;
+  var wil = new Array('kab', 'kec', 'kel');
+
+  function ajax(id) {
+    if (id.length < 13) {
+      ids = id;
+      var url = "?id=" + id + "&sid=" + Math.random();
+      my_ajax.onreadystatechange = stateChanged;
+      my_ajax.open("GET", url, true);
+      my_ajax.send(null);
+    }
+  }
+
+  function do_ajax() {
+    if (window.XMLHttpRequest) return new XMLHttpRequest();
+    if (window.ActiveXObject) return new ActiveXObject("Microsoft.XMLHTTP");
+    return null;
+  }
+
+  function stateChanged() {
+    var n = ids.length;
+    var w = (n == 2 ? wil[0] : (n == 5 ? wil[1] : wil[2]));
+    var data;
+    if (my_ajax.readyState == 4) {
+      data = my_ajax.responseText;
+      document.getElementById(w).innerHTML = data.length >= 0 ? data : "<option selected>Pilih Kota/Kab</option>";
+      <?php foreach ($wil as $k => $w) : ?>
+        document.getElementById("<?php echo $w[2]; ?>_box").style.display = (n > <?php echo $k - 1; ?>) ? 'table-row' : 'none';
+      <?php endforeach; ?>
+    }
+  }
 </script>
