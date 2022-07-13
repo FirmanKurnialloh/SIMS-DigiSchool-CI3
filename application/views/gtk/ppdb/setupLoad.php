@@ -135,7 +135,7 @@
                 <div class="mb-1 col-lg-3 col-12">
                   <div class="form-group">
                     <label class="form-label" for="tanggalSKPanitia">Tanggal Penetapan SK Panitia</label>
-                    <input type="text" class="form-control" id="tanggalSKPanitia" name="tanggalSKPanitia" placeholder="tanggal SK Panitia" value="<?= $persuratan['tanggalSKPanitia'] ?>" required data-msg="Masukan Tanggal Penetapan SK Panitia" autocomplete="off" />
+                    <input type="text" class="form-control flatpickr-basic" id="tanggalSKPanitia" name="tanggalSKPanitia" placeholder="Tanggal SK Panitia" value="<?= $persuratan['tanggalSKPanitia'] ?>" required data-msg="Masukan Tanggal Penetapan SK Panitia" autocomplete="off" />
                   </div>
                 </div>
 
@@ -151,15 +151,15 @@
                 <div class="mb-1 col-lg-3 col-12">
                   <div class="form-group">
                     <label class="form-label" for="tanggalSKPenerimaan">Tanggal Penetapan SK Penerimaan</label>
-                    <input type="text" class="form-control" id="tanggalSKPenerimaan" name="tanggalSKPenerimaan" placeholder="Tanggal SK Penerimaan" value="<?= $persuratan['tanggalSKPenerimaan'] ?>" required data-msg="Masukan Tanggal Penetapan SK Penerimaan" autocomplete="off" />
+                    <input type="text" class="form-control flatpickr-basic" id="tanggalSKPenerimaan" name="tanggalSKPenerimaan" placeholder="Tanggal SK Penerimaan" value="<?= $persuratan['tanggalSKPenerimaan'] ?>" required data-msg="Masukan Tanggal Penetapan SK Penerimaan" autocomplete="off" />
                   </div>
                 </div>
 
                 <!-- Tanggal SK Penerimaan input -->
-                <div class="mb-1 col-lg-4 col-12">
+                <div class="mb-1 col-lg-3 col-12">
                   <div class="form-group">
                     <label class="form-label" for="tanggalMasuk">Tanggal Masuk Tahun Pelajaran <?= $persuratan['tapel'] ?></label>
-                    <input type="text" class="form-control" id="tanggalMasuk" name="tanggalMasuk" placeholder="Tanggal Masuk Tahun Pelajaran <?= $persuratan['tapel'] ?>" value="<?= $persuratan['tanggalMasuk'] ?>" required data-msg="Masukan Tanggal Masuk Tahun Pelajaran <?= $persuratan['tapel'] ?>" autocomplete="off" />
+                    <input type="text" class="form-control flatpickr-basic" id="tanggalMasuk" name="tanggalMasuk" placeholder="Tanggal Masuk" value="<?= $persuratan['tanggalMasuk'] ?>" required data-msg="Masukan Tanggal Masuk Tahun Pelajaran <?= $persuratan['tapel'] ?>" autocomplete="off" />
                   </div>
                 </div>
 
@@ -211,12 +211,125 @@
               <hr class="my-2" />
             </div>
 
+            <div class="alert alert-primary" role="alert">
+              <div class="alert-body d-flex justify-content-between">
+                <strong>
+                  Note : Data yang tampil berdasarkan PPDB Tahun <?= $page ?>
+                </strong>
+                <div class="d-flex justify-content-between">
+                  <a href=" javascript:void(0)" type="button" class="btn btn-sm btn-primary ms-1" data-bs-id="tambahData" id="tambahDataButton" data-bs-toggle="modal" data-bs-target="#tambahDataModal">
+                    Tambah Data Panitia
+                  </a>
+                  <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger ms-1" data-tapel="<?= $page ?>" id="resetDataPanitia">
+                    Reset Data Panitia
+                  </a>
+                </div>
+              </div>
+            </div>
+            <?php if (getPanitia($page)->num_rows() <= 0) { ?>
+              <div class="text-center">
+                <h3 class="text-danger">Tidak Ada Data <br> </h3>
+                <h3 class="text-danger myicon"><i data-feather='x-circle' style="width: 100;"></i></h3>
+                <h4 class="mb-3 mt-2">Silahkan Tambah Data Panitia</h4>
+              </div>
+            <?php } else { ?>
+              <table class="dataTabel table table-hover table-responsive compact" style="height: 450px;">
+                <thead class="text-center">
+                  <tr>
+                    <th style="width: 0%;">No</th>
+                    <th style="width: 20%;">Panitia</th>
+                    <th style="width: 10%;">Jabatan</th>
+                    <th style="width: 1%;">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody class="text-left">
+                  <?php
+                  $no = 1;
+                  foreach (getPanitia($page)->result_array() as $i) :
+                    $id_user         = $i['id'];
+                    $username        = $i['username'];
+                    $role_id         = $i['role_id'];
+                    $role            = getPeranPPDB($role_id);
+
+                    $profilGTK       = getProfilGTK($username);
+                    if ($profilGTK) {
+                      $namaLengkap   = $profilGTK['namaLengkap'];
+                      $namaPanggil   = $profilGTK['namaPanggil'];
+                      $gelarDepan    = $profilGTK['gelarDepan'];
+                      $jk            = $profilGTK['jk'];
+                      if ($profilGTK['gelarBelakang']) {
+                        $gelarBelakang = ', ' . $profilGTK['gelarBelakang'];
+                      } else {
+                        $gelarBelakang = "";
+                      }
+                      $namaGelar     = $gelarDepan . ' ' . $namaLengkap . $gelarBelakang;
+                      $foto          = $profilGTK['foto'];
+                    } else {
+                      $namaGTK       = $i['namaLengkap'];
+                      $namaPanggil   = "";
+                      $gelarDepan    = "";
+                      $gelarBelakang = "";
+                      $foto          = "";
+                    }
+                  ?>
+                    <tr>
+                      <td class="align-items-center">
+                        <?= $no++ ?>
+                      </td>
+                      <td>
+                        <div class="d-flex justify-content-left align-items-center">
+                          <div class="avatar-wrapper me-1">
+                            <?php if ($foto && file_exists(FCPATH . "assets/files/images/fotoGuru/" . $foto)) { ?>
+                              <img src="<?= base_url('assets/'); ?>files/images/fotoGuru/<?= $foto; ?>" alt="Avatar" height="32" width="32">
+                            <?php  } else { ?>
+                              <div class="avatar bg-light-primary">
+                                <div class="avatar-content"><?= namaInisial($namaLengkap); ?></div>
+                              </div>
+                            <?php } ?>
+                          </div>
+                          <div class="d-flex flex-column">
+                            <?php
+                            $base_64      = base64_encode($username);
+                            $url_param    = rtrim($base_64, '=');
+                            $data         = array("username" => "$username");
+                            $url_details  = base64_encode(serialize($data)); ?>
+                            <a href="<?= base_url('settings/gtk/') . $url_param; ?>" class="user_name text-body text-truncate">
+                              <?php if ($profilGTK) { ?>
+                                <span class="fw-bolder"><?= $namaGelar ?></span>
+                              <?php } else { ?>
+                                <span class="fw-bolder"><?= $namaLengkap ?></span>
+                              <?php } ?>
+                            </a><small class="emp_post text-muted"><?= $username ?></small>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex justify-content-center align-items-center">
+                          <span class="badge bg-primary me-1">
+                            <i data-feather="user" class="me-25"></i>
+                            <span><?= $role ?></span>
+                          </span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="d-flex justify-content-center align-items-center">
+                          <button type="button" class="btn btn-sm btn-icon rounded-circle btn-danger me-1" aria-expanded="false" data-username="<?= $username; ?>" id="hapusPanitiaPPDB">
+                            <i data-feather="trash"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  <?php endforeach ?>
+                </tbody>
+              </table>
+            <?php } ?>
+
           </div>
           <!-- Panel 2 -->
 
           <!-- Panel 3 -->
           <div class="tab-pane fade" id="tab-3" aria-labelledby="pill-3" aria-expanded="true">
-            <form class="validate-form" action="<?= base_url("settings/editKontakSekolah") ?>" method="POST" enctype="multipart/form-data">
+            <form class="validate-form" action="<?= base_url("LayananPPDB/editKontakSekolah") ?>" method="POST" enctype="multipart/form-data">
               <!-- icon and header -->
               <div class="d-flex align-items-center">
                 <div class="avatar avatar-tag bg-light-primary me-1">
@@ -330,8 +443,7 @@
                       </div>
                     </div>
                   </div>
-
-
+                  <input type="text" name="tapel" value="<?= $page ?>" readonly hidden>
                 </div>
               </div>
 
@@ -353,7 +465,75 @@
     </div>
   </div>
 </div>
-<!--  Identitas Sekolah Ends -->
+
+<!-- Modal Tambah -->
+<div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="tambahDataModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tambahDataModal">Tambah Data Panitia</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form class="validate-form" action="<?= base_url('LayananPPDB/tambahPanitia'); ?>" method="POST">
+        <div class="modal-body">
+          <div class="row">
+            <div class="form-group">
+              <label class="form-label" for="Panitia">Pilih Panitia</label>
+              <select class="select2 form-control" id="Panitia" name="panitia" required data-placeholder="Pilih Panitia" data-msg="Pilih Panitia" autocomplete="off">
+                <option></option>
+                <optgroup label="Pilih Panitia">
+                  <?php
+                  $query = getWhereOrder('user_gtk', '*', ['role_id_1' <= '10' || 'role_id_2' <= '10'], 'id', 'asc');
+                  if ($query->num_rows() >= 1) :
+                    $data = $query->result_array();
+                    foreach ($data as $data) :
+                      $id           = $data['id'];
+                      $username     = $data['username'];
+                      $namaLengkap  = $data['namaLengkap'];
+                  ?>
+                      <option value=<?= $username ?>><?= $namaLengkap ?></option>
+                  <?php
+                    endforeach;
+                  endif;
+                  ?>
+                </optgroup>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="Jabatan">Pilih Jabatan</label>
+              <select class="select2 form-control" id="Jabatan" name="jabatan" required data-placeholder="Pilih Jabatan" data-msg="Pilih Jabatan" autocomplete="off">
+                <option></option>
+                <optgroup label="Pilih Jabatan">
+                  <?php
+                  $query = getWhereOrder('ppdb_role', '*', ['id' <= 'asd'], 'id', 'asc');
+                  if ($query->num_rows() >= 1) :
+                    $data = $query->result_array();
+                    foreach ($data as $data) :
+                      $id           = $data['id'];
+                      $role         = $data['role'];
+                  ?>
+                      <option value=<?= $id ?>><?= $role ?></option>
+                  <?php
+                    endforeach;
+                  endif;
+                  ?>
+                </optgroup>
+              </select>
+            </div>
+            <input type="text" name="tapel" value="<?= $page ?>" readonly hidden>
+          </div>
+
+          <div class="modal-footer">
+            <!-- Aktif input -->
+            <button type="submit" class="btn btn-sm btn-primary">Tambah Data</button>
+            <button type="reset" class="btn btn-sm btn-outline-secondary">Reset</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal Tambah -->
 <script src="<?= base_url('assets/'); ?>assets/js/scripts.js"></script>
 <script>
   if (feather) {
@@ -367,7 +547,7 @@
     "order": [
       [0, "asc"]
     ],
-    "autoWidth": true,
+    "autoWidth": false,
     pageLength: 10,
     "lengthMenu": [
       [10, 25, 50, -1],

@@ -8,6 +8,7 @@ class LayananPPDB extends CI_Controller
     parent::__construct();
     $this->load->model('App_model', 'modelApp');
     $this->load->model('PPDB_Model', 'ModelPPDB');
+    $this->load->helper('ppdb_helper', 'ppdbHelper');
     is_server_gtk_active();
     is_logged_in_as_gtk();
   }
@@ -126,7 +127,7 @@ class LayananPPDB extends CI_Controller
     }
   }
 
-  // PAGE DASBOARD
+  // PAGE DASHBOARD
   public function index()
   {
     $data['sessionUser']   = $this->session->userdata('username');
@@ -469,11 +470,7 @@ class LayananPPDB extends CI_Controller
     $data['profilGTK']     = $this->modelApp->getProfilGTK($data['sessionUser']);
     $data['pageCollumn']   = "0-column";
     $data['page']          = "Modul PPDB";
-
-    $url_param             = $this->uri->segment('3');
-    $base_64               = $url_param . str_repeat('=', strlen($url_param) % 4);
-    $tapel                 = base64_decode($base_64);
-    $data['url_param']     = $tapel;
+    $data['url_param']     = getDecodeURLParam($this->uri->segment('3'));
 
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
@@ -582,15 +579,12 @@ class LayananPPDB extends CI_Controller
     }
     $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $data['profilGTK']     = $this->modelApp->getProfilGTK($data['sessionUser']);
+    $data['url_param']     = getDecodeURLParam($this->uri->segment('3'));
 
-    $url_param             = $this->uri->segment('3');
-    $base_64               = $url_param . str_repeat('=', strlen($url_param) % 4);
-    $tapel                 = base64_decode($base_64);
-    $data['url_param']     = $tapel;
-    is_ppdb_exist($tapel);
+    is_ppdb_exist($data['url_param']);
 
     $data['pageCollumn']   = "1-column";
-    $data['page']          = "PPDB " . $tapel;
+    $data['page']          = "PPDB " . $data['url_param'];
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('gtk/ppdb/setup', $data);
@@ -620,6 +614,7 @@ class LayananPPDB extends CI_Controller
     $data['persuratan']    = $this->ModelPPDB->getPersuratan($url_param)->row_array();
     $kepalaSekolah         = $data['persuratan']['kepalaSekolah'];
     $data['kepalaSekolah'] = $this->ModelPPDB->getKepalaSekolah($kepalaSekolah)->row_array();
+    $data['page']          = $url_param;
 
     $this->load->view($page, $data);
   }
@@ -642,8 +637,7 @@ class LayananPPDB extends CI_Controller
     ];
 
     $tapel                    = htmlspecialchars($this->input->post('tapel', true));
-    $base_64                  = base64_encode($tapel);
-    $url_param                = rtrim($base_64, '=');
+    $url_param                = getEncodeURLParam($tapel);
 
     $this->db->set($dataProfile);
     $this->db->where('username', $ppdbPersuratan['kepalaSekolah']);
@@ -667,5 +661,129 @@ class LayananPPDB extends CI_Controller
     })
     </script>");
     redirect(base_url('LayananPPDB/SetUp/') . $url_param);
+  }
+
+  function tambahPanitia()
+  {
+    $data = [
+      'tapel'      => htmlspecialchars($this->input->post('tapel', true)),
+      'role_id'    => htmlspecialchars($this->input->post('jabatan', true)),
+      'username'   => htmlspecialchars($this->input->post('panitia', true)),
+    ];
+    $url_param        = getEncodeURLParam($data['tapel']);
+    $checkData        = $this->db->get_where('ppdb_panitia', ['tapel' => $data['tapel'], 'username' => $data['username']]);
+    if ($checkData->num_rows() == "0") {
+      $this->db->insert('ppdb_panitia', $data);
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['success'](
+            'Panitia PPDB Tahun Pelajaran " .  $data['tapel'] . " Di Tambahkan !',
+            'Berhasil !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+    } elseif ($checkData->num_rows() >= "1") {
+      $this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['error'](
+            'Panitia PPDB Tahun Pelajaran " .  $data['tapel'] . " Sudah Terdaftar !',
+            'Gagal !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
+    }
+    redirect(base_url('LayananPPDB/SetUp/' . $url_param));
+  }
+
+  public function deletePanitia()
+  {
+    $data = [
+      'tapel'      => htmlspecialchars($this->input->post('tapel', true)),
+      'username'   => htmlspecialchars($this->input->post('username', true)),
+    ];
+    $checkData     = $this->db->get_where('ppdb_panitia', ['username' => $data['username']]);
+    if ($checkData->num_rows() == "1") {
+      $this->db->delete('ppdb_panitia', ['username' => $data['username']]);
+      $response['status']   = 'success';
+      $response['judul']    = 'Berhasil !';
+      $response['pesan']    = 'Panitia ' . $data['username'] . ' Telah Dihapus!';
+    } elseif ($checkData->num_rows() == "0") {
+      $response['status']   = 'error';
+      $response['judul']    = 'Gagal !';
+      $response['pesan']    = 'Panitia ' . $data['username'] . ' Tidak Ditemukan!';
+    }
+    echo json_encode($response);
+  }
+
+  public function resetDataPanitia()
+  {
+    $tapel         = htmlspecialchars($this->input->post('tapel', true));
+    $query         = "SELECT `username` FROM `ppdb_panitia` WHERE `tapel` = '$tapel'";
+    $queryPanitia  = $this->db->query($query)->result_array();
+    foreach ($queryPanitia as $rowUsername) {
+      $this->db->delete('ppdb_panitia', ['username' => $rowUsername['username']]);
+    }
+    $response['status']   = 'success';
+    $response['judul']    = 'Berhasil !';
+    $response['pesan']    = 'Database Telah Direset!';
+    echo json_encode($response);
+  }
+
+  public function editKontakSekolah()
+  {
+    $url_param  = htmlspecialchars($this->input->post('tapel', true));
+    $url_param  = getEncodeURLParam($url_param);
+    $web        = htmlspecialchars($this->input->post('web', true));
+    $email      = htmlspecialchars($this->input->post('email', true));
+    $tel        = htmlspecialchars($this->input->post('tel', true));
+    $fax        = htmlspecialchars($this->input->post('fax', true));
+    $facebook   = htmlspecialchars($this->input->post('facebook', true));
+    $instagram  = htmlspecialchars($this->input->post('instagram', true));
+    $youtube    = htmlspecialchars($this->input->post('youtube', true));
+    $whatsapp   = htmlspecialchars($this->input->post('whatsapp', true));
+
+    if ($email) {
+      $this->db->set(
+        [
+          'web'       => $web,
+          'email'     => $email,
+          'telepon'   => $tel,
+          'fax'       => $fax,
+          'facebook'  => $facebook,
+          'instagram' => $instagram,
+          'youtube'   => $youtube,
+          'whatsapp'  => $whatsapp
+        ]
+      );
+    }
+
+    $this->db->update('profil_sekolah');
+    $this->session->set_flashdata('toastr', "
+    <script>
+    $(window).on('load', function() {
+      setTimeout(function() {
+        toastr['success'](
+          'Kontak Sekolah telah diperbarui !',
+          'Berhasil !', {
+            closeButton: true,
+            tapToDismiss: true
+          }
+        );
+      }, 0);
+    })
+    </script>");
+    redirect(base_url('LayananPPDB/SetUp/' . $url_param));
   }
 }

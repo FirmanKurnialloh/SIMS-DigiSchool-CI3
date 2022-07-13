@@ -386,32 +386,6 @@ function is_ppdb_installed()
   return file_exists(APPPATH . "views/gtk/ppdb/dashboard.php");
 }
 
-function is_ppdb_active()
-{
-  $ci = get_instance();
-  $ci->load->model('PPDB_Model');
-  $checkModul = $ci->PPDB_Model->getActiveTapel();
-  $checkModul = $checkModul['is_active'];
-  if ($checkModul != 1) {
-    $ci->session->set_flashdata('toastr', "
-            <script>
-            $(window).on('load', function() {
-              setTimeout(function() {
-                toastr['error'](
-                  'Layanan PPDB Tidak Aktif !',
-                  'Akses Ditolak !', {
-                    closeButton: true,
-                    tapToDismiss: true
-                  }
-                );
-              }, 0);
-            })
-            </script>");
-    redirect(base_url('gtk/dashboard'));
-  }
-  return $checkModul;
-}
-
 function is_ppdb_activated()
 {
   $ci = get_instance();
@@ -436,18 +410,6 @@ function is_ppdb_register()
   }
 }
 
-function is_ppdb_daftarUlang()
-{
-  $ci = get_instance();
-  $ci->load->model('PPDB_Model');
-  $checkModul = $ci->PPDB_Model->getStatusDaftarUlang();
-  if ($checkModul) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
 function is_ppdb_result()
 {
   $ci = get_instance();
@@ -460,27 +422,14 @@ function is_ppdb_result()
   }
 }
 
-function is_ppdb_exist($tapel)
+function is_ppdb_daftarUlang()
 {
   $ci = get_instance();
   $ci->load->model('PPDB_Model');
-  $checkData = $ci->PPDB_Model->getPersuratan($tapel);
-  if ($checkData->num_rows() <= 0) {
-    $ci->session->set_flashdata('toastr', "
-            <script>
-            $(window).on('load', function() {
-              setTimeout(function() {
-                toastr['error'](
-                  'Layanan PPDB Tidak Ditemukan !',
-                  'Akses Ditolak !', {
-                    closeButton: true,
-                    tapToDismiss: true
-                  }
-                );
-              }, 0);
-            })
-            </script>");
-    redirect(base_url('LayananPPDB/settings'));
+  $checkModul = $ci->PPDB_Model->getStatusDaftarUlang();
+  if ($checkModul) {
+    return true;
+  } else {
+    return false;
   }
-  return $checkData;
 }

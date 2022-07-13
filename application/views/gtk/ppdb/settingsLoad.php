@@ -55,10 +55,7 @@
                         </div>
                       </div>
                       <div class="d-flex flex-column">
-                        <?php
-                        $base_64      = base64_encode($tapel);
-                        $url_param    = rtrim($base_64, '='); ?>
-                        <a href="<?= base_url('LayananPPDB/SetUp/') . $url_param; ?>" class="user_name text-body text-truncate">
+                        <a href="<?= base_url('LayananPPDB/SetUp/') . getEncodeURLParam($tapel); ?>" class="user_name text-body text-truncate">
                           <span class="fw-bolder">PPDB Tahun Pelajaran <?= $tapel ?></span>
                         </a><small class="emp_post text-muted"> Kepala Sekolah : <?= $namaKS ?></small>
                       </div>
@@ -149,7 +146,7 @@
                     <?php } ?>
                   </td>
                   <td class="text-center">
-                    <a href="<?= base_url('LayananPPDB/SetUp/') . $url_param; ?>" type="button" class="btn btn-sm btn-icon rounded-circle btn-info me-1" aria-expanded="false">
+                    <a href="<?= base_url('LayananPPDB/SetUp/') . getEncodeURLParam($tapel); ?>" type="button" class="btn btn-sm btn-icon rounded-circle btn-info me-1" aria-expanded="false">
                       <i data-feather='edit'></i>
                     </a>
                     <button type="button" class="btn btn-sm btn-icon rounded-circle btn-danger me-1" aria-expanded="false" data-id="<?= $id; ?>" data-tapel="<?= $tapel; ?>" id="hapusTapelPPDB">

@@ -32,4 +32,9 @@ class PPDB_Model extends CI_Model
   {
     return $this->db->get_where('profil_gtk', ['username' => $username]);
   }
+
+  function getPanitia($tapel)
+  {
+    return $this->db->get_where('ppdb_panitia', ['tapel' => $tapel]);
+  }
 }
