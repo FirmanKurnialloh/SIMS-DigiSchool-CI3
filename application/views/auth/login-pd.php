@@ -52,7 +52,7 @@
                 </div>
               <?php } ?>
 
-              <a class="btn btn-outline-danger mb-2 mt-2 w-100" href="<?= base_url('/'); ?>">Kembali</a>
+              <a class="btn btn-outline-danger mb-2 mt-2 w-100" href="#" onclick="history.go(-1)">Kembali</a>
 
               <?php if ($profilSekolah['twitter'] != null || $profilSekolah['whatsapp'] != null || $profilSekolah['facebook'] != null || $profilSekolah['instagram'] != null || $profilSekolah['youtube'] != null) { ?>
                 <div class="divider my-2 pt-2">

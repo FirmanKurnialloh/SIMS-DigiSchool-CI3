@@ -1,8 +1,7 @@
 <nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl">
   <div class="navbar-container d-flex content">
     <div class="bookmark-wrapper d-flex align-items-center">
-      <?php $page = $this->uri->segment(2);
-      if ($page != "dashboard" && $page != "profil" && $page != "akun") { ?>
+      <?php if ($pageCollumn == "0-column") { ?>
         <ul class="nav navbar-nav d-xl-none">
           <li class="nav-item">
             <a class="nav-link menu-toggle" href="#">
@@ -42,7 +41,7 @@
               <!-- <div class="badge rounded-pill badge-light-primary">6 New</div> -->
             </div>
           </li>
-          <?php if (file_exists(APPPATH . "views/gtk/ppdb/dashboard.php")) { ?>
+          <?php if (is_ppdb_installed()) { ?>
             <li class="scrollable-container media-list">
               <a class="d-flex" href="<?= base_url('LayananPPDB'); ?>">
                 <div class="list-item d-flex align-items-start">

@@ -16,366 +16,15 @@
           </a>
         </span>
       </div>
-      <!-- Modal Tambah -->
-      <div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="tambahDataModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="tambahDataModal">Tambah Data Akun GTK</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form class="validate-form" action="<?= base_url('settings/tambahAkunGTK'); ?>" method="POST">
-              <div class="modal-body">
-                <div class="alert alert-primary" role="alert">
-                  <div class="alert-body">
-                    <strong>Tips:
-                      <li>
-                        Username Akun GTK dapat berupa Email atau Huruf dan Angka
-                      </li>
-                      <li>
-                        Password Default <u>#MerdekaBelajar!</u>
-                      </li>
-                      <li>
-                        Nama Panggil tidak perlu memasukan "Pak/Bu", sistem otomatis mengenali dari jenis kelamin
-                      </li>
-                      <li>
-                        Penulisan Gelar harap disesuaikan dengan baik dan benar seperti Dr. / S.Pd. / S.Pd., M.Pd.
-                      </li>
-                    </strong>
-                  </div>
-                </div>
-                <div class="row">
-                  <!-- Nama Lengkap input -->
-                  <div class="mb-1 col-lg-6 col-12">
-                    <label class="form-label" for="namaLengkap">Nama Lengkap</label>
-                    <input type="text" class="form-control" id="namaLengkap" placeholder="Nama Lengkap" name="namaLengkap" required data-msg="Masukan Nama Lengkap" autocomplete="off" />
-                  </div>
-                  <!-- Nama Panggil input -->
-                  <div class="mb-1 col-lg-6 col-12">
-                    <label class="form-label" for="namaPanggil">Nama Panggil</label>
-                    <input type="text" class="form-control" id="namaPanggil" placeholder="Nama Panggil" name="namaPanggil" required data-msg="Masukan Nama Panggil" autocomplete="off" />
-                  </div>
-                  <!-- Gelar Depan input -->
-                  <div class="mb-1 col-lg-3 col-12">
-                    <label class="form-label" for="gelarDepan">Gelar Depan</label>
-                    <input type="text" class="form-control" id="gelarDepan" placeholder="Gelar Depan" name="gelarDepan" autocomplete="off" />
-                  </div>
-                  <!-- Gelar Belakang input -->
-                  <div class="mb-1 col-lg-3 col-12">
-                    <label class="form-label" for="gelarBelakang">Gelar Belakang</label>
-                    <input type="text" class="form-control" id="gelarBelakang" placeholder="Gelar Belakang" name="gelarBelakang" autocomplete="off" />
-                  </div>
-                  <!-- Jenis Kelamin input -->
-                  <div class="mb-1 col-lg-6 col-12">
-                    <label for="Jenis Kelamin">Jenis Kelamin</label>
-                    <select class="select2 hide-search form-control" id="jk" name="jenisKelamin" required data-placeholder="Pilih Jenis Kelamin" data-msg="Pilih Jenis Kelamin" autocomplete="off">
-                      <option></option>
-                      <optgroup label="Pilih Jenis Kelamin">
-                        <option value="L">Laki-Laki</option>
-                        <option value="P">Perempuan</option>
-                      </optgroup>
-                    </select>
-                  </div>
-                  <!-- Username input -->
-                  <div class="mb-1 col-lg-6 col-12">
-                    <label class="form-label" for="username">Username</label>
-                    <input type="text" class="form-control" id="username" placeholder="Username" name="username" minlength="5" required data-msg="Masukan Username" autocomplete="off" />
-                  </div>
-                  <!-- Password input -->
-                  <div class="mb-1 col-lg-6 col-12">
-                    <label class="form-label" for="password">Password</label>
-                    <input type="text" class="form-control" id="password" placeholder="#MerdekaBelajar!" name="password" required readonly disabled autocomplete="off" />
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="mb-1 col-lg-6 col-12">
-                    <!-- Hak Akses 1 input -->
-                    <div class="mb-1 col-12">
-                      <label for="hakAkses1">Hak Akses 1</label>
-                      <select class="select2 hide-search form-control" id="hakAkses1" name="hakAkses1" required data-placeholder="Pilih Hak Akses 1" data-msg="Pilih Hak Akses 1">
-                        <option></option>
-                        <optgroup label="Pilih Hak Akses">
-                          <option value="1">Admin</option>
-                          <option value="2">Operator</option>
-                          <option value="3">Kepala Sekolah</option>
-                          <option value="4">Tenaga Administrasi</option>
-                          <option value="5">Guru</option>
-                          <option value="6">Walikelas</option>
-                          <option value="7">Pelatih Ekstrakurikuler</option>
-                          <option value="8">Pengelola Koperasi</option>
-                          <option value="9">Pegawai Koperasi</option>
-                        </optgroup>
-                      </select>
-                    </div>
-                    <!-- Kelas input -->
-                    <div class="mb-1 col-12" id="divKelas" style="display: none;">
-                      <label for="kelas">Pilih Kelas</label>
-                      <select class="select2 form-control" id="selectKelas" name="kelas" data-placeholder="Pilih Kelas" data-msg="Pilih Kelas">
-                        <option></option>
-                        <optgroup label="Pilih Kelas">
-                          <?php
-                          $query = getSelect('setting_kelas', '*', 'LENGTH(level), level, LENGTH(kelas), kelas', 'asc');
-                          if ($query->num_rows() >= 1) {
-                            $data = $query->result_array();
-                            foreach ($data as $data) {
-                              $id          = $data['id'];
-                              $level       = $data['level'];
-                              $kelas       = $data['kelas'];
-                          ?>
-                              <option value="<?= $id ?>"><?= $kelas ?></option>
-                            <?php }
-                          } else { ?>
-                            <option value="">Tidak ada Kelas</option>
-                          <?php }; ?>
-                        </optgroup>
-                      </select>
-                    </div>
-                    <!-- Ekstrakurikuler input -->
-                    <div class="mb-1 col-12" id="divEkskul" style="display: none;">
-                      <label for="ekskul">Pilih Ekstrakurikuler</label>
-                      <select class="select2 form-control" id="selectEkskul" name="ekskul" data-placeholder="Pilih Ekstrakurikuler" data-msg="Pilih Ekstrakurikuler">
-                        <option></option>
-                        <optgroup label="Pilih Ekstrakurikuler">
-                          <?php
-                          $query = getSelect('setting_ekskul', '*', 'id', 'asc');
-                          if ($query->num_rows() >= 1) {
-                            $data = $query->result_array();
-                            foreach ($data as $data) {
-                              $id          = $data['id'];
-                              $namaEkskul  = $data['namaEkskul'];
-                          ?>
-                              <option value="<?= $id ?>"><?= $namaEkskul ?></option>
-                            <?php }
-                          } else { ?>
-                            <option value="">Tidak ada Ekstrakurikuler</option>
-                          <?php }; ?>
-                        </optgroup>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="mb-1 col-lg-6 col-12">
-                    <!-- Hak Akses 2 input -->
-                    <div class="mb-1 col-12">
-                      <label for="hakAkses2">Hak Akses 2</label>
-                      <select class="select2 hide-search form-control" id="hakAkses2" name="hakAkses2" data-placeholder="Pilih Hak Akses 2" data-msg="Pilih Hak Akses 2">
-                        <option></option>
-                        <optgroup label="Pilih Hak Akses">
-                          <option value="1">Admin</option>
-                          <option value="2">Operator</option>
-                          <option value="3">Kepala Sekolah</option>
-                          <option value="4">Tenaga Administrasi</option>
-                          <option value="5">Guru</option>
-                          <option value="6">Walikelas</option>
-                          <option value="7">Pelatih Ekstrakurikuler</option>
-                          <option value="8">Pengelola Koperasi</option>
-                          <option value="9">Pegawai Koperasi</option>
-                        </optgroup>
-                      </select>
-                    </div>
-                    <!-- Pilih Kelas input -->
-                    <div class="mb-1 col-12" id="divKelas2" style="display: none;">
-                      <label for="kelas2">Pilih Kelas</label>
-                      <select class="select2 form-control" id="selectKelas2" name="kelas2" data-placeholder="Pilih Kelas" data-msg="Pilih Kelas">
-                        <option></option>
-                        <optgroup label="Pilih Kelas">
-                          <?php
-                          $query = getSelect('setting_kelas', '*', 'LENGTH(level), level, LENGTH(kelas), kelas', 'asc');
-                          if ($query->num_rows() >= 1) {
-                            $data = $query->result_array();
-                            foreach ($data as $data) {
-                              $id          = $data['id'];
-                              $level       = $data['level'];
-                              $kelas       = $data['kelas'];
-                          ?>
-                              <option value="<?= $id ?>"><?= $kelas ?></option>
-                            <?php }
-                          } else { ?>
-                            <option value="">Tidak ada Kelas</option>
-                          <?php }; ?>
-                        </optgroup>
-                      </select>
-                    </div>
-                    <!-- Ekstrakurikuler input -->
-                    <div class="mb-1 col-12" id="divEkskul2" style="display: none;">
-                      <label for="ekskul2">Pilih Ekstrakurikuler</label>
-                      <select class="select2 form-control" id="selectEkskul2" name="ekskul2" data-placeholder="Pilih Ekstrakurikuler" data-msg="Pilih Ekstrakurikuler">
-                        <option></option>
-                        <optgroup label="Pilih Ekstrakurikuler">
-                          <?php
-                          $query = getSelect('setting_ekskul', '*', 'id', 'asc');
-                          if ($query->num_rows() >= 1) {
-                            $data = $query->result_array();
-                            foreach ($data as $data) {
-                              $id          = $data['id'];
-                              $namaEkskul  = $data['namaEkskul'];
-                          ?>
-                              <option value="<?= $id ?>"><?= $namaEkskul ?></option>
-                            <?php }
-                          } else { ?>
-                            <option value="">Tidak ada Ekstrakurikuler</option>
-                          <?php }; ?>
-                        </optgroup>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <!-- Pilih Kelas input -->
-
-                <div class="modal-footer">
-                  <!-- Aktif input -->
-                  <div class="mb-0">
-                    <label>Aktifkan? &nbsp;</label>
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" id="aktif1" value="1" name="is_aktif" required data-msg="Pilih Status" />
-                      <label class="form-check-label" for="aktif1">Ya</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="radio" id="aktif0" value="0" name="is_aktif" required data-msg="Pilih Status" />
-                      <label class="form-check-label" for="aktif0">Tidak</label>
-                    </div>
-                  </div>
-                  <button type="submit" class="btn btn-sm btn-primary">Tambah Data</button>
-                  <button type="reset" class="btn btn-sm btn-outline-secondary">Reset</button>
-                </div>
-              </div>
-            </form>
+      <div class="card-body">
+        <?php
+        if (getUserGTK()->num_rows() <= 0) { ?>
+          <div class="text-center">
+            <h3 class="text-danger">Tidak Ada Data <br> </h3>
+            <h3 class="text-danger myicon"><i data-feather='x-circle' style="width: 100;"></i></h3>
+            <h4 class="mb-3 mt-2">Silahkan Tambah Data Akun GTK</h4>
           </div>
-        </div>
-      </div>
-      <!-- Modal Tambah -->
-      <!-- Modal Import -->
-      <div class="modal fade" id="ImportDataModal" tabindex="-1" aria-labelledby="ImportDataModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="ImportDataModal">Import Data Akun GTK</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form class="validate-form" action="<?= base_url('settings/importAkunGTK'); ?>" method="POST" enctype="multipart/form-data">
-              <div class="modal-body mb-2">
-                <ul class="timeline">
-                  <li class="timeline-item">
-                    <span class="timeline-point">
-                      <i data-feather="download"></i>
-                    </span>
-                    <div class="timeline-event">
-                      <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
-                        <h6>Unduh File Template</h6>
-                        <span class="timeline-event-time" hidden>12 min ago</span>
-                      </div>
-                      <p>Unduh File Template</p>
-                      <div class="d-flex flex-row align-items-center">
-                        <img class="me-1" src="<?= base_url('assets/') ?>app-assets/images/icons/xls.png" alt="xls" height="50" />
-                        <span>
-                          <a href="<?= base_url('settings/exportTemplateAkunGTK') ?>" target="blank" id="btnExportExcelAkunGTK" class="btn btn-sm btn-success mt-1">Unduh File Template</a>
-                        </span>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="timeline-item">
-                    <span class="timeline-point timeline-point-primary">
-                      <i data-feather="edit"></i>
-                    </span>
-                    <div class="timeline-event">
-                      <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
-                        <h6>Edit File</h6>
-                        <span class="timeline-event-time" hidden>2 hours ago</span>
-                      </div>
-                      <p class="mb-50">Edit file template dan isilah sesuai kebutuhan data lalu unggah kembali disini.</p>
-                      <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample2" aria-expanded="true" aria-controls="collapseExample2">
-                        Lihat Kebutuhan Data
-                      </button>
-                      <div class="collapse" id="collapseExample2">
-                        <ul class="list-group list-group-flush mt-1">
-                          <li class="list-group-item d-flex justify-content-between flex-wrap">
-                            <span>Email/Username</span>
-                            <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
-                          </li>
-                          <li class="list-group-item d-flex justify-content-between flex-wrap">
-                            <span>Nama Lengkap</span>
-                            <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
-                          </li>
-                          <li class="list-group-item d-flex justify-content-between flex-wrap">
-                            <span>Nama Panggil</span>
-                            <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
-                          </li>
-                          <li class="list-group-item d-flex justify-content-between flex-wrap">
-                            <span>Gelar Depan</span>
-                            <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
-                          </li>
-                          <li class="list-group-item d-flex justify-content-between flex-wrap">
-                            <span>Gelar Belakang</span>
-                            <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
-                          </li>
-                          <li class="list-group-item d-flex justify-content-between flex-wrap">
-                            <span>Jenis Kelamin</span>
-                            <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
-                          </li>
-                          <li class="list-group-item d-flex justify-content-between flex-wrap">
-                            <span>Peran 1 & 2</span>
-                            <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="timeline-item">
-                    <span class="timeline-point">
-                      <i data-feather="download"></i>
-                    </span>
-                    <div class="timeline-event">
-                      <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
-                        <h6>Pilih File</h6>
-                        <span class="timeline-event-time" hidden>12 min ago</span>
-                      </div>
-                      <p>Pilih file yang telah di edit untuk di unggah kedalam sistem.</p>
-                      <div class="d-flex flex-row align-items-center">
-                        <img id="iconfileimportAkunGTK" class="me-1" src="<?= base_url('assets/') ?>app-assets/images/icons/unknown.png" alt="xls" height="50" />
-                        <span>
-                          <label for="inputImportFileExcelAkunGTK" id="lblinputImportFileExcelAkunGTK" class="btn btn-sm btn-success mt-1">Pilih File</label>
-                          <input type="file" id="inputImportFileExcelAkunGTK" name="fileExcelAkunGTK" hidden accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
-                        </span>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="timeline-item">
-                    <span class="timeline-point">
-                      <i data-feather="download"></i>
-                    </span>
-                    <div class="timeline-event">
-                      <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
-                        <h6>Unggah File</h6>
-                        <span class="timeline-event-time" hidden>12 min ago</span>
-                      </div>
-                      <p>Unggah file yang sudah dipilih untuk diproses sistem.</p>
-                      <div class="d-flex flex-row align-items-center">
-                        <img id="iconfileimportAkunGTKUp" class="me-1" src="<?= base_url('assets/') ?>app-assets/images/icons/unknown.png" alt="xls" height="50" />
-                        <span>
-                          <button type="submit" id="btnImportDataAkunGTK" class="btn btn-sm btn-danger mt-1" disabled>Unggah File</button>
-                          <button class="btn btn-sm btn-outline-success mt-1" id="btnProsesImportDataAkunGTK" type="button" disabled hidden>
-                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            <span class="ml-25 align-middle">Memproses Data, Silahkan Tunggu . . .</span>
-                          </button>
-                        </span>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      <!-- Modal Import -->
-      <?php
-      if (getUserGTK()->num_rows() <= 0) { ?>
-        <div class="text-center">
-          <h3 class="text-danger">Tidak Ada Data <br> </h3>
-          <h3 class="text-danger myicon"><i data-feather='x-circle' style="width: 100;"></i></h3>
-          <h4 class="mb-3 mt-2">Silahkan Tambah Data Akun GTK</h4>
-        </div>
-      <?php } else { ?>
-        <div class="card-body">
+        <?php } else { ?>
           <table class="dataTabel table table-hover table-responsive compact" style="height: 450px;">
             <thead class="text-center">
               <tr>
@@ -806,14 +455,364 @@
               <?php endforeach ?>
             </tbody>
           </table>
+        <?php } ?>
+      </div>
+    </div>
+  </div>
+  <!--/ Data Akun GTK Card -->
+</div>
 
+<!-- Modal Tambah -->
+<div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="tambahDataModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tambahDataModal">Tambah Data Akun GTK</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form class="validate-form" action="<?= base_url('settings/tambahAkunGTK'); ?>" method="POST">
+        <div class="modal-body">
+          <div class="alert alert-primary" role="alert">
+            <div class="alert-body">
+              <strong>Tips:
+                <li>
+                  Username Akun GTK dapat berupa Email atau Huruf dan Angka
+                </li>
+                <li>
+                  Password Default <u>#MerdekaBelajar!</u>
+                </li>
+                <li>
+                  Nama Panggil tidak perlu memasukan "Pak/Bu", sistem otomatis mengenali dari jenis kelamin
+                </li>
+                <li>
+                  Penulisan Gelar harap disesuaikan dengan baik dan benar seperti Dr. / S.Pd. / S.Pd., M.Pd.
+                </li>
+              </strong>
+            </div>
+          </div>
+          <div class="row">
+            <!-- Nama Lengkap input -->
+            <div class="mb-1 col-lg-6 col-12">
+              <label class="form-label" for="namaLengkap">Nama Lengkap</label>
+              <input type="text" class="form-control" id="namaLengkap" placeholder="Nama Lengkap" name="namaLengkap" required data-msg="Masukan Nama Lengkap" autocomplete="off" />
+            </div>
+            <!-- Nama Panggil input -->
+            <div class="mb-1 col-lg-6 col-12">
+              <label class="form-label" for="namaPanggil">Nama Panggil</label>
+              <input type="text" class="form-control" id="namaPanggil" placeholder="Nama Panggil" name="namaPanggil" required data-msg="Masukan Nama Panggil" autocomplete="off" />
+            </div>
+            <!-- Gelar Depan input -->
+            <div class="mb-1 col-lg-3 col-12">
+              <label class="form-label" for="gelarDepan">Gelar Depan</label>
+              <input type="text" class="form-control" id="gelarDepan" placeholder="Gelar Depan" name="gelarDepan" autocomplete="off" />
+            </div>
+            <!-- Gelar Belakang input -->
+            <div class="mb-1 col-lg-3 col-12">
+              <label class="form-label" for="gelarBelakang">Gelar Belakang</label>
+              <input type="text" class="form-control" id="gelarBelakang" placeholder="Gelar Belakang" name="gelarBelakang" autocomplete="off" />
+            </div>
+            <!-- Jenis Kelamin input -->
+            <div class="mb-1 col-lg-6 col-12">
+              <label for="Jenis Kelamin">Jenis Kelamin</label>
+              <select class="select2 hide-search form-control" id="jk" name="jenisKelamin" required data-placeholder="Pilih Jenis Kelamin" data-msg="Pilih Jenis Kelamin" autocomplete="off">
+                <option></option>
+                <optgroup label="Pilih Jenis Kelamin">
+                  <option value="L">Laki-Laki</option>
+                  <option value="P">Perempuan</option>
+                </optgroup>
+              </select>
+            </div>
+            <!-- Username input -->
+            <div class="mb-1 col-lg-6 col-12">
+              <label class="form-label" for="username">Username</label>
+              <input type="text" class="form-control" id="username" placeholder="Username" name="username" minlength="5" required data-msg="Masukan Username" autocomplete="off" />
+            </div>
+            <!-- Password input -->
+            <div class="mb-1 col-lg-6 col-12">
+              <label class="form-label" for="password">Password</label>
+              <input type="text" class="form-control" id="password" placeholder="#MerdekaBelajar!" name="password" required readonly disabled autocomplete="off" />
+            </div>
+          </div>
+          <div class="row">
+            <div class="mb-1 col-lg-6 col-12">
+              <!-- Hak Akses 1 input -->
+              <div class="mb-1 col-12">
+                <label for="hakAkses1">Hak Akses 1</label>
+                <select class="select2 hide-search form-control" id="hakAkses1" name="hakAkses1" required data-placeholder="Pilih Hak Akses 1" data-msg="Pilih Hak Akses 1">
+                  <option></option>
+                  <optgroup label="Pilih Hak Akses">
+                    <option value="1">Admin</option>
+                    <option value="2">Operator</option>
+                    <option value="3">Kepala Sekolah</option>
+                    <option value="4">Tenaga Administrasi</option>
+                    <option value="5">Guru</option>
+                    <option value="6">Walikelas</option>
+                    <option value="7">Pelatih Ekstrakurikuler</option>
+                    <option value="8">Pengelola Koperasi</option>
+                    <option value="9">Pegawai Koperasi</option>
+                  </optgroup>
+                </select>
+              </div>
+              <!-- Kelas input -->
+              <div class="mb-1 col-12" id="divKelas" style="display: none;">
+                <label for="kelas">Pilih Kelas</label>
+                <select class="select2 form-control" id="selectKelas" name="kelas" data-placeholder="Pilih Kelas" data-msg="Pilih Kelas">
+                  <option></option>
+                  <optgroup label="Pilih Kelas">
+                    <?php
+                    $query = getSelect('setting_kelas', '*', 'LENGTH(level), level, LENGTH(kelas), kelas', 'asc');
+                    if ($query->num_rows() >= 1) {
+                      $data = $query->result_array();
+                      foreach ($data as $data) {
+                        $id          = $data['id'];
+                        $level       = $data['level'];
+                        $kelas       = $data['kelas'];
+                    ?>
+                        <option value="<?= $id ?>"><?= $kelas ?></option>
+                      <?php }
+                    } else { ?>
+                      <option value="">Tidak ada Kelas</option>
+                    <?php }; ?>
+                  </optgroup>
+                </select>
+              </div>
+              <!-- Ekstrakurikuler input -->
+              <div class="mb-1 col-12" id="divEkskul" style="display: none;">
+                <label for="ekskul">Pilih Ekstrakurikuler</label>
+                <select class="select2 form-control" id="selectEkskul" name="ekskul" data-placeholder="Pilih Ekstrakurikuler" data-msg="Pilih Ekstrakurikuler">
+                  <option></option>
+                  <optgroup label="Pilih Ekstrakurikuler">
+                    <?php
+                    $query = getSelect('setting_ekskul', '*', 'id', 'asc');
+                    if ($query->num_rows() >= 1) {
+                      $data = $query->result_array();
+                      foreach ($data as $data) {
+                        $id          = $data['id'];
+                        $namaEkskul  = $data['namaEkskul'];
+                    ?>
+                        <option value="<?= $id ?>"><?= $namaEkskul ?></option>
+                      <?php }
+                    } else { ?>
+                      <option value="">Tidak ada Ekstrakurikuler</option>
+                    <?php }; ?>
+                  </optgroup>
+                </select>
+              </div>
+            </div>
+            <div class="mb-1 col-lg-6 col-12">
+              <!-- Hak Akses 2 input -->
+              <div class="mb-1 col-12">
+                <label for="hakAkses2">Hak Akses 2</label>
+                <select class="select2 hide-search form-control" id="hakAkses2" name="hakAkses2" data-placeholder="Pilih Hak Akses 2" data-msg="Pilih Hak Akses 2">
+                  <option></option>
+                  <optgroup label="Pilih Hak Akses">
+                    <option value="1">Admin</option>
+                    <option value="2">Operator</option>
+                    <option value="3">Kepala Sekolah</option>
+                    <option value="4">Tenaga Administrasi</option>
+                    <option value="5">Guru</option>
+                    <option value="6">Walikelas</option>
+                    <option value="7">Pelatih Ekstrakurikuler</option>
+                    <option value="8">Pengelola Koperasi</option>
+                    <option value="9">Pegawai Koperasi</option>
+                  </optgroup>
+                </select>
+              </div>
+              <!-- Pilih Kelas input -->
+              <div class="mb-1 col-12" id="divKelas2" style="display: none;">
+                <label for="kelas2">Pilih Kelas</label>
+                <select class="select2 form-control" id="selectKelas2" name="kelas2" data-placeholder="Pilih Kelas" data-msg="Pilih Kelas">
+                  <option></option>
+                  <optgroup label="Pilih Kelas">
+                    <?php
+                    $query = getSelect('setting_kelas', '*', 'LENGTH(level), level, LENGTH(kelas), kelas', 'asc');
+                    if ($query->num_rows() >= 1) {
+                      $data = $query->result_array();
+                      foreach ($data as $data) {
+                        $id          = $data['id'];
+                        $level       = $data['level'];
+                        $kelas       = $data['kelas'];
+                    ?>
+                        <option value="<?= $id ?>"><?= $kelas ?></option>
+                      <?php }
+                    } else { ?>
+                      <option value="">Tidak ada Kelas</option>
+                    <?php }; ?>
+                  </optgroup>
+                </select>
+              </div>
+              <!-- Ekstrakurikuler input -->
+              <div class="mb-1 col-12" id="divEkskul2" style="display: none;">
+                <label for="ekskul2">Pilih Ekstrakurikuler</label>
+                <select class="select2 form-control" id="selectEkskul2" name="ekskul2" data-placeholder="Pilih Ekstrakurikuler" data-msg="Pilih Ekstrakurikuler">
+                  <option></option>
+                  <optgroup label="Pilih Ekstrakurikuler">
+                    <?php
+                    $query = getSelect('setting_ekskul', '*', 'id', 'asc');
+                    if ($query->num_rows() >= 1) {
+                      $data = $query->result_array();
+                      foreach ($data as $data) {
+                        $id          = $data['id'];
+                        $namaEkskul  = $data['namaEkskul'];
+                    ?>
+                        <option value="<?= $id ?>"><?= $namaEkskul ?></option>
+                      <?php }
+                    } else { ?>
+                      <option value="">Tidak ada Ekstrakurikuler</option>
+                    <?php }; ?>
+                  </optgroup>
+                </select>
+              </div>
+            </div>
+          </div>
+          <!-- Pilih Kelas input -->
+
+          <div class="modal-footer">
+            <!-- Aktif input -->
+            <div class="mb-0">
+              <label>Aktifkan? &nbsp;</label>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="aktif1" value="1" name="is_aktif" required data-msg="Pilih Status" />
+                <label class="form-check-label" for="aktif1">Ya</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="aktif0" value="0" name="is_aktif" required data-msg="Pilih Status" />
+                <label class="form-check-label" for="aktif0">Tidak</label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-sm btn-primary">Tambah Data</button>
+            <button type="reset" class="btn btn-sm btn-outline-secondary">Reset</button>
+          </div>
         </div>
-      <?php } ?>
-      <!--/ Data Akun GTK Card -->
-
+      </form>
     </div>
   </div>
 </div>
+<!-- Modal Tambah -->
+<!-- Modal Import -->
+<div class="modal fade" id="ImportDataModal" tabindex="-1" aria-labelledby="ImportDataModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ImportDataModal">Import Data Akun GTK</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form class="validate-form" action="<?= base_url('settings/importAkunGTK'); ?>" method="POST" enctype="multipart/form-data">
+        <div class="modal-body mb-2">
+          <ul class="timeline">
+            <li class="timeline-item">
+              <span class="timeline-point">
+                <i data-feather="download"></i>
+              </span>
+              <div class="timeline-event">
+                <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
+                  <h6>Unduh File Template</h6>
+                  <span class="timeline-event-time" hidden>12 min ago</span>
+                </div>
+                <p>Unduh File Template</p>
+                <div class="d-flex flex-row align-items-center">
+                  <img class="me-1" src="<?= base_url('assets/') ?>app-assets/images/icons/xls.png" alt="xls" height="50" />
+                  <span>
+                    <a href="<?= base_url('settings/exportTemplateAkunGTK') ?>" target="blank" id="btnExportExcelAkunGTK" class="btn btn-sm btn-success mt-1">Unduh File Template</a>
+                  </span>
+                </div>
+              </div>
+            </li>
+            <li class="timeline-item">
+              <span class="timeline-point timeline-point-primary">
+                <i data-feather="edit"></i>
+              </span>
+              <div class="timeline-event">
+                <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
+                  <h6>Edit File</h6>
+                  <span class="timeline-event-time" hidden>2 hours ago</span>
+                </div>
+                <p class="mb-50">Edit file template dan isilah sesuai kebutuhan data lalu unggah kembali disini.</p>
+                <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample2" aria-expanded="true" aria-controls="collapseExample2">
+                  Lihat Kebutuhan Data
+                </button>
+                <div class="collapse" id="collapseExample2">
+                  <ul class="list-group list-group-flush mt-1">
+                    <li class="list-group-item d-flex justify-content-between flex-wrap">
+                      <span>Email/Username</span>
+                      <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between flex-wrap">
+                      <span>Nama Lengkap</span>
+                      <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between flex-wrap">
+                      <span>Nama Panggil</span>
+                      <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between flex-wrap">
+                      <span>Gelar Depan</span>
+                      <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between flex-wrap">
+                      <span>Gelar Belakang</span>
+                      <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between flex-wrap">
+                      <span>Jenis Kelamin</span>
+                      <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between flex-wrap">
+                      <span>Peran 1 & 2</span>
+                      <i data-feather="share-2" class="cursor-pointer font-medium-2" hidden></i>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            <li class="timeline-item">
+              <span class="timeline-point">
+                <i data-feather="download"></i>
+              </span>
+              <div class="timeline-event">
+                <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
+                  <h6>Pilih File</h6>
+                  <span class="timeline-event-time" hidden>12 min ago</span>
+                </div>
+                <p>Pilih file yang telah di edit untuk di unggah kedalam sistem.</p>
+                <div class="d-flex flex-row align-items-center">
+                  <img id="iconfileimportAkunGTK" class="me-1" src="<?= base_url('assets/') ?>app-assets/images/icons/unknown.png" alt="xls" height="50" />
+                  <span>
+                    <label for="inputImportFileExcelAkunGTK" id="lblinputImportFileExcelAkunGTK" class="btn btn-sm btn-success mt-1">Pilih File</label>
+                    <input type="file" id="inputImportFileExcelAkunGTK" name="fileExcelAkunGTK" hidden accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                  </span>
+                </div>
+              </div>
+            </li>
+            <li class="timeline-item">
+              <span class="timeline-point">
+                <i data-feather="download"></i>
+              </span>
+              <div class="timeline-event">
+                <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
+                  <h6>Unggah File</h6>
+                  <span class="timeline-event-time" hidden>12 min ago</span>
+                </div>
+                <p>Unggah file yang sudah dipilih untuk diproses sistem.</p>
+                <div class="d-flex flex-row align-items-center">
+                  <img id="iconfileimportAkunGTKUp" class="me-1" src="<?= base_url('assets/') ?>app-assets/images/icons/unknown.png" alt="xls" height="50" />
+                  <span>
+                    <button type="submit" id="btnImportDataAkunGTK" class="btn btn-sm btn-danger mt-1" disabled>Unggah File</button>
+                    <button class="btn btn-sm btn-outline-success mt-1" id="btnProsesImportDataAkunGTK" type="button" disabled hidden>
+                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      <span class="ml-25 align-middle">Memproses Data, Silahkan Tunggu . . .</span>
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Modal Import -->
 <script src="<?= base_url('assets/'); ?>assets/js/scripts.js"></script>
 <script>
   if (feather) {

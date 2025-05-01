@@ -40,10 +40,19 @@
                     <a href="<?= base_url('auth/pd'); ?>" class="btn btn-danger w-100">Aplikasi Siswa Sedang Perbaikan</a>
                   <?php } ?>
 
-
-                  <?php if ($serverSetting['modulPPDB'] == 1) { ?>
+                  <?php if (is_ppdb_activated() && is_ppdb_register()) { ?>
                     <p class="text-center mt-2 fw-bolder"><span>PPDB Telah Dibuka ! Yuk Daftar ! </span></p>
-                    <a href="auth/registration" class="btn btn-success w-100" tabindex="4">Daftar Gratis Sekarang !</a>
+                    <a href="LayananPPDB/registration" class="btn btn-success w-100" tabindex="4">Daftar Sekarang !</a>
+                  <?php } ?>
+
+                  <?php if (is_ppdb_activated() && is_ppdb_result()) { ?>
+                    <p class="text-center mt-2 fw-bolder"><span>Pengumuman PPDB Telah Dibuka ! </span></p>
+                    <a href="LayananPPDB/pengumuman" class="btn btn-info w-100" tabindex="4">Lihat Pengumuman !</a>
+                  <?php } ?>
+
+                  <?php if (is_ppdb_activated() && is_ppdb_daftarUlang()) { ?>
+                    <p class="text-center mt-2 fw-bolder"><span>Daftar Ulang PPDB Telah Dibuka ! </span></p>
+                    <a href="LayananPPDB/daftarUlang" class="btn btn-warning w-100" tabindex="4">Daftar Ulang Sekarang !</a>
                   <?php } ?>
 
                   <?php if ($profilSekolah['twitter'] != null || $profilSekolah['whatsapp'] != null || $profilSekolah['facebook'] != null || $profilSekolah['instagram'] != null || $profilSekolah['youtube'] != null) { ?>

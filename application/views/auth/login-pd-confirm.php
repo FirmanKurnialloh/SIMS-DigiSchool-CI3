@@ -31,16 +31,8 @@
                       </div>
                     </div>
                     <h5><?= $profilPD['namaLengkap']; ?></h5>
-                    <h6><?php
-                        if ($profilPD['jk'] == "L") {
-                          $jkPanjang = "Laki - Laki";
-                          $jkPanggil = "Bapak";
-                        } else {
-                          $jkPanjang = "Perempuan";
-                          $jkPanggil = "Ibu";
-                        }
-                        echo  $jkPanjang ?></h6>
-                    <div class=" badge badge-light-primary profile-badge"><?= $profilPD['kelas']; ?>
+                    <h6><?= jenisKelamin($profilPD['jk']); ?></h6>
+                    <div class=" badge badge-light-primary profile-badge"><?= $kelas['kelas']; ?>
                     </div>
                     <hr class="mb-0" />
                     <form class="auth-login-form mt-1" action="<?= base_url('auth/pdLoginConfirm'); ?>" method="POST">
@@ -67,10 +59,10 @@
                 </div>
               <?php } ?>
 
-              <a class="btn btn-outline-danger mb-2 mt-2 w-100" href="<?= base_url('auth/logout'); ?>">Kembali</a>
+              <a class="btn btn-outline-danger mb-2 mt-2 w-100" href="<?= base_url('auth/logout') ?>">Kembali</a>
 
               <?php if ($profilSekolah['twitter'] != null || $profilSekolah['whatsapp'] != null || $profilSekolah['facebook'] != null || $profilSekolah['instagram'] != null || $profilSekolah['youtube'] != null) { ?>
-                <div class="divider my-2 pt-2">
+                <div class=" divider my-2 pt-2">
                   <div class="divider-text">Ikuti Informasi Terupdate <br> di Sosial Media Resmi <br> <?= $profilSekolah['namaSekolah'] ?></div>
                 </div>
 

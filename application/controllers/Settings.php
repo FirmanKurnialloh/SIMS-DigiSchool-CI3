@@ -26,6 +26,7 @@ class Settings extends CI_Controller
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
     $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $data['page']          = "Pengaturan Aplikasi";
+    $data['pageCollumn']   = "0-column";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('settings/menu', $data);
@@ -61,19 +62,6 @@ class Settings extends CI_Controller
     }
   }
 
-  public function switchModulPPDB()
-  {
-    $checkModulPPDB = $this->modelApp->getServerSetting();
-    $modulPPDB = $checkModulPPDB['modulPPDB'];
-    if ($modulPPDB == "0") {
-      $this->db->set('modulPPDB', '1');
-      $this->db->update('setting_server');
-    } elseif ($modulPPDB == "1") {
-      $this->db->set('modulPPDB', '0');
-      $this->db->update('setting_server');
-    }
-  }
-
   public function sekolah()
   {
     $data['sessionUser']   = $this->session->userdata('username');
@@ -86,6 +74,7 @@ class Settings extends CI_Controller
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
     $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $data['page']          = "Profil Sekolah";
+    $data['pageCollumn']   = "0-column";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('settings/menu', $data);
@@ -306,6 +295,7 @@ class Settings extends CI_Controller
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
     $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $data['page']          = "Tahun Pelajaran";
+    $data['pageCollumn']   = "0-column";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('settings/menu', $data);
@@ -479,6 +469,7 @@ class Settings extends CI_Controller
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
     $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $data['page']          = "Mata Pelajaran";
+    $data['pageCollumn']   = "0-column";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('settings/menu', $data);
@@ -577,6 +568,7 @@ class Settings extends CI_Controller
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
     $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $data['page']          = "Ekstrakurikuler";
+    $data['pageCollumn']   = "0-column";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('settings/menu', $data);
@@ -674,6 +666,7 @@ class Settings extends CI_Controller
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
     $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $data['page']          = "Kelas";
+    $data['pageCollumn']   = "0-column";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('settings/menu', $data);
@@ -781,6 +774,7 @@ class Settings extends CI_Controller
       $data['profil']        = $this->modelApp->getProfilGtk($username);
       $data['user']          = $this->modelApp->getUserGTK($username);
       $data['page']          = "Profil GTK";
+      $data['pageCollumn']   = "0-column";
       $this->load->view('templates/header', $data);
       $this->load->view('templates/navbar', $data);
       $this->load->view('settings/menu', $data);
@@ -790,6 +784,7 @@ class Settings extends CI_Controller
       $this->load->view('settings/ajax', $data);
     } else {
       $data['page']          = "Akun GTK";
+      $data['pageCollumn']   = "0-column";
       $this->load->view('templates/header', $data);
       $this->load->view('templates/navbar', $data);
       $this->load->view('settings/menu', $data);
@@ -1650,6 +1645,7 @@ class Settings extends CI_Controller
       $data['profil']       = $this->modelApp->getProfilPd($nisn);
       $data['user']         = $this->modelApp->getUserPD($nisn);
       $data['page']         = "Profil Peserta Didik";
+      $data['pageCollumn']   = "0-column";
       $this->load->view('templates/header', $data);
       $this->load->view('templates/navbar', $data);
       $this->load->view('settings/menu', $data);
@@ -1659,6 +1655,7 @@ class Settings extends CI_Controller
       $this->load->view('settings/ajax', $data);
     } else {
       $data['page']          = "Akun Peserta Didik";
+      $data['pageCollumn']   = "0-column";
       $this->load->view('templates/header', $data);
       $this->load->view('templates/navbar', $data);
       $this->load->view('settings/menu', $data);
@@ -2244,7 +2241,6 @@ class Settings extends CI_Controller
     $this->load->view($page, $username);
   }
 
-
   public function db()
   {
     $data['sessionUser']   = $this->session->userdata('username');
@@ -2257,6 +2253,7 @@ class Settings extends CI_Controller
     $data['profilGTK']     = $this->modelApp->getProfilGtk($data['sessionUser']);
     $data['userGTK']       = $this->modelApp->getUserGTK($data['sessionUser']);
     $data['page']          = "Database";
+    $data['pageCollumn']   = "0-column";
     $this->load->view('templates/header', $data);
     $this->load->view('templates/navbar', $data);
     $this->load->view('settings/menu', $data);

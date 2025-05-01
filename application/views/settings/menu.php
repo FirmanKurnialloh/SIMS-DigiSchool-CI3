@@ -130,14 +130,16 @@
           <span class="menu-title text-truncate" data-i18n="Pengaturan Add-On">Pengaturan Add-On</span>
         </a>
         <ul class="menu-content">
-          <li class="<?php if ($this->uri->segment(2) == "ppdb") {
-                        echo "active";
-                      } ?>">
-            <a class="d-flex align-items-center" href="PPDB">
-              <i data-feather="circle"></i>
-              <span class="menu-title text-truncate" data-i18n="PPDB">Modul PPDB</span>
-            </a>
-          </li>
+          <?php if (is_ppdb_installed()) { ?>
+            <li class="<?php if ($this->uri->segment(2) == "settings") {
+                          echo "active";
+                        } ?>">
+              <a class="d-flex align-items-center" href="<?= base_url('LayananPPDB/settings'); ?>">
+                <i data-feather="circle"></i>
+                <span class="menu-title text-truncate" data-i18n="PPDB">Modul PPDB</span>
+              </a>
+            </li>
+          <?php } ?>
         </ul>
       </li>
 

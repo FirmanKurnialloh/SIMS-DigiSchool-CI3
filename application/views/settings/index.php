@@ -21,7 +21,7 @@
       </div>
       <div class="content-header-right text-md-end col-md-3 col-4">
         <div class="mb-1 breadcrumb-right">
-          <a href="<?= base_url('gtk/dashboard'); ?>" type="button" class="btn btn-sm btn-primary">
+          <a href="#" type="button" class="btn btn-sm btn-primary" onclick="history.go(-1)">
             <i data-feather='chevrons-left'></i>
             <span>Kembali</span>
           </a>
@@ -145,24 +145,20 @@
                         Modul PPDB
                       </strong>
                     </h5>
-                    <?php if (file_exists(APPPATH . "views/gtk/ppdb/dashboard.php") && $serverSetting['modulPPDB'] == "0") { ?>
-                      <form id="formSwitchModulPPDB" method="post">
-                        <div class="form-switch">
-                          <input type="checkbox" class="form-check-input" id="switchModulPPDB" />
-                          <input type="text" name="statusModulPPDB" id="statusModulPPDB" value="0" hidden />
-                          <sub id="LabelswitchModulPPDB">Tidak Aktif</sub>
-                        </div>
-                      </form>
-                    <?php } elseif (file_exists(APPPATH . "views/gtk/ppdb/dashboard.php") && $serverSetting['modulPPDB']  == "1") { ?>
-                      <form id="formSwitchModulPPDB" method="post">
-                        <div class="form-switch">
-                          <input type="checkbox" class="form-check-input" id="switchModulPPDB" checked />
-                          <input type="text" name="statusModulPPDB" id="statusModulPPDB" value="1" hidden />
-                          <sub id="LabelswitchModulPPDB">Aktif</sub>
-                        </div>
-                      </form>
-                    <?php } elseif (!file_exists(APPPATH . "views/gtk/ppdb/dashboard.php")) { ?>
-                      <sup>Add-On Tidak Ditemukan !</sup>
+                    <?php if (is_ppdb_installed() && !is_ppdb_activated()) { ?>
+                      <sup>Modul Terpasang Tidak Aktif !</sup>
+                      <a href="<?= base_url('layananPPDB/settings') ?>" type="button" class="btn btn-md btn-flat-success">
+                        <i data-feather="cpu" class="me-25"></i>
+                        <span>Atur Modul</span>
+                      </a>
+                    <?php } elseif (is_ppdb_installed() && is_ppdb_activated()) { ?>
+                      <sup>Modul Terpasang Aktif !</sup>
+                      <a href="<?= base_url('layananPPDB/settings') ?>" type="button" class="btn btn-md btn-flat-success">
+                        <i data-feather="cpu" class="me-25"></i>
+                        <span>Atur Modul</span>
+                      </a>
+                    <?php } elseif (!is_ppdb_installed()) { ?>
+                      <sup>Add-On Tidak Terpasang !</sup>
                       <a href="http://www.jayvyn-host.com/#contact" type="button" class="btn btn-md btn-flat-success">
                         <i data-feather="cpu" class="me-25"></i>
                         <span>Pesan Modul</span>

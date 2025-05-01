@@ -250,7 +250,7 @@ class Auth extends CI_Controller
 
   public function pd()
   {
-    if ($this->session->userdata('username')) {
+    if ($this->session->userdata('nisn') && $this->session->userdata('role_id')) {
       redirect(base_url('pd'));
     }
     $data['serverSetting'] = $this->modelApp->getServerSetting();
@@ -265,22 +265,18 @@ class Auth extends CI_Controller
   public function pdLoginNISN()
   {
     is_server_pd_active();
-    $nisn        = $this->input->post('nisn');
-    $profilePD   = $this->modelApp->getProfilPd($nisn);
-    if ($profilePD) {
+    $nisn     = $this->input->post('nisn');
+    $userPD   = $this->modelApp->getUserPD($nisn);
+    if ($userPD) {
       $dataUser = [
-        'nisn'      => $profilePD['nisn'],
-        'role_id'   => $profilePD['role_id']
+        'nisn'      => $userPD['nisn'],
       ];
       $this->session->set_userdata($dataUser);
-
       $dataProfil   = $this->modelApp->getProfilPd($nisn);
       if ($dataProfil) {
-        if ($dataProfil['jk'] == "L") {
-          $jkPanjang = "Laki - Laki";
-        } else {
-          $jkPanjang = "Perempuan";
-        }
+        $jk    = jenisKelamin($dataProfil['jk']);
+        $kelas = getKelas($dataProfil['id_kelas']);
+        $kelas = $kelas['kelas'];
         echo "
           <div class='card card-profile shadow-none bg-transparent border-primary'>
             <img src='" . base_url('assets/') . "files/images/logo/banner-login.png' class='img-fluid card-img-top' alt='Profile Cover Photo' />
@@ -293,8 +289,8 @@ class Auth extends CI_Controller
                 </div>
               </div>
               <h5>" . $dataProfil['namaLengkap'] . "</h5>
-              <h6>" . $jkPanjang . "</h6>
-              <div class='badge badge-light-primary profile-badge'>" . $dataProfil['kelas'] . "</div>
+              <h6>" . $jk . "</h6>
+              <div class='badge badge-light-primary profile-badge'>" . $kelas . "</div>
               <hr class='mb-0' />
               <h5>Apakah Data Sudah Benar ?</h5>
               <div class='d-flex justify-content-between'>
@@ -364,21 +360,21 @@ class Auth extends CI_Controller
   public function pdLoginConfirm()
   {
     $postNISN       = $this->input->post('loginNISN');
-    $sessionNISN    = $this->session->userdata('username');
-    $sessionROLE    = $this->session->userdata('role_id');
+    $sessionNISN    = $this->session->userdata('nisn');
     if ($postNISN == $sessionNISN) {
-      $dataUser     = $this->db->get_where('user', ['username' => $sessionNISN, 'role_id' => $sessionROLE])->row_array();
+      $dataUser     = $this->db->get_where('user_pd', ['nisn' => $sessionNISN])->row_array();
       if ($dataUser) {
         $data['serverSetting'] = $this->modelApp->getServerSetting();
         $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
         $data['profilPD']      = $this->modelApp->getProfilPd($sessionNISN);
+        $data['kelas']         = $this->modelApp->getKelas($data['profilPD']['id_kelas']);
         $this->load->view('templates/auth_header', $data);
         $this->load->view('auth/login-pd-confirm', $data);
         $this->load->view('templates/modal', $data);
         $this->load->view('templates/auth_footer', $data);
         $this->load->view('auth/login-pd-ajax', $data);
       } else {
-        $this->session->unset_userdata('username');
+        $this->session->unset_userdata('nisn');
         $this->session->unset_userdata('role_id');
         $this->session->set_flashdata('toastr', "
                 <script>
@@ -397,7 +393,7 @@ class Auth extends CI_Controller
         redirect(base_url('/'));
       }
     } else {
-      $this->session->unset_userdata('username');
+      $this->session->unset_userdata('nisn');
       $this->session->unset_userdata('role_id');
       $this->session->set_flashdata('toastr', "
               <script>
@@ -420,13 +416,17 @@ class Auth extends CI_Controller
   public function pdLoginConfirmVerify()
   {
     $postTanggalLahir = $this->input->post('data');
-    $sessionNISN      = $this->session->userdata('username');
-    $sessionROLE      = $this->session->userdata('role_id');
-    $dataUser         = $this->db->get_where('user', ['username' => $sessionNISN, 'role_id' => $sessionROLE])->row_array();
+    $sessionNISN      = $this->session->userdata('nisn');
+    $dataUser         = $this->db->get_where('user_pd', ['nisn' => $sessionNISN, 'tanggalLahir' => $postTanggalLahir])->row_array();
     if ($dataUser) {
       $data['serverSetting'] = $this->modelApp->getServerSetting();
       $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
-      $dataProfil            = $this->db->get_where('profil_pd', ['nisn' => $sessionNISN, 'tanggalLahir' => $postTanggalLahir])->row_array();
+      $dataUser = [
+        'nisn'      => $dataUser['nisn'],
+        'role_id'   => $dataUser['role_id'],
+      ];
+      $this->session->set_userdata($dataUser);
+      $dataProfil = $this->db->get_where('profil_pd', ['nisn' => $sessionNISN, 'tanggalLahir' => $postTanggalLahir])->row_array();
       if ($dataProfil) {
         $this->session->set_flashdata('toastr', "
         <script>
@@ -470,36 +470,39 @@ class Auth extends CI_Controller
                 });
               }
             })
-          </script>
-          <h3 class='display-1 text-danger text-center myicon'><i data-feather='x-circle'></i></h3>
-          <h3 class='display-0 text-danger text-center'>Tanggal Lahir Salah!</h3>
+          </script>           
+          <h3 class='display-1 text-success text-center myicon'><i data-feather='alert-triangle'></i></h3>
+          <h3 class='display-0 text-success text-center'>Tanggal Lahir Benar! <br> Lengkapi Profil !</h3>
+          <div class='d-flex justify-content-center pt-1'>
+            <a href='" . base_url('pd/dashboard') . "' class='btn btn-sm btn-success w-100'>Lanjutkan</a>
+          </div>
           ";
       }
     } else {
-      $this->session->unset_userdata('username');
-      $this->session->unset_userdata('role_id');
-      $this->session->set_flashdata('toastr', "
-              <script>
-              $(window).on('load', function() {
-                setTimeout(function() {
-                  toastr['error'](
-                    'Terdapat Kesalahan !',
-                    'Gagal !', {
-                      closeButton: true,
-                      tapToDismiss: true
-                    }
-                  );
-                }, 0);
-              })
-              </script>");
-      redirect(base_url('/'));
+      echo "
+      <script>      
+        $(document).ready(function() {
+          if (feather) {
+            feather.replace({
+              width: 14,
+              height: 14
+            });
+          }
+        })
+      </script>
+      <h3 class='display-1 text-danger text-center myicon'><i data-feather='x-circle'></i></h3>
+      <h3 class='display-0 text-danger text-center'>Tanggal Lahir Salah!</h3>
+      ";
     }
   }
 
   public function logout()
   {
     $this->session->unset_userdata('username');
+    $this->session->unset_userdata('nisn');
     $this->session->unset_userdata('role_id');
+    $this->session->unset_userdata('role_id_1');
+    $this->session->unset_userdata('role_id_2');
     $this->session->unset_userdata('is_change');
     $this->session->set_flashdata('toastr', "
     <script>
@@ -516,119 +519,5 @@ class Auth extends CI_Controller
     })
     </script>");
     redirect(base_url('/'));
-  }
-
-  // FUNGSI PPDB
-  public function ppdb()
-  {
-    $this->form_validation->set_rules('username', 'Username', 'required|trim', [
-      'required' => 'Username Tidak Boleh Kosong!',
-      'trim' => 'Username Tidak Boleh Mengandung Spasi!',
-      'is_unique' => 'Username Sudah Digunakan!'
-    ]);
-
-    $this->form_validation->set_rules('password', 'Password', 'required|trim', [
-      'required' => 'Password Tidak Boleh Kosong!',
-      'min_length' => 'Password Minimal 8 Karakter Huruf dan Angka!',
-      'trim' => 'Password Tidak Boleh Mengandung Spasi!'
-    ]);
-
-    if ($this->form_validation->run() == false) {
-      $data['serverSetting'] = $this->modelApp->getServerSetting();
-      $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
-      $this->load->view('templates/auth_header', $data);
-      $this->load->view('auth/login-ppdb');
-      $this->load->view('templates/auth_footer');
-    } else {
-      $this->_login_ppdb();
-    }
-  }
-
-  private function _login_ppdb()
-  {
-    $username = $this->input->post('username');
-    $password = $this->input->post('password');
-
-    $user = $this->db->get_where('user', ['username' => $username])->row_array();
-
-    if ($user) {
-      if ($user['is_active'] == 1) {
-        if (password_verify($password, $user['password'])) {
-          $data = [
-            'username' => $user['username'],
-            'role_id' => $user['role_id']
-          ];
-          $this->session->set_userdata($data);
-          redirect(base_url('user'));
-        } else {
-          $this->session->set_flashdata('notif', '
-          <div class="alert alert-danger" role="alert">
-              <h4 class="alert-heading">Gagal !</h4>
-              <div class="alert-body">
-                Password Salah !
-              </div>
-          </div>');
-          redirect(base_url('auth/gtk'));
-        }
-      } else {
-        $this->session->set_flashdata('notif', '
-        <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading">Gagal !</h4>
-            <div class="alert-body">
-              Akun Tidak Aktif !
-            </div>
-        </div>');
-        redirect(base_url('auth/gtk'));
-      }
-    } else {
-      $this->session->set_flashdata('notif', '
-      <div class="alert alert-danger" role="alert">
-          <h4 class="alert-heading">Gagal !</h4>
-          <div class="alert-body">
-            Akun Tidak terdaftar !
-          </div>
-      </div>');
-      redirect(base_url('auth/gtk'));
-    }
-  }
-
-  public function registration()
-  {
-    $this->form_validation->set_rules('username', 'Username', 'required|trim|is_unique[user.username]', [
-      'required' => 'Username Tidak Boleh Kosong!',
-      'trim' => 'Username Tidak Boleh Mengandung Spasi!',
-      'is_unique' => 'Username Sudah Digunakan !'
-    ]);
-
-    $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[8]', [
-      'required' => 'Password Tidak Boleh Kosong!',
-      'min_length' => 'Password Minimal 8 Karakter Huruf dan Angka!',
-      'trim' => 'Password Tidak Boleh Mengandung Spasi !'
-    ]);
-
-    if ($this->form_validation->run() == false) {
-      $data['serverSetting'] = $this->modelApp->getServerSetting();
-      $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
-      $this->load->view('templates/auth_header', $data);
-      $this->load->view('auth/registration');
-      $this->load->view('templates/auth_footer');
-    } else {
-      $data = [
-        'username'      => htmlspecialchars($this->input->post('username', true)),
-        'password'      => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-        'role_id'       =>  2,
-        'is_active'     =>  1,
-        'date_created'  => time()
-      ];
-      $this->db->insert('user', $data);
-      $this->session->set_flashdata('notif', '
-      <div class="alert alert-primary" role="alert">
-          <h4 class="alert-heading">Berhasil !</h4>
-          <div class="alert-body">
-            Akun anda telah terdaftar! silahkan login untuk melanjutkan pendaftaran.
-          </div>
-      </div>');
-      redirect(base_url('auth/ppdb'));
-    }
   }
 }
