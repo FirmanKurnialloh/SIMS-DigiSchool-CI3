@@ -18,8 +18,9 @@ class Pd extends CI_Controller
 
 	public function dashboard()
 	{
-		$data['sessionUser']   = $this->session->userdata('nisn');
-		$data['sessionRole1']  = $this->session->userdata('role_id');
+		$data['sessionUser']   = $this->session->userdata('username');
+		$data['sessionRole1']  = $this->session->userdata('role_id_1');
+		$data['sessionRole2']  = $this->session->userdata('role_id_2');
 		$data['is_change']     = $this->session->userdata('is_change');
 		$data['serverSetting'] = $this->modelApp->getServerSetting();
 		$data['profilSekolah'] = $this->modelApp->getProfilSekolah();
@@ -27,10 +28,10 @@ class Pd extends CI_Controller
 		$data['profilPd']     = $this->modelApp->getProfilPd($data['sessionUser']);
 		$data['userPd']       = $this->modelApp->getUserPd($data['sessionUser']);
 		$data['pageCollumn']   = "1-column";
-		$this->load->view('pd/header', $data);
+		// $this->load->view('pd/header', $data);
 		$this->load->view('pd/navbar', $data);
 		$this->load->view('pd/dashboard', $data);
-		$this->load->view('pd/modal', $data);
-		$this->load->view('pd/footer', $data);
+		// $this->load->view('pd/modal', $data);
+		// $this->load->view('pd/footer', $data);
 	}
 }
