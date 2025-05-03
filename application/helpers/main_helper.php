@@ -367,6 +367,13 @@ function getUserPD()
 }
 
 // Profil PD
+function getProfilPD($username)
+{
+	$ci = get_instance();
+	return $ci->db->get_where('profil_pd', ['nisn' => $username])->row_array();
+}
+
+// Profil PD sesuai Tapel
 function getProfilPdFromTapel($username, $tapelAktif)
 {
 	$ci = get_instance();

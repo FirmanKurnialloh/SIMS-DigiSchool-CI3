@@ -17,9 +17,9 @@
 									<a href="<?= base_url('settings'); ?>">Pengaturan Aplikasi</a>
 								</li>
 								<li class="breadcrumb-item">
-									<a href="<?= base_url('settings/' . $this->uri->segment('2')); ?>">Akun <?= strtoupper($this->uri->segment('2')); ?></a>
+									<a href="<?= base_url('settings/gtk'); ?>">Biodata</a>
 								</li>
-								<li class="breadcrumb-item active"><?= $profil['namaLengkap']; ?></li>
+								<li class="breadcrumb-item active"><?= $profilGTK['namaLengkap'] ?></li>
 							</ol>
 						</div>
 					</div>
@@ -31,27 +31,30 @@
 						<i data-feather='chevrons-left'></i>
 						<span>Kembali</span>
 					</a>
+
 				</div>
 			</div>
 		</div>
 
 		<div class="content-body">
-			<section id="profilPage">
-				<div class='card card-body'>
-					<div class='text-center'>
-						<img src='<?= base_url('assets/'); ?>files/images/logo/page-loader-2.gif' width='300px' />
-						<h1 class='text-center font-400'>Harap Tunggu, Sistem Sedang Mencari Data ...</h1>
-						<p class='text-center'>Jika proses ini memakan waktu yang cukup lama, silahkan periksa koneksi internet anda dan gunakan Google Chrome Terbaru !</p>
-						<a href="#" id="reload" type="button" style="display: none;" class="btn btn-sm btn-primary" onclick="location.reload(true);">
-							<i data-feather='refresh-cw'></i>
-							<span>Muat Ulang</span>
-						</a>
+
+			<div class="content-body">
+				<section id="bioPDPage">
+					<div class='card card-body'>
+						<div class='text-center'>
+							<img src='<?= base_url('assets/'); ?>files/images/logo/page-loader-2.gif' width='300px' />
+							<h1 class='text-center font-400'>Harap Tunggu, Sistem Sedang Mencari Data ...</h1>
+							<p class='text-center'>Jika proses ini memakan waktu yang cukup lama, silahkan periksa koneksi internet anda dan gunakan Google Chrome Terbaru !</p>
+							<a href="#" id="reload" type="button" style="display: none;" class="btn btn-sm btn-primary" onclick="location.reload(true);">
+								<i data-feather='refresh-cw'></i>
+								<span>Muat Ulang</span>
+							</a>
+						</div>
 					</div>
-				</div>
-			</section>
+				</section>
+
+			</div>
 
 		</div>
-
 	</div>
-</div>
-<!-- END: Content-->
+	<!-- END: Content-->
