@@ -13,6 +13,11 @@ class App_model extends CI_Model
 		return $this->db->get('profil_sekolah')->row_array();
 	}
 
+	public function getWebSekolah()
+	{
+		return $this->db->get('web_sekolah')->row_array();
+	}
+
 	public function getTapel()
 	{
 		return $this->db->get('setting_tapel')->row_array();

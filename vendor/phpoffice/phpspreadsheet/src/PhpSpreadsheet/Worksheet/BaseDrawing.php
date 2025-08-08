@@ -9,8 +9,8 @@ use PhpOffice\PhpSpreadsheet\IComparable;
 class BaseDrawing implements IComparable
 {
     const EDIT_AS_ABSOLUTE = 'absolute';
-    const EDIT_AS_ONECELL = 'onecell';
-    const EDIT_AS_TWOCELL = 'twocell';
+    const EDIT_AS_ONECELL = 'oneCell';
+    const EDIT_AS_TWOCELL = 'twoCell';
     private const VALID_EDIT_AS = [
         self::EDIT_AS_ABSOLUTE,
         self::EDIT_AS_ONECELL,
@@ -219,30 +219,33 @@ class BaseDrawing implements IComparable
     public function setWorksheet(?Worksheet $worksheet = null, bool $overrideOld = false): self
     {
         if ($this->worksheet === null) {
-            // Add drawing to \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet
+            // Add drawing to Worksheet
             if ($worksheet !== null) {
                 $this->worksheet = $worksheet;
-                $this->worksheet->getCell($this->coordinates);
-                $this->worksheet->getDrawingCollection()->append($this);
+                if (!($this instanceof Drawing && $this->getPath() === '')) {
+                    $this->worksheet->getCell($this->coordinates);
+                }
+                $this->worksheet->getDrawingCollection()
+                    ->append($this);
             }
         } else {
             if ($overrideOld) {
-                // Remove drawing from old \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet
+                // Remove drawing from old Worksheet
                 $iterator = $this->worksheet->getDrawingCollection()->getIterator();
 
                 while ($iterator->valid()) {
                     if ($iterator->current()->getHashCode() === $this->getHashCode()) {
-                        $this->worksheet->getDrawingCollection()->offsetUnset($iterator->key());
+                        $this->worksheet->getDrawingCollection()->offsetUnset(/** @scrutinizer ignore-type */ $iterator->key());
                         $this->worksheet = null;
 
                         break;
                     }
                 }
 
-                // Set new \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet
+                // Set new Worksheet
                 $this->setWorksheet($worksheet);
             } else {
-                throw new PhpSpreadsheetException('A Worksheet has already been assigned. Drawings can only exist on one \\PhpOffice\\PhpSpreadsheet\\Worksheet.');
+                throw new PhpSpreadsheetException('A Worksheet has already been assigned. Drawings can only exist on one Worksheet.');
             }
         }
 
@@ -257,6 +260,11 @@ class BaseDrawing implements IComparable
     public function setCoordinates(string $coordinates): self
     {
         $this->coordinates = $coordinates;
+        if ($this->worksheet !== null) {
+            if (!($this instanceof Drawing && $this->getPath() === '')) {
+                $this->worksheet->getCell($this->coordinates);
+            }
+        }
 
         return $this;
     }
@@ -436,7 +444,7 @@ class BaseDrawing implements IComparable
         return md5(
             $this->name .
             $this->description .
-            (($this->worksheet === null) ? '' : $this->worksheet->getHashCode()) .
+            (($this->worksheet === null) ? '' : (string) $this->worksheet->getHashInt()) .
             $this->coordinates .
             $this->offsetX .
             $this->offsetY .
@@ -486,7 +494,7 @@ class BaseDrawing implements IComparable
         if ($this->imageWidth === 0 && $this->imageHeight === 0 && $this->type === IMAGETYPE_UNKNOWN) {
             $imageData = getimagesize($path);
 
-            if (is_array($imageData)) {
+            if (!empty($imageData)) {
                 $this->imageWidth = $imageData[0];
                 $this->imageHeight = $imageData[1];
                 $this->type = $imageData[2];
@@ -530,6 +538,6 @@ class BaseDrawing implements IComparable
 
     public function validEditAs(): bool
     {
-        return in_array($this->editAs, self::VALID_EDIT_AS);
+        return in_array($this->editAs, self::VALID_EDIT_AS, true);
     }
 }

@@ -45,16 +45,26 @@ abstract class BaseReader implements IReader
     protected $loadSheetsOnly;
 
     /**
+     * Allow external images. Use with caution.
+     * Improper specification of these within a spreadsheet
+     * can subject the caller to security exploits.
+     *
+     * @var bool
+     */
+    protected $allowExternalImages = true;
+
+    /**
      * IReadFilter instance.
      *
      * @var IReadFilter
      */
     protected $readFilter;
 
+    /** @var resource */
     protected $fileHandle;
 
     /**
-     * @var XmlScanner
+     * @var ?XmlScanner
      */
     protected $securityScanner;
 
@@ -134,8 +144,17 @@ abstract class BaseReader implements IReader
         return $this;
     }
 
-    public function getSecurityScanner()
+    public function getSecurityScanner(): ?XmlScanner
     {
+        return $this->securityScanner;
+    }
+
+    public function getSecurityScannerOrThrow(): XmlScanner
+    {
+        if ($this->securityScanner === null) {
+            throw new ReaderException('Security scanner is unexpectedly null');
+        }
+
         return $this->securityScanner;
     }
 
@@ -143,6 +162,18 @@ abstract class BaseReader implements IReader
     {
         if (((bool) ($flags & self::LOAD_WITH_CHARTS)) === true) {
             $this->setIncludeCharts(true);
+        }
+        if (((bool) ($flags & self::READ_DATA_ONLY)) === true) {
+            $this->setReadDataOnly(true);
+        }
+        if (((bool) ($flags & self::SKIP_EMPTY_CELLS) || (bool) ($flags & self::IGNORE_EMPTY_CELLS)) === true) {
+            $this->setReadEmptyCells(false);
+        }
+        if (((bool) ($flags & self::ALLOW_EXTERNAL_IMAGES)) === true) {
+            $this->setAllowExternalImages(true);
+        }
+        if (((bool) ($flags & self::DONT_ALLOW_EXTERNAL_IMAGES)) === true) {
+            $this->setAllowExternalImages(false);
         }
     }
 
@@ -186,5 +217,22 @@ abstract class BaseReader implements IReader
         }
 
         $this->fileHandle = $fileHandle;
+    }
+
+    /**
+     * Allow external images. Use with caution.
+     * Improper specification of these within a spreadsheet
+     * can subject the caller to security exploits.
+     */
+    public function setAllowExternalImages(bool $allowExternalImages)
+    {
+        $this->allowExternalImages = $allowExternalImages;
+
+        return $this;
+    }
+
+    public function getAllowExternalImages()
+    {
+        return $this->allowExternalImages;
     }
 }

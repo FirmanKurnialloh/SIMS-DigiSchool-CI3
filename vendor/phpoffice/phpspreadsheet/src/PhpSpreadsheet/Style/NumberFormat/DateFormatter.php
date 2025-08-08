@@ -129,11 +129,10 @@ class DateFormatter
         //    but we don't want to change any quoted strings
         /** @var callable */
         $callable = [self::class, 'setLowercaseCallback'];
-        $format = preg_replace_callback('/(?:^|")([^"]*)(?:$|")/', $callable, $format);
+        $format = (string) preg_replace_callback('/(?:^|")([^"]*)(?:$|")/', $callable, $format);
 
         // Only process the non-quoted blocks for date format characters
 
-        /** @phpstan-ignore-next-line */
         $blocks = explode('"', $format);
         foreach ($blocks as $key => &$block) {
             if ($key % 2 == 0) {
@@ -166,7 +165,7 @@ class DateFormatter
         // If the colon preceding minute had been quoted, as happens in
         // Excel 2003 XML formats, m will not have been changed to i above.
         // Change it now.
-        $format = (string) \preg_replace('/\\\\:m/', ':i', $format);
+        $format = (string) \preg_replace('/\\\:m/', ':i', $format);
 
         return $dateObj->format($format);
     }
@@ -178,6 +177,6 @@ class DateFormatter
 
     private static function escapeQuotesCallback(array $matches): string
     {
-        return '\\' . implode('\\', str_split($matches[1]));
+        return '\\' . implode('\\', /** @scrutinizer ignore-type */ str_split($matches[1]));
     }
 }
