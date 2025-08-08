@@ -1,5 +1,5 @@
 <script>
-	$(document).ready(function() {
+	$(document).ready(function () {
 		sekolahLoad();
 		tapelLoad();
 		mapelLoad();
@@ -18,7 +18,7 @@
 				data: {
 					page: "settings/sekolahLoad"
 				},
-				success: function(data) {
+				success: function (data) {
 					$("#sekolahPage").html(data);
 				}
 			});
@@ -32,7 +32,7 @@
 				data: {
 					page: "settings/tapelLoad"
 				},
-				success: function(data) {
+				success: function (data) {
 					$("#tapelPage").html(data);
 				}
 			});
@@ -46,7 +46,7 @@
 				data: {
 					page: "settings/mapelLoad"
 				},
-				success: function(data) {
+				success: function (data) {
 					$("#mapelPage").html(data);
 				}
 			});
@@ -60,7 +60,7 @@
 				data: {
 					page: "settings/ekskulLoad"
 				},
-				success: function(data) {
+				success: function (data) {
 					$("#ekskulPage").html(data);
 				}
 			});
@@ -74,7 +74,7 @@
 				data: {
 					page: "settings/kelasLoad"
 				},
-				success: function(data) {
+				success: function (data) {
 					$("#kelasPage").html(data);
 				}
 			});
@@ -88,7 +88,7 @@
 				data: {
 					page: "settings/gtkLoad"
 				},
-				success: function(data) {
+				success: function (data) {
 					$("#gtkPage").html(data);
 				}
 			});
@@ -102,10 +102,10 @@
 					page: "settings/bioGTKLoad", // view yang ingin dimuat
 					username: username // username yang dikirim ke controller
 				},
-				success: function(data) {
+				success: function (data) {
 					$("#bioGTKPage").html(data); // ganti isi elemen bioPage
 				},
-				error: function(xhr) {
+				error: function (xhr) {
 					console.error("Gagal memuat biodata:", xhr.responseText);
 					$("#bioGTKPage").html("<p>Terjadi kesalahan saat memuat biodata.</p>");
 				}
@@ -113,7 +113,7 @@
 		}
 
 		// Panggil langsung saat halaman siap
-		$(document).ready(function() {
+		$(document).ready(function () {
 			bioGTKLoad("<?= $userGTK['username']; ?>"); // username dikirim dari parent view
 		});
 
@@ -125,7 +125,7 @@
 				data: {
 					page: "settings/pdLoad"
 				},
-				success: function(data) {
+				success: function (data) {
 					$("#pdPage").html(data);
 				}
 			});
@@ -139,7 +139,7 @@
 				data: {
 					page: "errors/custom/soon"
 				},
-				success: function(data) {
+				success: function (data) {
 					$("#dbPage").html(data);
 				}
 			});
@@ -148,7 +148,7 @@
 
 	});
 
-	$("#serverGuruSwitch").click(function() {
+	$("#serverGuruSwitch").click(function () {
 		var formServerGuru = $('#formSwitchServerGuru').serialize();
 		var statusServerGuru = document.getElementById("statusServerGuru").value;
 		$.ajax({
@@ -156,27 +156,27 @@
 			url: "<?= base_url('settings/swtichServerGuru'); ?>",
 			data: formServerGuru,
 			cache: false,
-			success: function(data) {
+			success: function (data) {
 				if (statusServerGuru == 0) {
-					setTimeout(function() {
+					setTimeout(function () {
 						toastr['success'](
 							'Guru dapat login kedalam aplikasi !',
 							'Server Guru Aktif !', {
-								closeButton: true,
-								tapToDismiss: true
-							}
+							closeButton: true,
+							tapToDismiss: true
+						}
 						);
 					}, 0);
 					document.getElementById("statusServerGuru").value = "1"
 					document.getElementById("serverGuruSwitchLabel").innerHTML = "Aktif";
 				} else {
-					setTimeout(function() {
+					setTimeout(function () {
 						toastr['error'](
 							'Guru tidak dapat login kedalam aplikasi !',
 							'Server Guru Tidak Aktif !', {
-								closeButton: true,
-								tapToDismiss: true
-							}
+							closeButton: true,
+							tapToDismiss: true
+						}
 						);
 					}, 0);
 					document.getElementById("statusServerGuru").value = "0"
@@ -187,7 +187,7 @@
 	});
 
 
-	$("#serverSiswaSwitch").click(function() {
+	$("#serverSiswaSwitch").click(function () {
 		var formServerSiswa = $('#formSwitchServerGuru').serialize();
 		var statusServerSiswa = document.getElementById("statusServerSiswa").value;
 		$.ajax({
@@ -195,27 +195,27 @@
 			url: "<?= base_url('settings/swtichServerSiswa'); ?>",
 			data: formServerSiswa,
 			cache: false,
-			success: function(data) {
+			success: function (data) {
 				if (statusServerSiswa == 0) {
-					setTimeout(function() {
+					setTimeout(function () {
 						toastr['success'](
 							'Siswa dapat login kedalam aplikasi !',
 							'Server Siswa Aktif !', {
-								closeButton: true,
-								tapToDismiss: true
-							}
+							closeButton: true,
+							tapToDismiss: true
+						}
 						);
 					}, 0);
 					document.getElementById("statusServerSiswa").value = "1"
 					document.getElementById("serverSiswaSwitchLabel").innerHTML = "Aktif";
 				} else {
-					setTimeout(function() {
+					setTimeout(function () {
 						toastr['error'](
 							'Siswa tidak dapat login kedalam aplikasi !',
 							'Server Siswa Tidak Aktif !', {
-								closeButton: true,
-								tapToDismiss: true
-							}
+							closeButton: true,
+							tapToDismiss: true
+						}
 						);
 					}, 0);
 					document.getElementById("statusServerSiswa").value = "0"
@@ -225,7 +225,7 @@
 		});
 	});
 
-	$("#switchModulPPDB").click(function() {
+	$("#switchModulPPDB").click(function () {
 		var formSwitchModulPPDB = $('#formSwitchModulPPDB').serialize();
 		var statusModulPPDB = document.getElementById("statusModulPPDB").value;
 		$.ajax({
@@ -233,27 +233,27 @@
 			url: "<?= base_url('layananPPDB/switchModulPPDB'); ?>",
 			data: formSwitchModulPPDB,
 			cache: false,
-			success: function(data) {
+			success: function (data) {
 				if (statusModulPPDB == 0) {
-					setTimeout(function() {
+					setTimeout(function () {
 						toastr['success'](
 							'Semua User dapat mengakses modul !',
 							'Modul PPDB Aktif !', {
-								closeButton: true,
-								tapToDismiss: true
-							}
+							closeButton: true,
+							tapToDismiss: true
+						}
 						);
 					}, 0);
 					document.getElementById("statusModulPPDB").value = "1"
 					document.getElementById("LabelswitchModulPPDB").innerHTML = "Aktif";
 				} else {
-					setTimeout(function() {
+					setTimeout(function () {
 						toastr['error'](
 							'Semua User tidak dapat mengakses modul !',
 							'Modul PPDB Tidak Aktif !', {
-								closeButton: true,
-								tapToDismiss: true
-							}
+							closeButton: true,
+							tapToDismiss: true
+						}
 						);
 					}, 0);
 					document.getElementById("statusModulPPDB").value = "0"
@@ -264,7 +264,7 @@
 	});
 
 	// FUNGSI PENGATURAN TAPEL START
-	$(document).on('click', '#hapusTapel', function(e) {
+	$(document).on('click', '#hapusTapel', function (e) {
 		var id = $(this).data('id');
 		var tapel = $(this).data('tapel');
 		var semester = $(this).data('semester');
@@ -287,32 +287,32 @@
 				cancelButton: 'btn btn-outline-danger btn-sm ms-1'
 			},
 			buttonsStyling: false,
-			preConfirm: function() {
-				return new Promise(function(resolve) {
+			preConfirm: function () {
+				return new Promise(function (resolve) {
 					$.ajax({
-							type: 'POST',
-							url: '<?= base_url('settings/deleteTapel'); ?>',
-							data: 'id=' + id + '&tapel=' + tapel + '&semester=' + semester,
-							dataType: 'json',
-							cache: false,
-						})
-						.done(function(response) {
+						type: 'POST',
+						url: '<?= base_url('settings/deleteTapel'); ?>',
+						data: 'id=' + id + '&tapel=' + tapel + '&semester=' + semester,
+						dataType: 'json',
+						cache: false,
+					})
+						.done(function (response) {
 							Swal.fire({
-									icon: response.status,
-									title: response.judul,
-									text: response.pesan,
-									allowOutsideClick: false,
-									customClass: {
-										confirmButton: 'btn btn-success btn-sm'
-									}
-								})
-								.then(function(result) {
+								icon: response.status,
+								title: response.judul,
+								text: response.pesan,
+								allowOutsideClick: false,
+								customClass: {
+									confirmButton: 'btn btn-success btn-sm'
+								}
+							})
+								.then(function (result) {
 									if (result.value) {
 										location.reload()
 									}
 								})
 						})
-						.fail(function(response) {
+						.fail(function (response) {
 							Swal.fire({
 								icon: 'error',
 								title: 'Terdapat Kesalahan Sistem!',
@@ -321,7 +321,7 @@
 								customClass: {
 									confirmButton: 'btn btn-danger btn-sm'
 								}
-							}).then(function(result) {
+							}).then(function (result) {
 								if (result.value) {
 									location.reload()
 								}
@@ -334,7 +334,7 @@
 	}
 	// FUNGSI PENGATURAN TAPEL END
 	// FUNGSI PENGATURAN MAPEL START
-	$(document).on('click', '#hapusMapel', function(e) {
+	$(document).on('click', '#hapusMapel', function (e) {
 		var id = $(this).data('id');
 		var mapel = $(this).data('mapel');
 		var kelompok = $(this).data('kelompok');
@@ -357,32 +357,32 @@
 				cancelButton: 'btn btn-outline-danger btn-sm ms-1'
 			},
 			buttonsStyling: false,
-			preConfirm: function() {
-				return new Promise(function(resolve) {
+			preConfirm: function () {
+				return new Promise(function (resolve) {
 					$.ajax({
-							type: 'POST',
-							url: '<?= base_url('settings/deleteMapel'); ?>',
-							data: 'id=' + id + '&namaMapel=' + mapel + '&kelompokMapel=' + kelompok,
-							dataType: 'json',
-							cache: false,
-						})
-						.done(function(response) {
+						type: 'POST',
+						url: '<?= base_url('settings/deleteMapel'); ?>',
+						data: 'id=' + id + '&namaMapel=' + mapel + '&kelompokMapel=' + kelompok,
+						dataType: 'json',
+						cache: false,
+					})
+						.done(function (response) {
 							Swal.fire({
-									icon: response.status,
-									title: response.judul,
-									text: response.pesan,
-									allowOutsideClick: false,
-									customClass: {
-										confirmButton: 'btn btn-success btn-sm'
-									}
-								})
-								.then(function(result) {
+								icon: response.status,
+								title: response.judul,
+								text: response.pesan,
+								allowOutsideClick: false,
+								customClass: {
+									confirmButton: 'btn btn-success btn-sm'
+								}
+							})
+								.then(function (result) {
 									if (result.value) {
 										location.reload()
 									}
 								})
 						})
-						.fail(function(response) {
+						.fail(function (response) {
 							Swal.fire({
 								icon: 'error',
 								title: 'Terdapat Kesalahan Sistem!',
@@ -391,7 +391,7 @@
 								customClass: {
 									confirmButton: 'btn btn-danger btn-sm'
 								}
-							}).then(function(result) {
+							}).then(function (result) {
 								if (result.value) {
 									location.reload()
 								}
@@ -404,7 +404,7 @@
 	}
 	// FUNGSI PENGATURAN MAPEL END
 	// FUNGSI PENGATURAN EKSKUL START
-	$(document).on('click', '#hapusEkskul', function(e) {
+	$(document).on('click', '#hapusEkskul', function (e) {
 		var id = $(this).data('id');
 		var ekskul = $(this).data('ekskul');
 		SwalDeleteEkskul(id, ekskul);
@@ -426,32 +426,32 @@
 				cancelButton: 'btn btn-outline-danger btn-sm ms-1'
 			},
 			buttonsStyling: false,
-			preConfirm: function() {
-				return new Promise(function(resolve) {
+			preConfirm: function () {
+				return new Promise(function (resolve) {
 					$.ajax({
-							type: 'POST',
-							url: '<?= base_url('settings/deleteEkskul'); ?>',
-							data: 'id=' + id + '&namaEkskul=' + ekskul,
-							dataType: 'json',
-							cache: false,
-						})
-						.done(function(response) {
+						type: 'POST',
+						url: '<?= base_url('settings/deleteEkskul'); ?>',
+						data: 'id=' + id + '&namaEkskul=' + ekskul,
+						dataType: 'json',
+						cache: false,
+					})
+						.done(function (response) {
 							Swal.fire({
-									icon: response.status,
-									title: response.judul,
-									text: response.pesan,
-									allowOutsideClick: false,
-									customClass: {
-										confirmButton: 'btn btn-success btn-sm'
-									}
-								})
-								.then(function(result) {
+								icon: response.status,
+								title: response.judul,
+								text: response.pesan,
+								allowOutsideClick: false,
+								customClass: {
+									confirmButton: 'btn btn-success btn-sm'
+								}
+							})
+								.then(function (result) {
 									if (result.value) {
 										location.reload()
 									}
 								})
 						})
-						.fail(function(response) {
+						.fail(function (response) {
 							Swal.fire({
 								icon: 'error',
 								title: 'Terdapat Kesalahan Sistem!',
@@ -460,7 +460,7 @@
 								customClass: {
 									confirmButton: 'btn btn-danger btn-sm'
 								}
-							}).then(function(result) {
+							}).then(function (result) {
 								if (result.value) {
 									location.reload()
 								}
@@ -473,7 +473,7 @@
 	}
 	// FUNGSI PENGATURAN EKSKUL END
 	// FUNGSI PENGATURAN KELAS START
-	$(document).on('click', '#hapusKelas', function(e) {
+	$(document).on('click', '#hapusKelas', function (e) {
 		var id = $(this).data('id');
 		var kelas = $(this).data('kelas');
 		SwalDeleteKelas(id, kelas);
@@ -495,32 +495,32 @@
 				cancelButton: 'btn btn-outline-danger btn-sm ms-1'
 			},
 			buttonsStyling: false,
-			preConfirm: function() {
-				return new Promise(function(resolve) {
+			preConfirm: function () {
+				return new Promise(function (resolve) {
 					$.ajax({
-							type: 'POST',
-							url: '<?= base_url('settings/deleteKelas'); ?>',
-							data: 'id=' + id + '&kelas=' + kelas,
-							dataType: 'json',
-							cache: false,
-						})
-						.done(function(response) {
+						type: 'POST',
+						url: '<?= base_url('settings/deleteKelas'); ?>',
+						data: 'id=' + id + '&kelas=' + kelas,
+						dataType: 'json',
+						cache: false,
+					})
+						.done(function (response) {
 							Swal.fire({
-									icon: response.status,
-									title: response.judul,
-									text: response.pesan,
-									allowOutsideClick: false,
-									customClass: {
-										confirmButton: 'btn btn-success btn-sm'
-									}
-								})
-								.then(function(result) {
+								icon: response.status,
+								title: response.judul,
+								text: response.pesan,
+								allowOutsideClick: false,
+								customClass: {
+									confirmButton: 'btn btn-success btn-sm'
+								}
+							})
+								.then(function (result) {
 									if (result.value) {
 										location.reload()
 									}
 								})
 						})
-						.fail(function(response) {
+						.fail(function (response) {
 							Swal.fire({
 								icon: 'error',
 								title: 'Terdapat Kesalahan Sistem!',
@@ -529,7 +529,7 @@
 								customClass: {
 									confirmButton: 'btn btn-danger btn-sm'
 								}
-							}).then(function(result) {
+							}).then(function (result) {
 								if (result.value) {
 									location.reload()
 								}
@@ -542,7 +542,7 @@
 	}
 	// FUNGSI PENGATURAN KELAS END
 	// FUNGSI PENGATURAN AKUN GTK START
-	$(document).on('click', '#resetDataGTK', function(e) {
+	$(document).on('click', '#resetDataGTK', function (e) {
 		SwalResetDataGTK();
 		e.preventDefault();
 	});
@@ -562,31 +562,31 @@
 				cancelButton: 'btn btn-outline-danger btn-sm ms-1'
 			},
 			buttonsStyling: false,
-			preConfirm: function() {
-				return new Promise(function(resolve) {
+			preConfirm: function () {
+				return new Promise(function (resolve) {
 					$.ajax({
-							type: 'POST',
-							url: '<?= base_url('settings/resetDataGTK'); ?>',
-							dataType: 'json',
-							cache: false,
-						})
-						.done(function(response) {
+						type: 'POST',
+						url: '<?= base_url('settings/resetDataGTK'); ?>',
+						dataType: 'json',
+						cache: false,
+					})
+						.done(function (response) {
 							Swal.fire({
-									icon: response.status,
-									title: response.judul,
-									text: response.pesan,
-									allowOutsideClick: false,
-									customClass: {
-										confirmButton: 'btn btn-success btn-sm'
-									}
-								})
-								.then(function(result) {
+								icon: response.status,
+								title: response.judul,
+								text: response.pesan,
+								allowOutsideClick: false,
+								customClass: {
+									confirmButton: 'btn btn-success btn-sm'
+								}
+							})
+								.then(function (result) {
 									if (result.value) {
 										location.reload()
 									}
 								})
 						})
-						.fail(function(response) {
+						.fail(function (response) {
 							Swal.fire({
 								icon: 'error',
 								title: 'Terdapat Kesalahan Sistems!',
@@ -595,7 +595,7 @@
 								customClass: {
 									confirmButton: 'btn btn-danger btn-sm'
 								}
-							}).then(function(result) {
+							}).then(function (result) {
 								if (result.value) {
 									location.reload()
 								}
@@ -607,7 +607,7 @@
 
 	}
 
-	$(document).on('click', '#resetPassGTK', function(e) {
+	$(document).on('click', '#resetPassGTK', function (e) {
 		var id = $(this).data('id');
 		var username = $(this).data('username');
 		SwalResetPassGTK(id, username);
@@ -629,32 +629,32 @@
 				cancelButton: 'btn btn-outline-danger btn-sm ms-1'
 			},
 			buttonsStyling: false,
-			preConfirm: function() {
-				return new Promise(function(resolve) {
+			preConfirm: function () {
+				return new Promise(function (resolve) {
 					$.ajax({
-							type: 'POST',
-							url: '<?= base_url('settings/resetAkunGTK'); ?>',
-							data: 'id=' + id + '&username=' + username,
-							dataType: 'json',
-							cache: false,
-						})
-						.done(function(response) {
+						type: 'POST',
+						url: '<?= base_url('settings/resetAkunGTK'); ?>',
+						data: 'id=' + id + '&username=' + username,
+						dataType: 'json',
+						cache: false,
+					})
+						.done(function (response) {
 							Swal.fire({
-									icon: response.status,
-									title: response.judul,
-									text: response.pesan,
-									allowOutsideClick: false,
-									customClass: {
-										confirmButton: 'btn btn-success btn-sm'
-									}
-								})
-								.then(function(result) {
+								icon: response.status,
+								title: response.judul,
+								text: response.pesan,
+								allowOutsideClick: false,
+								customClass: {
+									confirmButton: 'btn btn-success btn-sm'
+								}
+							})
+								.then(function (result) {
 									if (result.value) {
 										location.reload()
 									}
 								})
 						})
-						.fail(function(response) {
+						.fail(function (response) {
 							Swal.fire({
 								icon: 'error',
 								title: 'Terdapat Kesalahan Sistem!',
@@ -663,7 +663,7 @@
 								customClass: {
 									confirmButton: 'btn btn-danger btn-sm'
 								}
-							}).then(function(result) {
+							}).then(function (result) {
 								if (result.value) {
 									location.reload()
 								}
@@ -675,7 +675,7 @@
 
 	}
 
-	$(document).on('click', '#hapusAkunGTK', function(e) {
+	$(document).on('click', '#hapusAkunGTK', function (e) {
 		var username = $(this).data('username');
 		SwalDeleteAkunGTK(username);
 		e.preventDefault();
@@ -696,32 +696,32 @@
 				cancelButton: 'btn btn-outline-danger btn-sm ms-1'
 			},
 			buttonsStyling: false,
-			preConfirm: function() {
-				return new Promise(function(resolve) {
+			preConfirm: function () {
+				return new Promise(function (resolve) {
 					$.ajax({
-							type: 'POST',
-							url: '<?= base_url('settings/deleteAkunGTK'); ?>',
-							data: 'username=' + username,
-							dataType: 'json',
-							cache: false,
-						})
-						.done(function(response) {
+						type: 'POST',
+						url: '<?= base_url('settings/deleteAkunGTK'); ?>',
+						data: 'username=' + username,
+						dataType: 'json',
+						cache: false,
+					})
+						.done(function (response) {
 							Swal.fire({
-									icon: response.status,
-									title: response.judul,
-									text: response.pesan,
-									allowOutsideClick: false,
-									customClass: {
-										confirmButton: 'btn btn-success btn-sm'
-									}
-								})
-								.then(function(result) {
+								icon: response.status,
+								title: response.judul,
+								text: response.pesan,
+								allowOutsideClick: false,
+								customClass: {
+									confirmButton: 'btn btn-success btn-sm'
+								}
+							})
+								.then(function (result) {
 									if (result.value) {
 										location.reload()
 									}
 								})
 						})
-						.fail(function(response) {
+						.fail(function (response) {
 							Swal.fire({
 								icon: 'error',
 								title: 'Terdapat Kesalahan Sistem!',
@@ -730,7 +730,7 @@
 								customClass: {
 									confirmButton: 'btn btn-danger btn-sm'
 								}
-							}).then(function(result) {
+							}).then(function (result) {
 								if (result.value) {
 									location.reload()
 								}
@@ -743,7 +743,7 @@
 	}
 	// FUNGSI PENGATURAN AKUN GTK END
 	// FUNGSI PENGATURAN AKUN PD START
-	$(document).on('click', '#resetDataPD', function(e) {
+	$(document).on('click', '#resetDataPD', function (e) {
 		SwalResetDataPD();
 		e.preventDefault();
 	});
@@ -763,31 +763,31 @@
 				cancelButton: 'btn btn-outline-danger btn-sm ms-1'
 			},
 			buttonsStyling: false,
-			preConfirm: function() {
-				return new Promise(function(resolve) {
+			preConfirm: function () {
+				return new Promise(function (resolve) {
 					$.ajax({
-							type: 'POST',
-							url: '<?= base_url('settings/resetDataPD'); ?>',
-							dataType: 'json',
-							cache: false,
-						})
-						.done(function(response) {
+						type: 'POST',
+						url: '<?= base_url('settings/resetDataPD'); ?>',
+						dataType: 'json',
+						cache: false,
+					})
+						.done(function (response) {
 							Swal.fire({
-									icon: response.status,
-									title: response.judul,
-									text: response.pesan,
-									allowOutsideClick: false,
-									customClass: {
-										confirmButton: 'btn btn-success btn-sm'
-									}
-								})
-								.then(function(result) {
+								icon: response.status,
+								title: response.judul,
+								text: response.pesan,
+								allowOutsideClick: false,
+								customClass: {
+									confirmButton: 'btn btn-success btn-sm'
+								}
+							})
+								.then(function (result) {
 									if (result.value) {
 										location.reload()
 									}
 								})
 						})
-						.fail(function(response) {
+						.fail(function (response) {
 							Swal.fire({
 								icon: 'error',
 								title: 'Terdapat Kesalahan Sistem!',
@@ -796,7 +796,7 @@
 								customClass: {
 									confirmButton: 'btn btn-danger btn-sm'
 								}
-							}).then(function(result) {
+							}).then(function (result) {
 								if (result.value) {
 									location.reload()
 								}
@@ -808,7 +808,7 @@
 
 	}
 
-	$(document).on('click', '#hapusAkunPD', function(e) {
+	$(document).on('click', '#hapusAkunPD', function (e) {
 		var nisn = $(this).data('nisn');
 		SwalDeleteAkunPD(nisn);
 		e.preventDefault();
@@ -829,32 +829,32 @@
 				cancelButton: 'btn btn-outline-danger btn-sm ms-1'
 			},
 			buttonsStyling: false,
-			preConfirm: function() {
-				return new Promise(function(resolve) {
+			preConfirm: function () {
+				return new Promise(function (resolve) {
 					$.ajax({
-							type: 'POST',
-							url: '<?= base_url('settings/deleteAkunPD'); ?>',
-							data: 'nisn=' + nisn,
-							dataType: 'json',
-							cache: false,
-						})
-						.done(function(response) {
+						type: 'POST',
+						url: '<?= base_url('settings/deleteAkunPD'); ?>',
+						data: 'nisn=' + nisn,
+						dataType: 'json',
+						cache: false,
+					})
+						.done(function (response) {
 							Swal.fire({
-									icon: response.status,
-									title: response.judul,
-									text: response.pesan,
-									allowOutsideClick: false,
-									customClass: {
-										confirmButton: 'btn btn-success btn-sm'
-									}
-								})
-								.then(function(result) {
+								icon: response.status,
+								title: response.judul,
+								text: response.pesan,
+								allowOutsideClick: false,
+								customClass: {
+									confirmButton: 'btn btn-success btn-sm'
+								}
+							})
+								.then(function (result) {
 									if (result.value) {
 										location.reload()
 									}
 								})
 						})
-						.fail(function(response) {
+						.fail(function (response) {
 							Swal.fire({
 								icon: 'error',
 								title: 'Terdapat Kesalahan Sistem!',
@@ -863,7 +863,7 @@
 								customClass: {
 									confirmButton: 'btn btn-danger btn-sm'
 								}
-							}).then(function(result) {
+							}).then(function (result) {
 								if (result.value) {
 									location.reload()
 								}

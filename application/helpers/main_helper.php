@@ -390,7 +390,7 @@ function getKelas($id)
 // Check Add-On PPDB
 function is_ppdb_installed()
 {
-	return file_exists(APPPATH . "views/gtk/ppdb/dashboard.php");
+	return file_exists(APPPATH . "views/gtk/ppdb/settings.php");
 }
 
 function is_ppdb_activated()
@@ -434,6 +434,25 @@ function is_ppdb_daftarUlang()
 	$ci = get_instance();
 	$ci->load->model('PPDB_Model');
 	$checkModul = $ci->PPDB_Model->getStatusDaftarUlang();
+	if ($checkModul) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
+// Check Add-On Web Sekolah
+function is_web_installed()
+{
+	return file_exists(APPPATH . "views/gtk/web/settings.php");
+}
+
+function is_web_activated()
+{
+	$ci = get_instance();
+	$ci->load->model('Web_Model');
+	$checkModul = $ci->Web_Model->getWeb();
 	if ($checkModul) {
 		return true;
 	} else {
