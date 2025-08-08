@@ -459,6 +459,8 @@ class LayananPPDB extends CI_Controller
 	public function settings()
 	{
 		$data['sessionUser']   = $this->session->userdata('username');
+		$data['sessionNama']   = $this->db->get_where('user_gtk', ['username' => $data['sessionUser']]);
+		$data['sessionNama']   = $data['sessionNama']->row('namaLengkap');
 		$data['sessionRole1']  = $this->session->userdata('role_id_1');
 		$data['sessionRole2']  = $this->session->userdata('role_id_2');
 		$data['is_change']     = $this->session->userdata('is_change');
@@ -570,6 +572,8 @@ class LayananPPDB extends CI_Controller
 	public function setUp()
 	{
 		$data['sessionUser']   = $this->session->userdata('username');
+		$data['sessionNama']   = $this->db->get_where('user_gtk', ['username' => $data['sessionUser']]);
+		$data['sessionNama']   = $data['sessionNama']->row('namaLengkap');
 		$data['sessionRole1']  = $this->session->userdata('role_id_1');
 		$data['sessionRole2']  = $this->session->userdata('role_id_2');
 		$data['is_change']     = $this->session->userdata('is_change');

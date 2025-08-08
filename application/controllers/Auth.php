@@ -3,77 +3,77 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Auth extends CI_Controller
 {
-  public function __construct()
-  {
-    parent::__construct();
-    $this->load->model('App_model', 'modelApp');
-  }
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->model('App_model', 'modelApp');
+	}
 
-  public function index()
-  {
-    $data['serverSetting'] = $this->modelApp->getServerSetting();
-    $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
-    $this->load->view('templates/auth_header', $data);
-    $this->load->view('welcome');
-    $this->load->view('templates/auth_footer');
-  }
+	public function index()
+	{
+		$data['serverSetting'] = $this->modelApp->getServerSetting();
+		$data['profilSekolah'] = $this->modelApp->getProfilSekolah();
+		$this->load->view('templates/auth_header', $data);
+		$this->load->view('welcome');
+		$this->load->view('templates/auth_footer');
+	}
 
-  public function gtk()
-  {
-    if ($this->session->userdata('username')) {
-      redirect(base_url('gtk'));
-    }
-    $this->form_validation->set_rules('username', 'Username', 'required|trim', [
-      'required' => 'Username Tidak Boleh Kosong!',
-      'trim' => 'Username Tidak Boleh Mengandung Spasi!',
-      'is_unique' => 'Username Sudah Digunakan!'
-    ]);
+	public function gtk()
+	{
+		if ($this->session->userdata('username')) {
+			redirect(base_url('gtk'));
+		}
+		$this->form_validation->set_rules('username', 'Username', 'required|trim', [
+			'required' => 'Username Tidak Boleh Kosong!',
+			'trim' => 'Username Tidak Boleh Mengandung Spasi!',
+			'is_unique' => 'Username Sudah Digunakan!'
+		]);
 
-    $this->form_validation->set_rules('password', 'Password', 'required|trim', [
-      'required' => 'Password Tidak Boleh Kosong!',
-      'min_length' => 'Password Minimal 8 Karakter Huruf dan Angka!',
-      'trim' => 'Password Tidak Boleh Mengandung Spasi!'
-    ]);
+		$this->form_validation->set_rules('password', 'Password', 'required|trim', [
+			'required' => 'Password Tidak Boleh Kosong!',
+			'min_length' => 'Password Minimal 8 Karakter Huruf dan Angka!',
+			'trim' => 'Password Tidak Boleh Mengandung Spasi!'
+		]);
 
-    if ($this->form_validation->run() == false) {
-      $data['serverSetting'] = $this->modelApp->getServerSetting();
-      $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
-      $this->load->view('templates/auth_header', $data);
-      $this->load->view('auth/login-gtk', $data);
-      $this->load->view('templates/modal', $data);
-      $this->load->view('templates/auth_footer', $data);
-    } else {
-      $this->_login_gtk();
-    }
-  }
+		if ($this->form_validation->run() == false) {
+			$data['serverSetting'] = $this->modelApp->getServerSetting();
+			$data['profilSekolah'] = $this->modelApp->getProfilSekolah();
+			$this->load->view('templates/auth_header', $data);
+			$this->load->view('auth/login-gtk', $data);
+			$this->load->view('templates/modal', $data);
+			$this->load->view('templates/auth_footer', $data);
+		} else {
+			$this->_login_gtk();
+		}
+	}
 
-  private function _login_gtk()
-  {
-    is_server_gtk_active();
-    $username = $this->input->post('username');
-    $password = $this->input->post('password');
-    $user     = $this->modelApp->getUserGTK($username);
+	private function _login_gtk()
+	{
+		is_server_gtk_active();
+		$username = $this->input->post('username');
+		$password = $this->input->post('password');
+		$user     = $this->modelApp->getUserGTK($username);
 
-    if ($user) {
-      if ($user['is_active'] == 1) {
-        if (password_verify($password, $user['password'])) {
-          if (password_verify('#MerdekaBelajar!', $user['password'])) {
-            $data = [
-              'username'  => $user['username'],
-              'role_id_1' => $user['role_id_1'],
-              'role_id_2' => $user['role_id_2'],
-              'is_change' => '1',
-            ];
-          } else {
-            $data = [
-              'username'  => $user['username'],
-              'role_id_1' => $user['role_id_1'],
-              'role_id_2' => $user['role_id_2'],
-              'is_change' => '0',
-            ];
-          }
-          $this->session->set_userdata($data);
-          $this->session->set_flashdata('toastr', "
+		if ($user) {
+			if ($user['is_active'] == 1) {
+				if (password_verify($password, $user['password'])) {
+					if (password_verify('#MerdekaBelajar!', $user['password'])) {
+						$data = [
+							'username'  => $user['username'],
+							'role_id_1' => $user['role_id_1'],
+							'role_id_2' => $user['role_id_2'],
+							'is_change' => '1',
+						];
+					} else {
+						$data = [
+							'username'  => $user['username'],
+							'role_id_1' => $user['role_id_1'],
+							'role_id_2' => $user['role_id_2'],
+							'is_change' => '0',
+						];
+					}
+					$this->session->set_userdata($data);
+					$this->session->set_flashdata('toastr', "
             <script>
             $(window).on('load', function() {
               setTimeout(function() {
@@ -87,9 +87,9 @@ class Auth extends CI_Controller
               }, 0);
             })
             </script>");
-          redirect(base_url('gtk/dashboard'));
-        } else {
-          $this->session->set_flashdata('toastr', "
+					redirect(base_url('gtk/dashboard'));
+				} else {
+					$this->session->set_flashdata('toastr', "
           <script>
           $(window).on('load', function() {
             setTimeout(function() {
@@ -103,17 +103,17 @@ class Auth extends CI_Controller
             }, 0);
           })
           </script>");
-          $this->session->set_flashdata('notif', '
+					$this->session->set_flashdata('notif', '
           <div class="alert alert-danger" role="alert">
               <h4 class="alert-heading">Password Salah !</h4>
               <div class="alert-body">
                 Silahkan ulangi password atau hubungi tim IT/Operator !
               </div>
           </div>');
-          redirect(base_url('auth/gtk'));
-        }
-      } else {
-        $this->session->set_flashdata('toastr', "
+					redirect(base_url('auth/gtk'));
+				}
+			} else {
+				$this->session->set_flashdata('toastr', "
         <script>
         $(window).on('load', function() {
           setTimeout(function() {
@@ -127,17 +127,17 @@ class Auth extends CI_Controller
           }, 0);
         })
         </script>");
-        $this->session->set_flashdata('notif', '
+				$this->session->set_flashdata('notif', '
         <div class="alert alert-danger" role="alert">
             <h4 class="alert-heading">Akun tidak aktif !</h4>
             <div class="alert-body">
               Silahkan hubungi tim IT/Operator!
             </div>
         </div>');
-        redirect(base_url('auth/gtk'));
-      }
-    } else {
-      $this->session->set_flashdata('toastr', "
+				redirect(base_url('auth/gtk'));
+			}
+		} else {
+			$this->session->set_flashdata('toastr', "
       <script>
       $(window).on('load', function() {
         setTimeout(function() {
@@ -151,46 +151,46 @@ class Auth extends CI_Controller
         }, 0);
       })
       </script>");
-      $this->session->set_flashdata('notif', '
+			$this->session->set_flashdata('notif', '
       <div class="alert alert-danger" role="alert">
           <h4 class="alert-heading">Akun tidak terdaftar !</h4>
           <div class="alert-body">
             Silahkan ulangi username atau hubungi tim IT/Operator!
           </div>
       </div>');
-      redirect(base_url('auth/gtk'));
-    }
-  }
+			redirect(base_url('auth/gtk'));
+		}
+	}
 
-  public function forgotPassGTK()
-  {
-    $serverSetting  = $this->modelApp->getServerSetting();
-    $namaAplikasi   = $serverSetting['namaAplikasi'];
+	public function forgotPassGTK()
+	{
+		$serverSetting  = $this->modelApp->getServerSetting();
+		$namaAplikasi   = $serverSetting['namaAplikasi'];
 
-    $profilSekolah  = $this->modelApp->getProfilSekolah();
-    $namaSekolah    = $profilSekolah['namaSekolah'];
+		$profilSekolah  = $this->modelApp->getProfilSekolah();
+		$namaSekolah    = $profilSekolah['namaSekolah'];
 
-    $nama           = $this->input->post('modalForgotGTKNama');
-    $username       = $this->input->post('modalForgotGTKUsername');
-    $adminUsername  = $this->input->post('modalForgotGTKSelectAdmin');
-    $adminProfil    = $this->modelApp->getProfilGTK($adminUsername);
-    $namaPanggil    = $adminProfil['namaPanggil'];
-    $jkKontakAdmin  = $adminProfil['jk'];
-    $hpKontakAdmin  = $adminProfil['hp'];
+		$nama           = $this->input->post('modalForgotGTKNama');
+		$username       = $this->input->post('modalForgotGTKUsername');
+		$adminUsername  = $this->input->post('modalForgotGTKSelectAdmin');
+		$adminProfil    = $this->modelApp->getProfilGTK($adminUsername);
+		$namaPanggil    = $adminProfil['namaPanggil'];
+		$jkKontakAdmin  = $adminProfil['jk'];
+		$hpKontakAdmin  = $adminProfil['hp'];
 
-    if ($jkKontakAdmin == "L") {
-      $jkPanggilAdmin = "Pak";
-    } else if ($jkKontakAdmin == "P") {
-      $jkPanggilAdmin = "Bu";
-    } else {
-      $jkPanggilAdmin = "";
-    }
+		if ($jkKontakAdmin == "L") {
+			$jkPanggilAdmin = "Pak";
+		} else if ($jkKontakAdmin == "P") {
+			$jkPanggilAdmin = "Bu";
+		} else {
+			$jkPanggilAdmin = "";
+		}
 
-    if ($hpKontakAdmin != null) {
-      $teks = ("Hallo " . $jkPanggilAdmin . " " . $namaPanggil . " !\n\n" .
-        "Saya *" . $nama . "*\n" .
-        "Request Reset Akun *" . $username . "* untuk mengakses aplikasi " . $namaAplikasi . " " . $namaSekolah . " terima kasih !");
-      echo " 
+		if ($hpKontakAdmin != null) {
+			$teks = ("Hallo " . $jkPanggilAdmin . " " . $namaPanggil . " !\n\n" .
+				"Saya *" . $nama . "*\n" .
+				"Request Reset Akun *" . $username . "* untuk mengakses aplikasi " . $namaAplikasi . " " . $namaSekolah . " terima kasih !");
+			echo " 
             <textarea id='teks' disabled readonly>$teks</textarea>
             <script>
               var kontak = '$hpKontakAdmin';
@@ -201,7 +201,7 @@ class Auth extends CI_Controller
               window.location.replace('gtk');
             </script>
             ";
-      $this->session->set_flashdata('toastr', "
+			$this->session->set_flashdata('toastr', "
           <script>
           $(window).on('load', function() {
             setTimeout(function() {
@@ -215,15 +215,15 @@ class Auth extends CI_Controller
             }, 0);
           })
           </script>");
-      $this->session->set_flashdata('notif', '
+			$this->session->set_flashdata('notif', '
           <div class="alert alert-warning" role="alert">
               <h4 class="alert-heading">Pesan Terkirim !</h4>
               <div class="alert-body">
                 Jika pesan tidak terkirim, silahkan izinkan Pop Up dan Redirect pada browser anda kemudian ulangi permintaan reset password! 
               </div>
           </div>');
-    } else {
-      $this->session->set_flashdata('toastr', "
+		} else {
+			$this->session->set_flashdata('toastr', "
           <script>
           $(window).on('load', function() {
             setTimeout(function() {
@@ -237,47 +237,47 @@ class Auth extends CI_Controller
             }, 0);
           })
           </script>");
-      $this->session->set_flashdata('notif', '
+			$this->session->set_flashdata('notif', '
           <div class="alert alert-warning" role="alert">
               <h4 class="alert-heading">Pesan Tidak Terkirim !</h4>
               <div class="alert-body">
                 Kontak tidak tersedia !
               </div>
           </div>');
-      redirect(base_url('auth/gtk'));
-    }
-  }
+			redirect(base_url('auth/gtk'));
+		}
+	}
 
-  public function pd()
-  {
-    if ($this->session->userdata('nisn') && $this->session->userdata('role_id')) {
-      redirect(base_url('pd'));
-    }
-    $data['serverSetting'] = $this->modelApp->getServerSetting();
-    $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
-    $this->load->view('templates/auth_header', $data);
-    $this->load->view('auth/login-pd', $data);
-    $this->load->view('templates/modal', $data);
-    $this->load->view('templates/auth_footer', $data);
-    $this->load->view('auth/login-pd-ajax', $data);
-  }
+	public function pd()
+	{
+		if ($this->session->userdata('nisn') && $this->session->userdata('role_id')) {
+			redirect(base_url('pd'));
+		}
+		$data['serverSetting'] = $this->modelApp->getServerSetting();
+		$data['profilSekolah'] = $this->modelApp->getProfilSekolah();
+		$this->load->view('templates/auth_header', $data);
+		$this->load->view('auth/login-pd', $data);
+		$this->load->view('templates/modal', $data);
+		$this->load->view('templates/auth_footer', $data);
+		$this->load->view('auth/login-pd-ajax', $data);
+	}
 
-  public function pdLoginNISN()
-  {
-    is_server_pd_active();
-    $nisn     = $this->input->post('nisn');
-    $userPD   = $this->modelApp->getUserPD($nisn);
-    if ($userPD) {
-      $dataUser = [
-        'nisn'      => $userPD['nisn'],
-      ];
-      $this->session->set_userdata($dataUser);
-      $dataProfil   = $this->modelApp->getProfilPd($nisn);
-      if ($dataProfil) {
-        $jk    = jenisKelamin($dataProfil['jk']);
-        $kelas = getKelas($dataProfil['id_kelas']);
-        $kelas = $kelas['kelas'];
-        echo "
+	public function pdLoginNISN()
+	{
+		is_server_pd_active();
+		$nisn     = $this->input->post('nisn');
+		$userPD   = $this->modelApp->getUserPD($nisn);
+		if ($userPD) {
+			$dataUser = [
+				'nisn'      => $userPD['nisn'],
+			];
+			$this->session->set_userdata($dataUser);
+			$dataProfil   = $this->modelApp->getProfilPd($nisn);
+			if ($dataProfil) {
+				$jk    = jenisKelamin($dataProfil['jk']);
+				$kelas = getKelas($dataProfil['id_kelas']);
+				$kelas = $kelas['kelas'];
+				echo "
           <div class='card card-profile shadow-none bg-transparent border-primary'>
             <img src='" . base_url('assets/') . "files/images/logo/banner-login.png' class='img-fluid card-img-top' alt='Profile Cover Photo' />
             <div class='card-body'>
@@ -300,8 +300,8 @@ class Auth extends CI_Controller
             </div>
           </div>
         ";
-      } else {
-        echo "
+			} else {
+				echo "
           <script>      
             $(document).ready(function() {
               if (feather) {
@@ -330,9 +330,9 @@ class Auth extends CI_Controller
             </div>
           </div>
           ";
-      }
-    } else {
-      echo "
+			}
+		} else {
+			echo "
       <script>      
         $(document).ready(function() {
           if (feather) {
@@ -354,29 +354,29 @@ class Auth extends CI_Controller
         </div>
       </div>
     ";
-    }
-  }
+		}
+	}
 
-  public function pdLoginConfirm()
-  {
-    $postNISN       = $this->input->post('loginNISN');
-    $sessionNISN    = $this->session->userdata('nisn');
-    if ($postNISN == $sessionNISN) {
-      $dataUser     = $this->db->get_where('user_pd', ['nisn' => $sessionNISN])->row_array();
-      if ($dataUser) {
-        $data['serverSetting'] = $this->modelApp->getServerSetting();
-        $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
-        $data['profilPD']      = $this->modelApp->getProfilPd($sessionNISN);
-        $data['kelas']         = $this->modelApp->getKelas($data['profilPD']['id_kelas']);
-        $this->load->view('templates/auth_header', $data);
-        $this->load->view('auth/login-pd-confirm', $data);
-        $this->load->view('templates/modal', $data);
-        $this->load->view('templates/auth_footer', $data);
-        $this->load->view('auth/login-pd-ajax', $data);
-      } else {
-        $this->session->unset_userdata('nisn');
-        $this->session->unset_userdata('role_id');
-        $this->session->set_flashdata('toastr', "
+	public function pdLoginConfirm()
+	{
+		$postNISN       = $this->input->post('loginNISN');
+		$sessionNISN    = $this->session->userdata('nisn');
+		if ($postNISN == $sessionNISN) {
+			$dataUser     = $this->db->get_where('user_pd', ['nisn' => $sessionNISN])->row_array();
+			if ($dataUser) {
+				$data['serverSetting'] = $this->modelApp->getServerSetting();
+				$data['profilSekolah'] = $this->modelApp->getProfilSekolah();
+				$data['profilPD']      = $this->modelApp->getProfilPd($sessionNISN);
+				$data['kelas']         = $this->modelApp->getKelas($data['profilPD']['id_kelas']);
+				$this->load->view('templates/auth_header', $data);
+				$this->load->view('auth/login-pd-confirm', $data);
+				$this->load->view('templates/modal', $data);
+				$this->load->view('templates/auth_footer', $data);
+				$this->load->view('auth/login-pd-ajax', $data);
+			} else {
+				$this->session->unset_userdata('nisn');
+				$this->session->unset_userdata('role_id');
+				$this->session->set_flashdata('toastr', "
                 <script>
                 $(window).on('load', function() {
                   setTimeout(function() {
@@ -390,12 +390,12 @@ class Auth extends CI_Controller
                   }, 0);
                 })
                 </script>");
-        redirect(base_url('/'));
-      }
-    } else {
-      $this->session->unset_userdata('nisn');
-      $this->session->unset_userdata('role_id');
-      $this->session->set_flashdata('toastr', "
+				redirect(base_url('/'));
+			}
+		} else {
+			$this->session->unset_userdata('nisn');
+			$this->session->unset_userdata('role_id');
+			$this->session->set_flashdata('toastr', "
               <script>
               $(window).on('load', function() {
                 setTimeout(function() {
@@ -409,26 +409,26 @@ class Auth extends CI_Controller
                 }, 0);
               })
               </script>");
-      redirect(base_url('/'));
-    }
-  }
+			redirect(base_url('/'));
+		}
+	}
 
-  public function pdLoginConfirmVerify()
-  {
-    $postTanggalLahir = $this->input->post('data');
-    $sessionNISN      = $this->session->userdata('nisn');
-    $dataUser         = $this->db->get_where('user_pd', ['nisn' => $sessionNISN, 'tanggalLahir' => $postTanggalLahir])->row_array();
-    if ($dataUser) {
-      $data['serverSetting'] = $this->modelApp->getServerSetting();
-      $data['profilSekolah'] = $this->modelApp->getProfilSekolah();
-      $dataUser = [
-        'nisn'      => $dataUser['nisn'],
-        'role_id'   => $dataUser['role_id'],
-      ];
-      $this->session->set_userdata($dataUser);
-      $dataProfil = $this->db->get_where('profil_pd', ['nisn' => $sessionNISN, 'tanggalLahir' => $postTanggalLahir])->row_array();
-      if ($dataProfil) {
-        $this->session->set_flashdata('toastr', "
+	public function pdLoginConfirmVerify()
+	{
+		$postTanggalLahir = $this->input->post('data');
+		$sessionNISN      = $this->session->userdata('nisn');
+		$dataUser         = $this->db->get_where('user_pd', ['nisn' => $sessionNISN, 'tanggalLahir' => $postTanggalLahir])->row_array();
+		if ($dataUser) {
+			$data['serverSetting'] = $this->modelApp->getServerSetting();
+			$data['profilSekolah'] = $this->modelApp->getProfilSekolah();
+			$dataUser = [
+				'nisn'      => $dataUser['nisn'],
+				'role_id'   => $dataUser['role_id'],
+			];
+			$this->session->set_userdata($dataUser);
+			$dataProfil = $this->db->get_where('profil_pd', ['nisn' => $sessionNISN, 'tanggalLahir' => $postTanggalLahir])->row_array();
+			if ($dataProfil) {
+				$this->session->set_flashdata('toastr', "
         <script>
         $(window).on('load', function() {
           setTimeout(function() {
@@ -442,7 +442,7 @@ class Auth extends CI_Controller
           }, 0);
         })
         </script>");
-        echo "
+				echo "
           <script>      
             $(document).ready(function() {
               if (feather) {
@@ -459,8 +459,8 @@ class Auth extends CI_Controller
             <a href='" . base_url('pd/dashboard') . "' class='btn btn-sm btn-success w-100'>Lanjutkan</a>
           </div>
           ";
-      } else {
-        echo "
+			} else {
+				echo "
           <script>      
             $(document).ready(function() {
               if (feather) {
@@ -477,9 +477,9 @@ class Auth extends CI_Controller
             <a href='" . base_url('pd/dashboard') . "' class='btn btn-sm btn-success w-100'>Lanjutkan</a>
           </div>
           ";
-      }
-    } else {
-      echo "
+			}
+		} else {
+			echo "
       <script>      
         $(document).ready(function() {
           if (feather) {
@@ -493,18 +493,18 @@ class Auth extends CI_Controller
       <h3 class='display-1 text-danger text-center myicon'><i data-feather='x-circle'></i></h3>
       <h3 class='display-0 text-danger text-center'>Tanggal Lahir Salah!</h3>
       ";
-    }
-  }
+		}
+	}
 
-  public function logout()
-  {
-    $this->session->unset_userdata('username');
-    $this->session->unset_userdata('nisn');
-    $this->session->unset_userdata('role_id');
-    $this->session->unset_userdata('role_id_1');
-    $this->session->unset_userdata('role_id_2');
-    $this->session->unset_userdata('is_change');
-    $this->session->set_flashdata('toastr', "
+	public function logout()
+	{
+		$this->session->unset_userdata('username');
+		$this->session->unset_userdata('nisn');
+		$this->session->unset_userdata('role_id');
+		$this->session->unset_userdata('role_id_1');
+		$this->session->unset_userdata('role_id_2');
+		$this->session->unset_userdata('is_change');
+		$this->session->set_flashdata('toastr', "
     <script>
     $(window).on('load', function() {
       setTimeout(function() {
@@ -518,6 +518,6 @@ class Auth extends CI_Controller
       }, 0);
     })
     </script>");
-    redirect(base_url('/'));
-  }
+		redirect(base_url('/'));
+	}
 }
