@@ -38,7 +38,7 @@ class Settings extends CI_Controller
 		$this->load->view('settings/ajax', $data);
 	}
 
-	public function swtichServerGuru()
+	public function switchServerGuru()
 	{
 		$checkServerGTK = $this->modelApp->getServerSetting();
 		$serverGTK = $checkServerGTK['loginGuru'];
@@ -51,7 +51,7 @@ class Settings extends CI_Controller
 		}
 	}
 
-	public function swtichServerSiswa()
+	public function switchServerSiswa()
 	{
 		$checkServerSiswa = $this->modelApp->getServerSetting();
 		$serverSiswa = $checkServerSiswa['loginSiswa'];
@@ -60,6 +60,19 @@ class Settings extends CI_Controller
 			$this->db->update('setting_server');
 		} elseif ($serverSiswa == "1") {
 			$this->db->set('loginSiswa', '0');
+			$this->db->update('setting_server');
+		}
+	}
+	
+	public function switchServerWeb()
+	{
+		$checkServerWeb = $this->modelApp->getServerSetting();
+		$serverWeb = $checkServerWeb['web-sekolah'];
+		if ($serverWeb == "0") {
+			$this->db->set('web-sekolah', '1');
+			$this->db->update('setting_server');
+		} elseif ($serverWeb == "1") {
+			$this->db->set('web-sekolah', '0');
 			$this->db->update('setting_server');
 		}
 	}
@@ -934,7 +947,7 @@ class Settings extends CI_Controller
 			$fotoGTK = $_FILES['fotoGTK']['name'];
 			$fileName = str_replace([' ', '.'], '_', $namaLengkap);
 			$ext = strtolower(pathinfo($fotoGTK, PATHINFO_EXTENSION));
-			$newFile = $fileName . '_' . time() . '.' . $ext;
+			$newFile = $fileName . '_' . date('Y-m-d H:i:s') . '.' . $ext;
 
 			$config['upload_path'] = './assets/files/images/fotoGuru/';
 			$config['allowed_types'] = 'jpg|jpeg|png';
@@ -966,7 +979,7 @@ class Settings extends CI_Controller
 			'nukg' => $nukg,
 			'nuptk' => $nuptk,
 			'nip' => $nip,
-			'date_updated' => time()
+			'date_updated' => date('Y-m-d H:i:s')
 		]);
 		$this->db->where('username', $username);
 		$this->db->update('profil_gtk');
@@ -977,7 +990,7 @@ class Settings extends CI_Controller
 		// ==== Update user_gtk ====
 		$this->db->set([
 			'namaLengkap' => $namaGelar,
-			'date_updated' => time()
+			'date_updated' => date('Y-m-d H:i:s')
 		]);
 		$this->db->where('username', $username);
 		$this->db->update('user_gtk');
@@ -1101,7 +1114,7 @@ class Settings extends CI_Controller
 			'role_id_1' => htmlspecialchars($this->input->post('hakAkses1', true)),
 			'role_id_2' => htmlspecialchars($this->input->post('hakAkses2', true)),
 			'is_active' => htmlspecialchars($this->input->post('is_aktif', true)),
-			'date_created' => time(),
+			'date_created' => date('Y-m-d H:i:s'),
 		];
 
 		if ($dataUser['role_id_1'] == 6) {
@@ -1438,160 +1451,183 @@ class Settings extends CI_Controller
 
 	public function importAkunGTK()
 	{
-		$fileExcel = $_FILES['fileExcelAkunGTK']['name'];
-		$config['file_name'] = $fileExcel;
-		$config['allowed_types'] = 'xls|xlsx';
-		$config['upload_path'] = './assets/files/temp/';
+			// Konfigurasi upload
+			$config['upload_path']   = FCPATH . 'assets/files/temp/';
+			$config['allowed_types'] = 'xls|xlsx';
+			$config['max_size']      = 2048; // 2 MB
+			$config['encrypt_name']  = TRUE;
 
-		$this->load->library('upload', $config);
-		$this->upload->do_upload('fileExcelAkunGTK');
-		$file_data = $this->upload->data();
-		$file_name = $config['upload_path'] . $file_data['file_name'];
+			$this->load->library('upload', $config);
 
-		$extFile = pathinfo($file_name, PATHINFO_EXTENSION);
-		if ($extFile == 'xls') {
-			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
-		} elseif ($extFile == 'xlsx') {
-			$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-		}
-
-		$spreadsheet = $reader->load($file_name);
-		$sheetData = $spreadsheet->getSheet(2)->toArray();
-
-		if (file_exists($file_name))
-			unlink($file_name);
-
-		$sheetCount = count($sheetData);
-
-		if ($sheetCount > 1) {
-			for ($i = 5; $i < $sheetCount; $i++) {
-				$username = $sheetData[$i][0];
-				$namaLengkap = $sheetData[$i][1];
-				$namaPanggil = $sheetData[$i][2];
-				$gelarDepan = $sheetData[$i][3];
-				$gelarBelakang = $sheetData[$i][4];
-				$jk = $sheetData[$i][5];
-				$id_role_1 = $sheetData[$i][6];
-				$id_kelas = $sheetData[$i][7];
-				$id_role_2 = $sheetData[$i][8];
-				$id_ekskul = $sheetData[$i][9];
-
-				if ($gelarDepan) {
-					$gelarDepanGabung = $gelarDepan . ' ';
-				} else {
-					$gelarDepanGabung = "";
-				}
-
-				if ($gelarBelakang) {
-					$gelarBelakangGabung = ', ' . $gelarBelakang;
-				} else {
-					$gelarBelakangGabung = "";
-				}
-
-				$namaGelar = $gelarDepanGabung . $namaLengkap . $gelarBelakangGabung;
-
-				$dataProfile[] = [
-					'username' => $username,
-					'namaLengkap' => $namaLengkap,
-					'namaPanggil' => $namaPanggil,
-					'gelarDepan' => $gelarDepan,
-					'gelarBelakang' => $gelarBelakang,
-					'jk' => $jk,
-					'date_created' => time(),
-				];
-				$dataUser[] = [
-					'username' => $username,
-					'password' => password_hash('#MerdekaBelajar!', PASSWORD_DEFAULT),
-					'namaLengkap' => $namaGelar,
-					'role_id_1' => $id_role_1,
-					'role_id_2' => $id_role_2,
-					'is_active' => "1",
-					'date_created' => time(),
-				];
-
-				if ($id_role_1 == 6) {
-					$dataKelasRole = [
-						'id' => $id_kelas,
-						'walikelas' => $username,
-					];
-				} elseif ($id_role_1 == 7) {
-					$dataEkskulRole = [
-						'id' => $id_kelas,
-						'pelatih' => $username,
-					];
-				}
-
-				if ($id_role_2 == 6) {
-					$dataKelasRole = [
-						'id' => $id_ekskul,
-						'walikelas' => $username,
-					];
-				} elseif ($id_role_2 == 7) {
-					$dataEkskulRole = [
-						'id' => $id_ekskul,
-						'pelatih' => $username,
-					];
-				}
+			if (!$this->upload->do_upload('fileExcelAkunGTK')) {
+					$this->session->set_flashdata('toastr', "
+					<script>
+					$(window).on('load', function() {
+							setTimeout(function() {
+								toastr['error']('" . $this->upload->display_errors('', '') . "', 'Upload Gagal!', {
+										closeButton: true,
+										tapToDismiss: true
+								});
+							}, 0);
+					})
+					</script>");
+					redirect(base_url('settings/gtk'));
+					return;
 			}
 
-			$queryProfil = $this->db->insert_batch('profil_gtk', $dataProfile);
-			$queryUser = $this->db->insert_batch('user_gtk', $dataUser);
+			// File sukses diupload
+			$file_data = $this->upload->data();
+			$file_name = FCPATH . 'assets/files/temp/' . $file_data['file_name'];
 
-			if ($dataKelasRole) {
-				$this->db->set(
-					[
-						'walikelas' => $dataKelasRole['walikelas'],
-					]
-				);
-				$this->db->where('id', $dataKelasRole['id']);
-				$this->db->update('setting_kelas');
+			// Reader
+			$extFile = pathinfo($file_name, PATHINFO_EXTENSION);
+			$reader = ($extFile === 'xls')
+					? new \PhpOffice\PhpSpreadsheet\Reader\Xls()
+					: new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+
+			$spreadsheet = $reader->load($file_name);
+			$sheetData   = $spreadsheet->getActiveSheet()->toArray(null, true, true, true);
+
+			// Hapus file temp
+			if (file_exists($file_name)) unlink($file_name);
+
+			// Ambil semua username yang sudah ada di DB
+			$existingUsernames = $this->db->select('username')->get('profil_gtk')->result_array();
+			$existingUsernames = array_column($existingUsernames, 'username');
+
+			// Penampung data
+			$dataProfile   = [];
+			$dataUser      = [];
+			$dataKelasRole = [];
+			$dataEkskulRole = [];
+			$uniqueCheck   = []; // cek duplikat di Excel
+
+			$rowIndex = 1;
+			foreach ($sheetData as $row) {
+					if ($rowIndex < 5) { // skip header
+							$rowIndex++;
+							continue;
+					}
+
+					$username     = trim($row['A']);
+					$namaLengkap  = trim($row['B']);
+					$namaPanggil  = trim($row['C']);
+					$gelarDepan   = trim($row['D']);
+					$gelarBelakang= trim($row['E']);
+					$jk           = trim($row['F']);
+					$id_role_1    = trim($row['G']);
+					$id_kelas     = trim($row['H']);
+					$id_role_2    = trim($row['I']);
+					$id_ekskul    = trim($row['J']);
+
+					// Skip jika kosong
+					if (empty($username) || empty($namaLengkap)) {
+							$rowIndex++;
+							continue;
+					}
+
+					// Skip jika username sudah ada di DB
+					if (in_array($username, $existingUsernames)) {
+							$rowIndex++;
+							continue;
+					}
+
+					// Skip jika username sudah muncul sebelumnya di Excel
+					if (isset($uniqueCheck[$username])) {
+							$rowIndex++;
+							continue;
+					}
+					$uniqueCheck[$username] = true;
+
+					// Gabung nama + gelar
+					$gelarDepanGabung    = $gelarDepan ? $gelarDepan . ' ' : '';
+					$gelarBelakangGabung = $gelarBelakang ? ', ' . $gelarBelakang : '';
+					$namaGelar           = $gelarDepanGabung . $namaLengkap . $gelarBelakangGabung;
+
+					// Tambah ke array
+					$dataProfile[] = [
+							'username'     => $username,
+							'namaLengkap'  => $namaLengkap,
+							'namaPanggil'  => $namaPanggil,
+							'gelarDepan'   => $gelarDepan,
+							'gelarBelakang'=> $gelarBelakang,
+							'jk'           => $jk,
+							'date_created' => date('Y-m-d H:i:s'),
+					];
+
+					$dataUser[] = [
+							'username'     => $username,
+							'password'     => password_hash('#MerdekaBelajar!', PASSWORD_DEFAULT),
+							'namaLengkap'  => $namaGelar,
+							'role_id_1'    => $id_role_1,
+							'role_id_2'    => $id_role_2,
+							'is_active'    => "1",
+							'date_created' => date('Y-m-d H:i:s'),
+					];
+
+					// Role mapping
+					if ($id_role_1 == 6) {
+							$dataKelasRole[] = ['id' => $id_kelas, 'walikelas' => $username];
+					} elseif ($id_role_1 == 7) {
+							$dataEkskulRole[] = ['id' => $id_kelas, 'pelatih' => $username];
+					}
+
+					if ($id_role_2 == 6) {
+							$dataKelasRole[] = ['id' => $id_ekskul, 'walikelas' => $username];
+					} elseif ($id_role_2 == 7) {
+							$dataEkskulRole[] = ['id' => $id_ekskul, 'pelatih' => $username];
+					}
+
+					$rowIndex++;
 			}
 
-			if ($dataEkskulRole) {
-				$this->db->set(
-					[
-						'pelatih' => $dataEkskulRole['pelatih'],
-					]
-				);
-				$this->db->where('id', $dataEkskulRole['id']);
-				$this->db->update('setting_ekskul');
+			// Insert batch
+			$queryProfil = !empty($dataProfile) ? $this->db->insert_batch('profil_gtk', $dataProfile) : true;
+			$queryUser   = !empty($dataUser)    ? $this->db->insert_batch('user_gtk', $dataUser)       : true;
+
+			// Update kelas & ekskul
+			foreach ($dataKelasRole as $kelas) {
+					$this->db->set(['walikelas' => $kelas['walikelas']]);
+					$this->db->where('id', $kelas['id']);
+					$this->db->update('setting_kelas');
 			}
 
+			foreach ($dataEkskulRole as $ekskul) {
+					$this->db->set(['pelatih' => $ekskul['pelatih']]);
+					$this->db->where('id', $ekskul['id']);
+					$this->db->update('setting_ekskul');
+			}
+
+			// Feedback toastr
 			if ($queryProfil && $queryUser) {
-				$this->session->set_flashdata('toastr', "
-          <script>
-          $(window).on('load', function() {
-            setTimeout(function() {
-              toastr['success'](
-                'Akun GTK Di Import !',
-                'Berhasil !', {
-                  closeButton: true,
-                  tapToDismiss: true
-                }
-              );
-            }, 0);
-          })
-          </script>");
+					$this->session->set_flashdata('toastr', "
+						<script>
+						$(window).on('load', function() {
+							setTimeout(function() {
+								toastr['success']('Akun GTK berhasil diimport!', 'Berhasil!', {
+									closeButton: true,
+									tapToDismiss: true
+								});
+							}, 0);
+						})
+						</script>");
 			} else {
-				$this->session->set_flashdata('toastr', "
-        <script>
-        $(window).on('load', function() {
-          setTimeout(function() {
-            toastr['success'](
-              'Terdapat Duplikasi Data !',
-              'Gagal !', {
-                closeButton: true,
-                tapToDismiss: true
-              }
-            );
-          }, 0);
-        })
-        </script>");
+					$this->session->set_flashdata('toastr', "
+						<script>
+						$(window).on('load', function() {
+							setTimeout(function() {
+								toastr['error']('Tidak ada data baru yang diimport (semua sudah ada atau duplikat)', 'Info!', {
+									closeButton: true,
+									tapToDismiss: true
+								});
+							}, 0);
+						})
+						</script>");
 			}
-		}
-		redirect(base_url('settings/gtk'));
-	}
 
+			redirect(base_url('settings/gtk'));
+	}
+	
 	public function resetDataGTK()
 	{
 		$query = "SELECT `username` FROM `user_gtk` WHERE `role_id_1` != '1'";
@@ -1640,7 +1676,7 @@ class Settings extends CI_Controller
 			'role_id_1' => htmlspecialchars($this->input->post('hakAkses1', true)),
 			'role_id_2' => htmlspecialchars($this->input->post('hakAkses2', true)),
 			'is_active' => htmlspecialchars($this->input->post('is_aktif', true)),
-			'date_created' => time(),
+			'date_created' => date('Y-m-d H:i:s'),
 		];
 
 		if ($dataUser['role_id_1'] == 3) {
@@ -1684,14 +1720,14 @@ class Settings extends CI_Controller
 					'role_id_1' => $dataUser['role_id_1'],
 					'role_id_2' => $dataUser['role_id_2'],
 					'is_active' => $dataUser['is_active'],
-					'date_updated' => time(),
+					'date_updated' => date('Y-m-d H:i:s'),
 				]
 			);
 		} else {
 			$this->db->set(
 				[
 					'namaLengkap' => $dataUser['namaLengkap'],
-					'date_updated' => time(),
+					'date_updated' => date('Y-m-d H:i:s'),
 				]
 			);
 		}
@@ -1706,7 +1742,7 @@ class Settings extends CI_Controller
 				'gelarDepan' => $dataProfile['gelarDepan'],
 				'gelarBelakang' => $dataProfile['gelarBelakang'],
 				'jk' => $dataProfile['jk'],
-				'date_updated' => time(),
+				'date_updated' => date('Y-m-d H:i:s'),
 			]
 		);
 		$this->db->where('username', $dataProfile['username']);
@@ -1953,7 +1989,7 @@ class Settings extends CI_Controller
 			'namaPanggil' => htmlspecialchars($this->input->post('namaPanggil', true)),
 			'jk' => htmlspecialchars($this->input->post('jenisKelamin', true)),
 			'tanggalLahir' => htmlspecialchars($this->input->post('tanggalLahir', true)),
-			'date_created' => time(),
+			'date_created' => date('Y-m-d H:i:s'),
 		];
 
 		$dataUser = [
@@ -1962,7 +1998,7 @@ class Settings extends CI_Controller
 			'namaLengkap' => htmlspecialchars($this->input->post('namaLengkap', true)),
 			'role_id' => "12",
 			'is_active' => htmlspecialchars($this->input->post('is_aktif', true)),
-			'date_created' => time(),
+			'date_created' => date('Y-m-d H:i:s'),
 		];
 
 		$checkDataUser = $this->db->get_where('user_pd', ['nisn' => $dataUser['nisn']]);
@@ -2235,7 +2271,7 @@ class Settings extends CI_Controller
 					'namaPanggil' => $namaPanggil,
 					'jk' => $jk,
 					'tanggalLahir' => $tanggalLahir,
-					'date_created' => time(),
+					'date_created' => date('Y-m-d H:i:s'),
 				];
 				$dataUser[] = [
 					'nisn' => $nisn,
@@ -2243,7 +2279,7 @@ class Settings extends CI_Controller
 					'namaLengkap' => $namaLengkap,
 					'role_id' => "12",
 					'is_active' => "1",
-					'date_created' => time(),
+					'date_created' => date('Y-m-d H:i:s'),
 				];
 			}
 
@@ -2312,7 +2348,7 @@ class Settings extends CI_Controller
 			'namaPanggil' => htmlspecialchars($this->input->post('namaPanggil', true)),
 			'jk' => htmlspecialchars($this->input->post('jenisKelamin', true)),
 			'tanggalLahir' => htmlspecialchars($this->input->post('tanggalLahir', true)),
-			'date_updated' => time(),
+			'date_updated' => date('Y-m-d H:i:s'),
 		];
 
 		$dataUser = [
@@ -2323,7 +2359,7 @@ class Settings extends CI_Controller
 			'namaLengkap' => htmlspecialchars($this->input->post('namaLengkap', true)),
 			'role_id' => "12",
 			'is_active' => htmlspecialchars($this->input->post('is_aktif', true)),
-			'date_updated' => time(),
+			'date_updated' => date('Y-m-d H:i:s'),
 		];
 
 		$checkDataUser = $this->db->get_where('user_pd', ['id' => $dataUser['id_user']]);
@@ -2339,7 +2375,7 @@ class Settings extends CI_Controller
 					'namaPanggil' => $dataProfile['namaPanggil'],
 					'jk' => $dataProfile['jk'],
 					'tanggalLahir' => $dataProfile['tanggalLahir'],
-					'date_updated' => time(),
+					'date_updated' => date('Y-m-d H:i:s'),
 				]
 			);
 			$this->db->where('id', $dataProfile['id_profil']);
@@ -2352,7 +2388,7 @@ class Settings extends CI_Controller
 					'namaLengkap' => $dataUser['namaLengkap'],
 					'role_id' => $dataUser['role_id'],
 					'is_active' => $dataUser['is_active'],
-					'date_updated' => time(),
+					'date_updated' => date('Y-m-d H:i:s'),
 				]
 			);
 			$this->db->where('id', $dataUser['id_user']);

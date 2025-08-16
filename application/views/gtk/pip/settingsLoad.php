@@ -11,7 +11,7 @@
       </div>
       <div class="card-body">
         <?php
-        $query = getSelect('ppdb_tapel', '*', 'id', 'desc');
+        $query = getSelect('pip_tapel', '*', 'id', 'desc');
         if ($query->num_rows() <= 0) { ?>
         <div class="text-center">
           <h3 class="text-danger">Tidak Ada Data <br> </h3>
@@ -57,120 +57,120 @@
                     </div>
                   </div>
                   <div class="d-flex flex-column">
-                    <a href="<?= base_url('LayananPPDB/SetUp/') . getEncodeURLParam($tapel); ?>"
+                    <a href="<?= base_url('LayananPIP/SetUp/') . getEncodeURLParam($tapel); ?>"
                       class="user_name text-body text-truncate">
-                      <span class="fw-bolder">PPDB Tahun Pelajaran <?= $tapel ?></span>
+                      <span class="fw-bolder">PIP Tahun Pelajaran <?= $tapel ?></span>
                     </a><small class="emp_post text-muted"> Kepala Sekolah : <?= $namaKS ?></small>
                   </div>
                 </div>
               </td>
               <td class="text-center">
                 <?php if ($is_active == "1") { ?>
-                <form id="switchAccessPPDBForm<?= $id ?>" action="<?= base_url('LayananPPDB/switchAccess') ?>"
+                <form id="switchAccessPIPForm<?= $id ?>" action="<?= base_url('LayananPIP/switchAccess') ?>"
                   method="POST">
                   <div class="form-switch">
-                    <input type="checkbox" class="form-check-input" id="switchAccessPPDBButton" checked
-                      onclick="document.getElementById('switchAccessPPDBForm<?= $id ?>').submit();" />
+                    <input type="checkbox" class="form-check-input" id="switchAccessPIPButton" checked
+                      onclick="document.getElementById('switchAccessPIPForm<?= $id ?>').submit();" />
                     <input type="text" name="id" value="<?= $id ?>" hidden />
-                    <input type="text" name="is_active" id="switchAccessPPDBStatus" value="1" hidden />
-                    <sub id="switchAccessPPDBLabel">Aktif</sub>
+                    <input type="text" name="is_active" id="switchAccessPIPStatus" value="1" hidden />
+                    <sub id="switchAccessPIPLabel">Aktif</sub>
                   </div>
                 </form>
                 <?php } elseif ($is_active == "0") { ?>
-                <form id="switchAccessPPDBForm<?= $id ?>" action="<?= base_url('LayananPPDB/switchAccess') ?>"
+                <form id="switchAccessPIPForm<?= $id ?>" action="<?= base_url('LayananPIP/switchAccess') ?>"
                   method="POST">
                   <div class="form-switch">
-                    <input type="checkbox" class="form-check-input" id="switchAccessPPDBButton"
-                      onclick="document.getElementById('switchAccessPPDBForm<?= $id ?>').submit();" />
+                    <input type="checkbox" class="form-check-input" id="switchAccessPIPButton"
+                      onclick="document.getElementById('switchAccessPIPForm<?= $id ?>').submit();" />
                     <input type="text" name="id" value="<?= $id ?>" hidden />
-                    <input type="text" name="is_active" id="switchAccessPPDBStatus" value="0" hidden />
-                    <sub id="switchAccessPPDBLabel">Tidak Aktif</sub>
+                    <input type="text" name="is_active" id="switchAccessPIPStatus" value="0" hidden />
+                    <sub id="switchAccessPIPLabel">Tidak Aktif</sub>
                   </div>
                 </form>
                 <?php } ?>
               </td>
               <td class="text-center">
                 <?php if ($is_active_reg1 == "1") { ?>
-                <form id="switchReg1PPDBForm<?= $id ?>" action="<?= base_url('LayananPPDB/switchRegistrasi1') ?>"
+                <form id="switchReg1PIPForm<?= $id ?>" action="<?= base_url('LayananPIP/switchRegistrasi1') ?>"
                   method="POST">
                   <div class="form-switch">
-                    <input type="checkbox" class="form-check-input" id="switchReg1PPDBButton" checked
-                      onclick="document.getElementById('switchReg1PPDBForm<?= $id ?>').submit();" />
+                    <input type="checkbox" class="form-check-input" id="switchReg1PIPButton" checked
+                      onclick="document.getElementById('switchReg1PIPForm<?= $id ?>').submit();" />
                     <input type="text" name="id" value="<?= $id ?>" hidden />
-                    <input type="text" name="is_active_reg1" id="switchReg1PPDBStatus" value="1" hidden />
-                    <sub id="switchReg1PPDBLabel">Aktif</sub>
+                    <input type="text" name="is_active_reg1" id="switchReg1PIPStatus" value="1" hidden />
+                    <sub id="switchReg1PIPLabel">Aktif</sub>
                   </div>
                 </form>
                 <?php } elseif ($is_active_reg1 == "0") { ?>
-                <form id="switchReg1PPDBForm<?= $id ?>" action="<?= base_url('LayananPPDB/switchRegistrasi1') ?>"
+                <form id="switchReg1PIPForm<?= $id ?>" action="<?= base_url('LayananPIP/switchRegistrasi1') ?>"
                   method="POST">
                   <div class="form-switch">
-                    <input type="checkbox" class="form-check-input" id="switchReg1PPDBButton"
-                      onclick="document.getElementById('switchReg1PPDBForm<?= $id ?>').submit();" />
+                    <input type="checkbox" class="form-check-input" id="switchReg1PIPButton"
+                      onclick="document.getElementById('switchReg1PIPForm<?= $id ?>').submit();" />
                     <input type="text" name="id" value="<?= $id ?>" hidden />
-                    <input type="text" name="is_active_reg1" id="switchReg1PPDBStatus" value="0" hidden />
-                    <sub id="switchReg1PPDBLabel">Tidak Aktif</sub>
+                    <input type="text" name="is_active_reg1" id="switchReg1PIPStatus" value="0" hidden />
+                    <sub id="switchReg1PIPLabel">Tidak Aktif</sub>
                   </div>
                 </form>
                 <?php } ?>
               </td>
               <td class="text-center">
                 <?php if ($is_active_result == "1") { ?>
-                <form id="switchResultPPDBForm<?= $id ?>" action="<?= base_url('LayananPPDB/switchResult') ?>"
+                <form id="switchResultPIPForm<?= $id ?>" action="<?= base_url('LayananPIP/switchResult') ?>"
                   method="POST">
                   <div class="form-switch">
-                    <input type="checkbox" class="form-check-input" id="switchResultPPDBButton" checked
-                      onclick="document.getElementById('switchResultPPDBForm<?= $id ?>').submit();" />
+                    <input type="checkbox" class="form-check-input" id="switchResultPIPButton" checked
+                      onclick="document.getElementById('switchResultPIPForm<?= $id ?>').submit();" />
                     <input type="text" name="id" value="<?= $id ?>" hidden />
-                    <input type="text" name="is_active_result" id="switchResultPPDBStatus" value="1" hidden />
-                    <sub id="switchResultPPDBLabel">Aktif</sub>
+                    <input type="text" name="is_active_result" id="switchResultPIPStatus" value="1" hidden />
+                    <sub id="switchResultPIPLabel">Aktif</sub>
                   </div>
                 </form>
                 <?php } elseif ($is_active_result == "0") { ?>
-                <form id="switchResultPPDBForm<?= $id ?>" action="<?= base_url('LayananPPDB/switchResult') ?>"
+                <form id="switchResultPIPForm<?= $id ?>" action="<?= base_url('LayananPIP/switchResult') ?>"
                   method="POST">
                   <div class="form-switch">
-                    <input type="checkbox" class="form-check-input" id="switchResultPPDBButton"
-                      onclick="document.getElementById('switchResultPPDBForm<?= $id ?>').submit();" />
+                    <input type="checkbox" class="form-check-input" id="switchResultPIPButton"
+                      onclick="document.getElementById('switchResultPIPForm<?= $id ?>').submit();" />
                     <input type="text" name="id" value="<?= $id ?>" hidden />
-                    <input type="text" name="is_active_result" id="switchResultPPDBStatus" value="0" hidden />
-                    <sub id="switchResultPPDBLabel">Tidak Aktif</sub>
+                    <input type="text" name="is_active_result" id="switchResultPIPStatus" value="0" hidden />
+                    <sub id="switchResultPIPLabel">Tidak Aktif</sub>
                   </div>
                 </form>
                 <?php } ?>
               </td>
               <td class="text-center">
                 <?php if ($is_active_reg2 == "1") { ?>
-                <form id="switchReg2PPDBForm<?= $id ?>" action="<?= base_url('LayananPPDB/switchRegistrasi2') ?>"
+                <form id="switchReg2PIPForm<?= $id ?>" action="<?= base_url('LayananPIP/switchRegistrasi2') ?>"
                   method="POST">
                   <div class="form-switch">
-                    <input type="checkbox" class="form-check-input" id="switchReg2PPDBButton" checked
-                      onclick="document.getElementById('switchReg2PPDBForm<?= $id ?>').submit();" />
+                    <input type="checkbox" class="form-check-input" id="switchReg2PIPButton" checked
+                      onclick="document.getElementById('switchReg2PIPForm<?= $id ?>').submit();" />
                     <input type="text" name="id" value="<?= $id ?>" hidden />
-                    <input type="text" name="is_active_reg2" id="switchReg2PPDBStatus" value="1" hidden />
-                    <sub id="switchReg2PPDBLabel">Aktif</sub>
+                    <input type="text" name="is_active_reg2" id="switchReg2PIPStatus" value="1" hidden />
+                    <sub id="switchReg2PIPLabel">Aktif</sub>
                   </div>
                 </form>
                 <?php } elseif ($is_active_reg2 == "0") { ?>
-                <form id="switchReg2PPDBForm<?= $id ?>" action="<?= base_url('LayananPPDB/switchRegistrasi2') ?>"
+                <form id="switchReg2PIPForm<?= $id ?>" action="<?= base_url('LayananPIP/switchRegistrasi2') ?>"
                   method="POST">
                   <div class="form-switch">
-                    <input type="checkbox" class="form-check-input" id="switchReg2PPDBButton"
-                      onclick="document.getElementById('switchReg2PPDBForm<?= $id ?>').submit();" />
+                    <input type="checkbox" class="form-check-input" id="switchReg2PIPButton"
+                      onclick="document.getElementById('switchReg2PIPForm<?= $id ?>').submit();" />
                     <input type="text" name="id" value="<?= $id ?>" hidden />
-                    <input type="text" name="is_active_reg2" id="switchReg2PPDBStatus" value="0" hidden />
-                    <sub id="switchReg2PPDBLabel">Tidak Aktif</sub>
+                    <input type="text" name="is_active_reg2" id="switchReg2PIPStatus" value="0" hidden />
+                    <sub id="switchReg2PIPLabel">Tidak Aktif</sub>
                   </div>
                 </form>
                 <?php } ?>
               </td>
               <td class="text-center">
-                <a href="<?= base_url('LayananPPDB/SetUp/') . getEncodeURLParam($tapel); ?>" type="button"
+                <a href="<?= base_url('LayananPIP/SetUp/') . getEncodeURLParam($tapel); ?>" type="button"
                   class="btn btn-sm btn-icon rounded-circle btn-info me-1" aria-expanded="false">
                   <i data-feather='edit'></i>
                 </a>
                 <button type="button" class="btn btn-sm btn-icon rounded-circle btn-danger me-1" aria-expanded="false"
-                  data-id="<?= $id; ?>" data-tapel="<?= $tapel; ?>" id="hapusTapelPPDB">
+                  data-id="<?= $id; ?>" data-tapel="<?= $tapel; ?>" id="hapusTapelPIP">
                   <i data-feather="trash"></i>
                 </button>
               </td>
@@ -195,7 +195,7 @@
         <h5 class="modal-title" id="tambahDataModal">Tambah Data Tahun Pelajaran</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form class="validate-form" action="<?= base_url('LayananPPDB/tambahTapel'); ?>" method="POST">
+      <form class="validate-form" action="<?= base_url('LayananPIP/tambahTapel'); ?>" method="POST">
         <div class="modal-body">
           <div class="alert alert-primary" role="alert">
             <div class="alert-body"><strong>Tips: Contoh Penulisan Tahun Pelajaran : 2022/2023</strong></div>

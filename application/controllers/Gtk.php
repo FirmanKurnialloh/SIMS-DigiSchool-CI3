@@ -61,9 +61,11 @@ class Gtk extends CI_Controller
 	public function akun()
 	{
 		$data['sessionUser'] = $this->session->userdata('username');
+		$data['sessionNama'] = $this->db->get_where('user_gtk', ['username' => $data['sessionUser']]);
+		$data['sessionNama'] = $data['sessionNama']->row('namaLengkap');
 		$data['sessionRole1'] = $this->session->userdata('role_id_1');
 		$data['sessionRole2'] = $this->session->userdata('role_id_2');
-		$data['is_change'] = "0";
+		$data['is_change'] = $this->session->userdata('is_change');
 		$data['serverSetting'] = $this->modelApp->getServerSetting();
 		$data['profilSekolah'] = $this->modelApp->getProfilSekolah();
 		$data['tapelAktif'] = $this->modelApp->getTapelAktif();

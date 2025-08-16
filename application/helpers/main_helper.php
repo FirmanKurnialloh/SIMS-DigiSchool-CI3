@@ -459,3 +459,22 @@ function is_web_activated()
 		return false;
 	}
 }
+
+
+// Check Add-On PIP
+function is_pip_installed()
+{
+	return file_exists(APPPATH . "views/gtk/pip/settings.php");
+}		
+
+function is_pip_activated()
+{
+	$ci = get_instance();
+	$ci->load->model('PIP_Model');
+	$checkModul = $ci->PIP_Model->getActiveTapel();
+	if ($checkModul) {
+		return true;
+	} else {
+		return false;
+	}
+}

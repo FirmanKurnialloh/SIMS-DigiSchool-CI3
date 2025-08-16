@@ -60,19 +60,24 @@
                 <div class="row">
                   <div class="col-12 col-sm-4 mb-1">
                     <label class="form-label" for="username">Username</label>
-                    <input class="form-control" type="text" id="username" name="username" placeholder="Username" value="<?= $sessionUser; ?>" data-msg="Username" required disabled />
+                    <input class="form-control" type="text" id="username" name="username" placeholder="Username"
+                      value="<?= $sessionUser; ?>" data-msg="Username" required disabled />
                   </div>
                   <div class="col-12 col-sm-4 mb-1">
                     <label class="form-label" for="password">Password Baru</label>
                     <div class="input-group input-group-merge form-password-toggle">
-                      <input class="form-control form-control-merge" id="password" type="password" name="password" value="" placeholder="Password" data-msg="Password Baru Minimal 8 Karakter" minlength="8" required />
+                      <input class="form-control form-control-merge" id="password" type="password" name="password"
+                        value="" placeholder="Password" data-msg="Password Baru Minimal 8 Karakter" minlength="8"
+                        required />
                       <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                     </div>
                   </div>
                   <div class="col-12 col-sm-4 mb-1">
                     <label class="form-label" for="password2">Ulangi Password Baru</label>
                     <div class="input-group input-group-merge form-password-toggle">
-                      <input class="form-control form-control-merge" id="password2" type="password" name="password2" value="" placeholder="Ulangi Password Baru" data-msg="Ulangi Password Baru Minimal 8 Karakter" minlength="8" required />
+                      <input class="form-control form-control-merge" id="password2" type="password" name="password2"
+                        value="" placeholder="Ulangi Password Baru" data-msg="Ulangi Password Baru Minimal 8 Karakter"
+                        minlength="8" required />
                       <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                     </div>
                   </div>

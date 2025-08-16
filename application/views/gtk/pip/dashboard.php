@@ -13,9 +13,6 @@
                 <li class="breadcrumb-item">
                   <a href="<?= base_url('gtk/dashboard'); ?>">Dashboard</a>
                 </li>
-                <li class="breadcrumb-item">
-                  <a href="<?= base_url('settings'); ?>">Pengaturan Aplikasi</a>
-                </li>
                 <li class="breadcrumb-item active"><?= $page ?></li>
               </ol>
             </div>
@@ -34,7 +31,7 @@
 
     <div class="content-body">
 
-      <section id="ppdbSettingsPage">
+      <section id="pipIndexPage">
         <div class='card card-body'>
           <div class='text-center'>
             <img src='<?= base_url('assets/'); ?>files/images/logo/page-loader-2.gif' width='300px' />
@@ -44,6 +41,7 @@
           </div>
         </div>
       </section>
+
 
     </div>
 

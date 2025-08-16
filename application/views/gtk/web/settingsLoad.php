@@ -37,6 +37,7 @@
       <!-- FAQ image -->
       <img src="<?= base_url('assets/'); ?>app-assets/images/illustration/faq-illustrations.svg"
         class="img-fluid d-none d-md-block" alt="demand img" />
+
     </div>
   </div>
 

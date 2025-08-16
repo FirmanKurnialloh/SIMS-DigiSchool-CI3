@@ -34,7 +34,7 @@
 
     <div class="content-body">
 
-      <section id="ppdbSettingsPage">
+      <section id="pipSettingsPage">
         <div class='card card-body'>
           <div class='text-center'>
             <img src='<?= base_url('assets/'); ?>files/images/logo/page-loader-2.gif' width='300px' />

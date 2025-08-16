@@ -16,7 +16,8 @@
                 <li class="breadcrumb-item">
                   <a href="<?= base_url('settings'); ?>">Pengaturan Aplikasi</a>
                 </li>
-                <li class="breadcrumb-item active"><?= $page ?></li>
+                <li class="breadcrumb-item active"><?= $page ?>
+                </li>
               </ol>
             </div>
           </div>

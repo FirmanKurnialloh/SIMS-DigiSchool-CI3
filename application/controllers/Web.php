@@ -11,17 +11,74 @@ class Web extends CI_Controller
 		is_admin();
 	}
 	
-	public function swtichWebSekolah()
+	
+	public function switchAccess()
 	{
-		$checkServerWeb = $this->modelApp->getServerSetting();
-		$serverWeb = $checkServerWeb['webSekolah'];
-		if ($serverWeb == "0") {
-			$this->db->set('webSekolah', '1');
-			$this->db->update('setting_server');
-		} elseif ($serverWeb == "1") {
-			$this->db->set('webSekolah', '0');
-			$this->db->update('setting_server');
+		$data = [
+			'id' => htmlspecialchars($this->input->post('id', true)),
+			'is_active' => htmlspecialchars($this->input->post('is_active', true)),
+		];
+		$checkData = $this->db->get_where('ppdb_tapel', ['id' => $data['id']]);
+		$row = $checkData->row_array();
+		if ($checkData->num_rows() == "1") {
+			if ($data['is_active'] == "0") {
+				$query = "UPDATE `ppdb_tapel` SET `is_active` = '0'";
+				$this->db->query($query);
+				$this->db->set('is_active', '1');
+				$this->db->where('id', $data['id']);
+				$this->db->update('ppdb_tapel');
+				$this->session->set_flashdata('toastr', "
+        <script>
+        $(window).on('load', function() {
+          setTimeout(function() {
+            toastr['success'](
+              'Hak Akses PPDB Tahun Pelajaran " . $row['tapel'] . " Di Aktifkan !',
+              'Berhasil !', {
+                closeButton: true,
+                tapToDismiss: true
+              }
+            );
+          }, 0);
+        })
+        </script>");
+			} else {
+				$query = "UPDATE `ppdb_tapel` SET `is_active` = '0'";
+				$this->db->query($query);
+				$this->db->set('is_active', '0');
+				$this->db->where('id', $data['id']);
+				$this->db->update('ppdb_tapel');
+				$this->session->set_flashdata('toastr', "
+        <script>
+        $(window).on('load', function() {
+          setTimeout(function() {
+            toastr['success'](
+              'Hak Akses PPDB Tahun Pelajaran " . $row['tapel'] . " Di Non-Aktifkan !',
+              'Berhasil !', {
+                closeButton: true,
+                tapToDismiss: true
+              }
+            );
+          }, 0);
+        })
+        </script>");
+			}
+		} elseif ($checkData->num_rows() == "0") {
+			$this->session->set_flashdata('toastr', "
+      <script>
+      $(window).on('load', function() {
+        setTimeout(function() {
+          toastr['error'](
+            'PPDB Tahun Pelajaran " . $row['tapel'] . " Tidak Tersedia !',
+            'Gagal !', {
+              closeButton: true,
+              tapToDismiss: true
+            }
+          );
+        }, 0);
+      })
+      </script>");
 		}
+		redirect(base_url('LayananPPDB/settings'));
 	}
 	
 	public function index()
@@ -96,6 +153,7 @@ class Web extends CI_Controller
 		$data['userGTK'] = $this->modelApp->getUserGTK($data['sessionUser']);
 		$data['page'] = "Modul Web Sekolah";
 		$data['pageCollumn'] = "0-column";
+		
 		$this->load->view('templates/header', $data);
 		$this->load->view('templates/navbar', $data);
 		$this->load->view('settings/menu', $data);
@@ -103,6 +161,7 @@ class Web extends CI_Controller
 		$this->load->view('templates/modal', $data);
 		$this->load->view('templates/footer', $data);
 		$this->load->view('gtk/web/ajax', $data);
+
 	}
 
 	function berandaLoad()

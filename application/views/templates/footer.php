@@ -9,9 +9,9 @@
       <span class="d-none d-sm-inline-block">Di Lindungi Undang Undang</span>
     </span>
     <span class="float-md-end d-none d-md-block"><?= $serverSetting['namaAplikasi'] ?> is Hand-crafted & Made with<i
-        data-feather="heart"></i> By <a class="ms-25" href="https://www.koechingkoding.com/" target="_blank">Firman
-        Kurnialloh</a> Support By <a class="ms-25" href="https://www.jayvyn-host.com/" target="_blank">Jayvyn
-        Host</a></span>
+        data-feather="heart"></i> By <a class="ms-25" href="https://s.id/FirmanKurnialloh" target="_blank">Firman
+        Kurnialloh</a> Support By <a class="ms-25" href="https://cdn.smpn1sukaresmi.sch.id"
+        target="_blank">CodeNova</a></span>
   </p>
 </footer>
 <button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button>
@@ -90,7 +90,10 @@ $(window).on('load', function() {
 })
 
 var is_change = "<?= $is_change ?>";
-if (is_change == true) {
+var currentPath = window.location.pathname;
+
+// Jalankan hanya kalau bukan di /gtk/akun
+if (is_change == true && !currentPath.includes("/gtk/akun")) {
   Swal.fire({
       icon: 'error',
       title: 'Anda Masih Menggunakan Password Default!',
