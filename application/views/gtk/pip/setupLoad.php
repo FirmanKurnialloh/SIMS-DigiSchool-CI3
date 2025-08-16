@@ -22,14 +22,23 @@
         </li>
         <!-- Panitia -->
 
-        <!-- Lokasi Sekolah -->
+        <!-- Nominasi -->
         <li class="nav-item">
           <a class="nav-link" id="pill-3" data-bs-toggle="pill" href="#tab-3" aria-expanded="true" role="tab">
             <i data-feather="link" class="font-medium-3 me-1"></i>
-            <span class="fw-bold">Kontak Sekolah</span>
+            <span class="fw-bold">Daftar Nominasi</span>
           </a>
         </li>
-        <!-- Lokasi Sekolah -->
+        <!-- Nominasi -->
+
+        <!-- Penerima -->
+        <li class="nav-item">
+          <a class="nav-link" id="pill-4" data-bs-toggle="pill" href="#tab-4" aria-expanded="true" role="tab">
+            <i data-feather="link" class="font-medium-3 me-1"></i>
+            <span class="fw-bold">Daftar Penerima</span>
+          </a>
+        </li>
+        <!-- Penerima -->
 
       </ul>
 
@@ -355,6 +364,146 @@
 
           <!-- Panel 3 -->
           <div class="tab-pane fade" id="tab-3" aria-labelledby="pill-3" aria-expanded="true">
+            <!-- icon and header -->
+            <div class="d-flex align-items-center">
+              <div class="avatar avatar-tag bg-light-primary me-1">
+                <i data-feather="link" class="font-medium-4"></i>
+              </div>
+              <div>
+                <h4 class="mb-0">Daftar Nominasi</h4>
+                <span>Informasi Daftar Nominasi</span>
+              </div>
+            </div>
+
+            <!-- divider -->
+            <div class="col-12">
+              <hr class="my-2" />
+            </div>
+
+            <div class="alert alert-primary" role="alert">
+              <div class="alert-body d-flex justify-content-between">
+                <strong>
+                  Note : Data yang tampil berdasarkan Tahun <?= $page ?>
+                </strong>
+                <div class="d-flex justify-content-between">
+                  <a href=" javascript:void(0)" type="button" class="btn btn-sm btn-primary ms-1"
+                    data-bs-id="tambahData" id="tambahDataButton" data-bs-toggle="modal"
+                    data-bs-target="#tambahDataModal">
+                    Tambah Data Panitia
+                  </a>
+                  <a href="javascript:void(0)" type="button" class="btn btn-sm btn-danger ms-1"
+                    data-tapel="<?= $page ?>" id="resetDataPanitia">
+                    Reset Data Panitia
+                  </a>
+                </div>
+              </div>
+            </div>
+            <?php if (getPanitia($page)->num_rows() <= 0) { ?>
+            <div class="text-center">
+              <h3 class="text-danger">Tidak Ada Data <br> </h3>
+              <h3 class="text-danger myicon"><i data-feather='x-circle' style="width: 100;"></i></h3>
+              <h4 class="mb-3 mt-2">Silahkan Tambah Data Panitia</h4>
+            </div>
+            <?php } else { ?>
+            <table class="dataTabel table table-hover table-responsive compact" style="height: 450px;">
+              <thead class="text-center">
+                <tr>
+                  <th style="width: 0%;">No</th>
+                  <th style="width: 20%;">Panitia</th>
+                  <th style="width: 10%;">Jabatan</th>
+                  <th style="width: 1%;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody class="text-left">
+                <?php
+                  $no = 1;
+                  foreach (getPanitia($page)->result_array() as $i) :
+                    $id_user         = $i['id'];
+                    $username        = $i['username'];
+                    $role_id         = $i['role_id'];
+                    $role            = getPeranPIP($role_id);
+
+                    $profilGTK       = getProfilGTK($username);
+                    if ($profilGTK) {
+                      $namaLengkap   = $profilGTK['namaLengkap'];
+                      $namaPanggil   = $profilGTK['namaPanggil'];
+                      $gelarDepan    = $profilGTK['gelarDepan'];
+                      $jk            = $profilGTK['jk'];
+                      if ($profilGTK['gelarBelakang']) {
+                        $gelarBelakang = ', ' . $profilGTK['gelarBelakang'];
+                      } else {
+                        $gelarBelakang = "";
+                      }
+                      $namaGelar     = $gelarDepan . ' ' . $namaLengkap . $gelarBelakang;
+                      $foto          = $profilGTK['foto'];
+                    } else {
+                      $namaGTK       = $i['namaLengkap'];
+                      $namaPanggil   = "";
+                      $gelarDepan    = "";
+                      $gelarBelakang = "";
+                      $foto          = "";
+                    }
+                  ?>
+                <tr>
+                  <td class="align-items-center">
+                    <?= $no++ ?>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-left align-items-center">
+                      <div class="avatar-wrapper me-1">
+                        <?php if ($foto && file_exists(FCPATH . "assets/files/images/fotoGuru/" . $foto)) { ?>
+                        <img src="<?= base_url('assets/'); ?>files/images/fotoGuru/<?= $foto; ?>" alt="Avatar"
+                          height="32" width="32">
+                        <?php  } else { ?>
+                        <div class="avatar bg-light-primary">
+                          <div class="avatar-content"><?= namaInisial($namaLengkap); ?></div>
+                        </div>
+                        <?php } ?>
+                      </div>
+                      <div class="d-flex flex-column">
+                        <?php
+                            $base_64      = base64_encode($username);
+                            $url_param    = rtrim($base_64, '=');
+                            $data         = array("username" => "$username");
+                            $url_details  = base64_encode(serialize($data)); ?>
+                        <a href="<?= base_url('settings/gtk/') . $url_param; ?>"
+                          class="user_name text-body text-truncate">
+                          <?php if ($profilGTK) { ?>
+                          <span class="fw-bolder"><?= $namaGelar ?></span>
+                          <?php } else { ?>
+                          <span class="fw-bolder"><?= $namaLengkap ?></span>
+                          <?php } ?>
+                        </a><small class="emp_post text-muted"><?= $username ?></small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-left align-items-left">
+                      <span class="badge bg-primary me-1">
+                        <i data-feather="user" class="me-25"></i>
+                        <span><?= $role ?></span>
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex justify-content-center align-items-center">
+                      <button type="button" class="btn btn-sm btn-icon rounded-circle btn-danger me-1"
+                        aria-expanded="false" data-username="<?= $username; ?>" id="hapusPanitiaPIP">
+                        <i data-feather="trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <?php endforeach ?>
+              </tbody>
+            </table>
+            <?php } ?>
+
+          </div>
+          <!-- Panel 3 -->
+
+          <!-- Panel 4 -->
+          <div class="tab-pane fade" id="tab-4" aria-labelledby="pill-4" aria-expanded="true">
             <form class="validate-form" action="<?= base_url("LayananPIP/editKontakSekolah") ?>" method="POST"
               enctype="multipart/form-data">
               <!-- icon and header -->
@@ -363,8 +512,8 @@
                   <i data-feather="link" class="font-medium-4"></i>
                 </div>
                 <div>
-                  <h4 class="mb-0">Kontak Sekolah</h4>
-                  <span>Informasi Kontak Sekolah</span>
+                  <h4 class="mb-0">Daftar Penerima</h4>
+                  <span>Informasi Daftar Penerima</span>
                 </div>
               </div>
 
@@ -492,7 +641,8 @@
               </div>
             </form>
           </div>
-          <!-- Panel 3 -->
+          <!-- Panel 4 -->
+
 
         </div>
 
@@ -513,6 +663,12 @@
       <form class="validate-form" action="<?= base_url('LayananPIP/tambahPanitia'); ?>" method="POST">
         <div class="modal-body">
           <div class="row">
+            <!-- SK Panitia input -->
+            <div class="form-group">
+              <label class="form-label" for="tahun">Tahun</label>
+              <input type="text" class="form-control" id="tahun" name="tahun" placeholder="2025" value="" required
+                data-msg="Masukan Tahun Berjalan" autocomplete="off" />
+            </div>
             <div class="form-group">
               <label class="form-label" for="Panitia">Pilih Panitia</label>
               <select class="select2 form-control" id="Panitia" name="panitia" required data-placeholder="Pilih Panitia"

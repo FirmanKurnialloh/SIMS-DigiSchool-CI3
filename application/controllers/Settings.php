@@ -716,47 +716,65 @@ class Settings extends CI_Controller
 	}
 
 	public function tambahKelas()
-	{
-		$data = [
-			'level' => htmlspecialchars($this->input->post('level', true)),
-			'jurusan' => htmlspecialchars($this->input->post('jurusan', true)),
-			'kelas' => htmlspecialchars($this->input->post('kelas', true)),
-		];
-		$checkData = $this->db->get_where('setting_kelas', ['kelas' => $data['kelas']]);
-		if ($checkData->num_rows() == "0") {
-			$this->db->insert('setting_kelas', $data);
-			$this->session->set_flashdata('toastr', "
-      <script>
-      $(window).on('load', function() {
-        setTimeout(function() {
-          toastr['success'](
-            'Kelas " . $data['kelas'] . " Di Tambahkan !',
-            'Berhasil !', {
-              closeButton: true,
-              tapToDismiss: true
-            }
-          );
-        }, 0);
-      })
-      </script>");
-		} elseif ($checkData->num_rows() == "1") {
-			$this->session->set_flashdata('toastr', "
-      <script>
-      $(window).on('load', function() {
-        setTimeout(function() {
-          toastr['error'](
-            'Kelas " . $data['kelas'] . " Sudah Tersedia !',
-            'Gagal !', {
-              closeButton: true,
-              tapToDismiss: true
-            }
-          );
-        }, 0);
-      })
-      </script>");
-		}
-		redirect(base_url('settings/kelas'));
-	}
+{
+    // Ambil tapel aktif
+    $tapel = $this->modelApp->getTapelAktif(); // kemungkinan array
+    $tapelAktif = is_array($tapel) ? $tapel['tapel'] : $tapel->id_tapel;
+
+    // Data untuk insert
+    $insertData = [
+        'tapel'   => $tapelAktif,
+        'level'   => htmlspecialchars($this->input->post('level', true)),
+        'jurusan' => htmlspecialchars($this->input->post('jurusan', true)),
+        'kelas'   => htmlspecialchars($this->input->post('kelas', true)),
+    ];
+
+    // Cek apakah kelas sudah ada
+    $checkData = $this->db->get_where('setting_kelas', [
+        'tapel'   => $tapelAktif,
+        'level'   => $insertData['level'],
+        'jurusan' => $insertData['jurusan'],
+        'kelas'   => $insertData['kelas']
+    ]);
+
+    if ($checkData->num_rows() == 0) {
+        // Insert jika belum ada
+        $this->db->insert('setting_kelas', $insertData);
+        $this->session->set_flashdata('toastr', "
+        <script>
+        $(window).on('load', function() {
+          setTimeout(function() {
+            toastr['success'](
+              'Kelas " . $insertData['kelas'] . " berhasil ditambahkan!',
+              'Berhasil!', {
+                closeButton: true,
+                tapToDismiss: true
+              }
+            );
+          }, 0);
+        })
+        </script>");
+    } else {
+        // Jika sudah ada
+        $this->session->set_flashdata('toastr', "
+        <script>
+        $(window).on('load', function() {
+          setTimeout(function() {
+            toastr['error'](
+              'Kelas " . $insertData['kelas'] . " sudah tersedia!',
+              'Gagal!', {
+                closeButton: true,
+                tapToDismiss: true
+              }
+            );
+          }, 0);
+        })
+        </script>");
+    }
+
+    redirect(base_url('settings/kelas'));
+}
+
 
 	public function deleteKelas()
 	{
