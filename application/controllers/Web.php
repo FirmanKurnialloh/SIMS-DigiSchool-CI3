@@ -37,7 +37,7 @@ class Web extends CI_Controller
 			->get('user_gtk')
 			->row();
 			
-	  if ($data['web-sekolah'] = 0) {
+		if ($this->db->get('setting_server')->row('web-sekolah') == '1') {
 			$this->load->view('web/header', $data);
 			$this->load->view('web/home', $data);
 			$this->load->view('web/footer', $data);
