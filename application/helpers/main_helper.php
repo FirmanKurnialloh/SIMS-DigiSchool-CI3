@@ -478,3 +478,21 @@ function is_pip_activated()
 		return false;
 	}
 }
+
+// Check Add-On Presensi
+function is_presensi_installed()
+{
+	return file_exists(APPPATH . "views/gtk/presensi/settings.php");
+}		
+
+function is_presensi_activated()
+{
+	$ci = get_instance();
+	$ci->load->model('Presensi_Model');
+	$checkModul = $ci->Presensi_Model->getActive();
+	if ($checkModul) {
+		return true;
+	} else {
+		return false;
+	}
+}

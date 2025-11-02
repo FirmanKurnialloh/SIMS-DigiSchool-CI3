@@ -265,6 +265,45 @@
                     <?php } ?>
                   </div>
                   <!-- End Add-On Switcher PIP -->
+
+                  <!-- Add-On Switcher Presensi -->
+                  <div class="col-xl-3 col-sm-6 col-6 mb-2 ">
+                    <div class="media justify-content-center pb-1">
+                      <div class="avatar bg-light-primary">
+                        <div class="avatar-content">
+                          <i data-feather='airplay'></i>
+                        </div>
+                      </div>
+                    </div>
+                    <h5>
+                      <strong>
+                        Modul Presensi
+                      </strong>
+                    </h5>
+                    <?php if (is_presensi_installed() && !is_presensi_activated()) { ?>
+                    <sup>Modul Terpasang Tidak Aktif !</sup>
+                    <a href="<?= base_url('layananPresensi/settings') ?>" type="button"
+                      class="btn btn-md btn-flat-success">
+                      <i data-feather="cpu" class="me-25"></i>
+                      <span>Atur Modul</span>
+                    </a>
+                    <?php } elseif (is_presensi_installed() && is_presensi_activated()) { ?>
+                    <sup>Modul Terpasang Aktif !</sup>
+                    <a href="<?= base_url('layananPresensi/settings') ?>" type="button"
+                      class="btn btn-md btn-flat-success">
+                      <i data-feather="cpu" class="me-25"></i>
+                      <span>Atur Modul</span>
+                    </a>
+                    <?php } elseif (!is_presensi_installed()) { ?>
+                    <sup>Add-On Tidak Terpasang !</sup>
+                    <a href="http://www.jayvyn-host.com/#contact" type="button" class="btn btn-md btn-flat-success">
+                      <i data-feather="cpu" class="me-25"></i>
+                      <span>Pesan Modul</span>
+                    </a>
+                    <?php } ?>
+                  </div>
+                  <!-- End Add-On Switcher PIP -->
+
                 </div>
               </div>
             </div>

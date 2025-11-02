@@ -162,6 +162,16 @@
             </a>
           </li>
           <?php } ?>
+          <?php if (is_presensi_installed()) { ?>
+          <li class="<?php if ($this->uri->segment(1) == "LayananPresensi") {
+							echo "active";
+						} ?>">
+            <a class="d-flex align-items-center" href="<?= base_url('LayananPresensi/settings'); ?>">
+              <i data-feather="circle"></i>
+              <span class="menu-title text-truncate" data-i18n="Presensi">Modul Presensi</span>
+            </a>
+          </li>
+          <?php } ?>
         </ul>
       </li>
 
